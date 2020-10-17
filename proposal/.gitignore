@@ -1,0 +1,14 @@
+*.DS_Store
+## Core latex/pdflatex auxiliary files:
+*.out
+*.aux
+*.log
+*.gz
+*.fdb_latexmk
+*.fls
+*.bbl
+*.bcf
+*.blg
+*.xml
+
+## Markdown files for Pandocs
