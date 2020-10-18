@@ -10,5 +10,6 @@
 *.bcf
 *.blg
 *.xml
+*.toc
 
 ## Markdown files for Pandocs
