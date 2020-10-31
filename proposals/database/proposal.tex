@@ -1,0 +1,413 @@
+\documentclass[preprint,11pt,3p]{article}
+
+\usepackage{tocloft}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{bera}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{amsmath} 
+\usepackage{tikz} 
+\usepackage{epigraph}
+\usepackage{lipsum} 
+\usepackage{indentfirst}
+\usepackage[strings]{underscore}
+
+\usepackage{listings}
+\usepackage{color}
+
+\colorlet{light-gray}{gray!10}
+\definecolor{javared}{rgb}{0.6,0,0} % for strings
+\definecolor{javagreen}{rgb}{0.25,0.5,0.35} % comments
+\definecolor{javapurple}{rgb}{0.5,0,0.35} % keywords
+\definecolor{javadocblue}{rgb}{0.25,0.35,0.75} % javadoc
+\definecolor{main-color}{rgb}{0.6627, 0.7176, 0.7764}
+\definecolor{back-color}{rgb}{0.1686, 0.1686, 0.1686}
+\definecolor{string-color}{rgb}{0.3333, 0.5254, 0.345}
+\definecolor{key-color}{rgb}{0.8, 0.47, 0.196}
+\definecolor{asparagus}{rgb}{0.53, 0.66, 0.42}
+\definecolor{azure(colorwheel)}{rgb}{0.0, 0.5, 1.0}
+\definecolor{ashgrey}{rgb}{0.7, 0.75, 0.71}
+
+\definecolor{shadecolor}{RGB}{150,150,150}
+
+\lstset{
+  language=Java,
+basicstyle=\small\ttfamily,
+keywordstyle=\color{javapurple}\bfseries,
+stringstyle=\color{javapurple},
+    keywordstyle = {\color{javapurple}},
+    keywordstyle = [2]{\color{asparagus}},
+    keywordstyle = [3]{\color{azure(colorwheel)}},
+    keywordstyle = [4]{\color{teal}},
+    otherkeywords = {:,@@,|,->,>>=,val},
+    morekeywords = [2]{;,:,*,@@},
+    morekeywords = [3]{->,|},
+    morekeywords = [4]{>>=},
+commentstyle=\color{javagreen},
+morecomment=[s][\color{javadocblue}]{(*}{*)},
+numbers=left,
+numberstyle=\tiny\color{black},
+stepnumber=1,
+numbersep=10pt,
+tabsize=2,
+showspaces=false,
+showstringspaces=false,
+escapeinside={(*@}{@*)},
+% frame=single,
+backgroundcolor=\color{light-gray},
+frame=lines,
+breaklines=true,
+postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}}
+
+
+\renewcommand\epigraphflush{flushright}
+\renewcommand\epigraphsize{\normalsize}
+\setlength\epigraphwidth{0.7\textwidth}
+\renewcommand{\abstractname}{Executive Summary}
+
+\definecolor{titlepagecolor}{cmyk}{1,.60,0,.40}
+
+\DeclareFixedFont{\titlefont}{T1}{ppl}{b}{it}{0.5in}
+
+\makeatletter                       
+\def\printauthor{%                  
+    {\large \@author}}              
+\makeatother
+\author{%
+    Eric Altenburg \\
+    \texttt{ealtenbu@stevens.edu}\vspace{20pt} \\
+   	Daniel Kimball \\
+    \texttt{dkimball@stevens.edu}\vspace{20pt} \\
+    Hamzah Nizami \\
+    \texttt{hnizami1@stevens.edu}\vspace{20pt} \\
+    Max Shi \\
+    \texttt{mshi7@stevens.edu}
+    }
+
+% The following code is borrowed from: https://tex.stackexchange.com/a/86310/10898
+
+\newcommand\titlepagedecoration{%
+\begin{tikzpicture}[remember picture,overlay,shorten >= -10pt]
+
+	\coordinate (aux1) at ([yshift=-15pt]current page.north east);
+	\coordinate (aux2) at ([yshift=-410pt]current page.north east);
+	\coordinate (aux3) at ([xshift=-4.5cm]current page.north east);
+	\coordinate (aux4) at ([yshift=-150pt]current page.north east);
+
+	\begin{scope}[titlepagecolor!40,line width=12pt,rounded corners=12pt]
+		\draw
+		  (aux1) -- coordinate (a)
+		  ++(225:5) --
+		  ++(-45:5.1) coordinate (b);
+		\draw[shorten <= -10pt]
+		  (aux3) --
+		  (a) --
+		  (aux1);
+		\draw[opacity=0.6,titlepagecolor,shorten <= -10pt]
+		  (b) --
+		  ++(225:2.2) --
+		  ++(-45:2.2);
+	\end{scope}
+	\draw[titlepagecolor,line width=8pt,rounded corners=8pt,shorten <= -10pt]
+	  (aux4) --
+	  ++(225:0.8) --
+	  ++(-45:0.8);
+	\begin{scope}[titlepagecolor!70,line width=6pt,rounded corners=8pt]
+		\draw[shorten <= -10pt]
+		  (aux2) --
+		  ++(225:3) coordinate[pos=0.45] (c) --
+		  ++(-45:3.1);
+		\draw
+		  (aux2) --
+		  (c) --
+		  ++(135:2.5) --
+		  ++(45:2.5) --
+		  ++(-45:2.5) coordinate[pos=0.3] (d);   
+		\draw 
+		  (d) -- +(45:1);
+	\end{scope}
+\end{tikzpicture}%
+}
+
+\begin{document}
+\begin{titlepage}
+
+\noindent
+\titlefont Lighthouse\par
+\epigraph{Database Proposal}%
+% \vspace*{1cm}
+{\textit{CS 546: Web Programming I |  Fall 2020}}
+\null\vfill
+\vspace*{1cm}
+\noindent
+\hfill
+\begin{minipage}{0.35\linewidth}
+    \begin{flushright}
+        \printauthor
+    \end{flushright}
+\end{minipage}
+%
+\begin{minipage}{0.02\linewidth}
+    \rule{1pt}{200pt}
+\end{minipage}
+\titlepagedecoration
+\end{titlepage}
+
+
+
+
+\newpage
+
+\tableofcontents
+\newpage
+
+% So far for the DB:
+% - 4 collections (users, posts, comments, classes)
+% - users and posts will be connected to classes through a key reference
+% - Comments will behave similarly to the "reviews" in the lab 6 with the movies where when you create a comment, you can add it to an array of inside of posts
+% This is shaping up to be very similar similar to the lab 6 db format mixed with the lecture 7 code
+
+% We might have to make a function that can update the list of classes the user has
+
+\section{Users Collection}
+
+\subsection{Description}
+	The users collection will hold the data for each user including the _id, email, username, password, fullName, posts, comments under other users' posts, and a list of classes they are currently taking.
+
+\subsection{Sample Users JSON}
+\begin{lstlisting}
+userCollection: [
+	{
+		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6310"),
+		"email": "validEmail@address.com",
+		"fullName": {"firstName": "Eric", "lastName": "Altenburg"},
+		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6311", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63134"],
+		"comments": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"],
+		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+	},
+	...,
+	{
+		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6510"),
+		"email": "validEmail@address.com",
+		"fullName": {"firstName": "John", "lastName": "Doe"},
+		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
+		"comments": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
+		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+	}
+]
+\end{lstlisting}
+
+\subsection{User Table}
+\begingroup
+\setlength{\tabcolsep}{15pt} % Default value: 6pt
+\renewcommand{\arraystretch}{1.5} % Default value: 1
+\begin{tabular}{| p{0.15\linewidth} | p{0.20\linewidth} | p{0.5\linewidth} |}
+	\hline
+	\textbf{Name} & \textbf{Type} & \textbf{Description} \\
+	\hline
+	_id & ObjectId & Automatically generated\\
+	\hline
+	email & String & Email address for the user, must be valid\\
+	\hline
+	fullName & Subdocument & Subdocument that contains the first and last name of the user which are both strings\\
+	\hline
+	posts & Array[String] & Array of post ids the user has posted\\
+	\hline
+	comments & Array[String] & Array of comment ids the user has commented on other posts\\
+	\hline
+	classes & Array[String] & Array of the classes the user is currently taking\\
+	\hline
+\end{tabular}
+\endgroup
+
+
+\newpage
+
+\section{Posts Collection}
+
+\subsection{Description}
+	The users collection will hold the data for each user including the _id, email, username, password, fullName, posts, comments under other users' posts, and a list of classes they are currently taking.
+
+\subsection{Sample Posts JSON}
+\begin{lstlisting}
+userCollection: [
+	{
+		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6310"),
+		"email": "validEmail@address.com",
+		"fullName": {"firstName": "Eric", "lastName": "Altenburg"},
+		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6311", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63134"],
+		"comments": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"],
+		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+	},
+	...,
+	{
+		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6510"),
+		"email": "validEmail@address.com",
+		"fullName": {"firstName": "John", "lastName": "Doe"},
+		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
+		"comments": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
+		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+	}
+]
+\end{lstlisting}
+
+\subsection{Posts Table}
+\begingroup
+\setlength{\tabcolsep}{15pt} % Default value: 6pt
+\renewcommand{\arraystretch}{1.5} % Default value: 1
+\begin{tabular}{| p{0.15\linewidth} | p{0.20\linewidth} | p{0.5\linewidth} |}
+	\hline
+	\textbf{Name} & \textbf{Type} & \textbf{Description} \\
+	\hline
+	_id & ObjectId & Automatically generated\\
+	\hline
+	email & String & Email address for the user, must be valid\\
+	\hline
+	fullName & Subdocument & Subdocument that contains the first and last name of the user which are both strings\\
+	\hline
+	posts & Array[String] & Array of post ids the user has posted\\
+	\hline
+	comments & Array[String] & Array of comment ids the user has commented on other posts\\
+	\hline
+	classes & Array[String] & Array of the classes the user is currently taking\\
+	\hline
+\end{tabular}
+\endgroup
+
+
+\newpage
+
+\section{Comments Collection}
+
+\subsection{Description}
+	The users collection will hold the data for each user including the _id, email, username, password, fullName, posts, comments under other users' posts, and a list of classes they are currently taking.
+
+\subsection{Sample Comments JSON}
+\begin{lstlisting}
+userCollection: [
+	{
+		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6310"),
+		"email": "validEmail@address.com",
+		"fullName": {"firstName": "Eric", "lastName": "Altenburg"},
+		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6311", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63134"],
+		"comments": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"],
+		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+	},
+	...,
+	{
+		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6510"),
+		"email": "validEmail@address.com",
+		"fullName": {"firstName": "John", "lastName": "Doe"},
+		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
+		"comments": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
+		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+	}
+]
+\end{lstlisting}
+
+\subsection{Comments Table}
+\begingroup
+\setlength{\tabcolsep}{15pt} % Default value: 6pt
+\renewcommand{\arraystretch}{1.5} % Default value: 1
+\begin{tabular}{| p{0.15\linewidth} | p{0.20\linewidth} | p{0.5\linewidth} |}
+	\hline
+	\textbf{Name} & \textbf{Type} & \textbf{Description} \\
+	\hline
+	_id & ObjectId & Automatically generated\\
+	\hline
+	email & String & Email address for the user, must be valid\\
+	\hline
+	fullName & Subdocument & Subdocument that contains the first and last name of the user which are both strings\\
+	\hline
+	posts & Array[String] & Array of post ids the user has posted\\
+	\hline
+	comments & Array[String] & Array of comment ids the user has commented on other posts\\
+	\hline
+	classes & Array[String] & Array of the classes the user is currently taking\\
+	\hline
+\end{tabular}
+\endgroup
+
+
+\newpage
+
+\section{Classes Collection}
+
+\subsection{Description}
+	The users collection will hold the data for each user including the _id, email, username, password, fullName, posts, comments under other users' posts, and a list of classes they are currently taking.
+
+\subsection{Sample Classes JSON}
+\begin{lstlisting}
+userCollection: [
+	{
+		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6310"),
+		"email": "validEmail@address.com",
+		"fullName": {"firstName": "Eric", "lastName": "Altenburg"},
+		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6311", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63134"],
+		"comments": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"],
+		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+	},
+	...,
+	{
+		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6510"),
+		"email": "validEmail@address.com",
+		"fullName": {"firstName": "John", "lastName": "Doe"},
+		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
+		"comments": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
+		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+	}
+]
+\end{lstlisting}
+
+
+\newpage
+
+\subsection{Classes Table}
+\begingroup
+\setlength{\tabcolsep}{15pt} % Default value: 6pt
+\renewcommand{\arraystretch}{1.5} % Default value: 1
+\begin{tabular}{| p{0.15\linewidth} | p{0.20\linewidth} | p{0.5\linewidth} |}
+	\hline
+	\textbf{Name} & \textbf{Type} & \textbf{Description} \\
+	\hline
+	_id & ObjectId & Automatically generated\\
+	\hline
+	email & String & Email address for the user, must be valid\\
+	\hline
+	fullName & Subdocument & Subdocument that contains the first and last name of the user which are both strings\\
+	\hline
+	posts & Array[String] & Array of post ids the user has posted\\
+	\hline
+	comments & Array[String] & Array of comment ids the user has commented on other posts\\
+	\hline
+	classes & Array[String] & Array of the classes the user is currently taking\\
+	\hline
+\end{tabular}
+\endgroup
+
+\newpage
+
+\section{Github Repository}
+\href{https://github.com/hniz/Lighthouse}{https://github.com/hniz/Lighthouse}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
