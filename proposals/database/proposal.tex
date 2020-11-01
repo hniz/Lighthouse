@@ -174,7 +174,7 @@ postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}}
 \section{Users Collection}
 
 \subsection{Description}
-	The users collection will hold the data for each user including the _id, email, username, password, fullName, posts, comments under other users' posts, and a list of classes they are currently taking.
+	The users collection will hold the data for each user including the _id, email, username, password, fullName, posts, type, comments under other users' posts, and a list of classes they are currently taking.
 
 \subsection{Sample Users JSON}
 \begin{lstlisting}
@@ -185,7 +185,8 @@ userCollection: [
 		"fullName": {"firstName": "Eric", "lastName": "Altenburg"},
 		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6311", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63134"],
 		"comments": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"],
-		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"],
+		"type": "instructor"
 	},
 	...,
 	{
@@ -194,7 +195,8 @@ userCollection: [
 		"fullName": {"firstName": "John", "lastName": "Doe"},
 		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
 		"comments": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
-		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"],
+		"type": "student"
 	}
 ]
 \end{lstlisting}
@@ -219,6 +221,8 @@ userCollection: [
 	\hline
 	classes & Array[String] & Array of the classes the user is currently taking\\
 	\hline
+	type & String & String representing the type of account that this document represents\\
+	\hline
 \end{tabular}
 \endgroup
 
@@ -228,27 +232,31 @@ userCollection: [
 \section{Posts Collection}
 
 \subsection{Description}
-	The users collection will hold the data for each user including the _id, email, username, password, fullName, posts, comments under other users' posts, and a list of classes they are currently taking.
+	The posts collection will hold the data for each post, which includes the _id, title, author, subtitle, time_submitted, content, class, tags, score, and a list of comments on this post.
 
 \subsection{Sample Posts JSON}
 \begin{lstlisting}
 userCollection: [
 	{
 		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6310"),
-		"email": "validEmail@address.com",
-		"fullName": {"firstName": "Eric", "lastName": "Altenburg"},
-		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6311", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63134"],
+		"title": "Question about Assignment 4",
+		"author": "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6230",
+		"content": "I have a question regarding the code...",
 		"comments": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"],
-		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+		"score": 10,
+		"time_submitted": "Sun, 20 Oct 2020 10:47:02 GMT",
+		"tags": ["Assignment 4", "Question"]
 	},
 	...,
 	{
-		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6510"),
-		"email": "validEmail@address.com",
-		"fullName": {"firstName": "John", "lastName": "Doe"},
-		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
-		"comments": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
-		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6390"),
+		"title": "Question about Assignment 2",
+		"author": "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6230",
+		"content": "I have a question regarding the wording of the assignment...",
+		"comments": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b641231", ... , "7b7997a2-c0d2-4f8c-b27a-6a11dfee163434"],
+		"score": 10,
+		"time_submitted": "Sun, 01 Nov 2020 20:47:02 GMT",
+		"tags": ["Assignment 2", "Question"]
 	}
 ]
 \end{lstlisting}
@@ -263,15 +271,19 @@ userCollection: [
 	\hline
 	_id & ObjectId & Automatically generated\\
 	\hline
-	email & String & Email address for the user, must be valid\\
+	title & String & Title of the post\\
 	\hline
-	fullName & Subdocument & Subdocument that contains the first and last name of the user which are both strings\\
+	author & String & The ID as a string of the author that references the author of the post\\
 	\hline
-	posts & Array[String] & Array of post ids the user has posted\\
+	time_submitted & String & String representing the time that the post was submitted\\
 	\hline
-	comments & Array[String] & Array of comment ids the user has commented on other posts\\
+	content & String & The content of this post\\
 	\hline
-	classes & Array[String] & Array of the classes the user is currently taking\\
+	comments & Array[String] & Array of comment ids for the comments on this post\\
+	\hline
+	tags & Array[String] & Array of associated tags with this post\\
+	\hline
+	score & Integer & The score of this post, as rated by peers\\
 	\hline
 \end{tabular}
 \endgroup
@@ -282,27 +294,25 @@ userCollection: [
 \section{Comments Collection}
 
 \subsection{Description}
-	The users collection will hold the data for each user including the _id, email, username, password, fullName, posts, comments under other users' posts, and a list of classes they are currently taking.
+	The comments collection will hold the data for all comments users have posted on any posts in the Posts collection. This includes data such as _id, author, parent_post, time_submitted, and the content of the comment. 
 
 \subsection{Sample Comments JSON}
 \begin{lstlisting}
 userCollection: [
 	{
 		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6310"),
-		"email": "validEmail@address.com",
-		"fullName": {"firstName": "Eric", "lastName": "Altenburg"},
-		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6311", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63134"],
-		"comments": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"],
-		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+		"author": "7b7997a2-c0d2-4f8c-b27a-103ab394c293",
+		"parent_post": "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6310",
+		"time_submitted": "Sun, 01 Nov 2020 10:27:02 GMT",
+		"content": "I think you might be misinterpreting the problem."
 	},
 	...,
 	{
-		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6510"),
-		"email": "validEmail@address.com",
-		"fullName": {"firstName": "John", "lastName": "Doe"},
-		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
-		"comments": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
-		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6311"),
+		"author": "7b7997a2-c0d2-4f8c-b27a-103ab394c2234",
+		"parent_post": "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6310",
+		"time_submitted": "Sun, 01 Nov 2020 12:27:42 GMT",
+		"content": "No, I think he's right about that part."
 	}
 ]
 \end{lstlisting}
@@ -317,15 +327,13 @@ userCollection: [
 	\hline
 	_id & ObjectId & Automatically generated\\
 	\hline
-	email & String & Email address for the user, must be valid\\
+	author & String & The ID as a string of the author that references the author of the post\\
 	\hline
-	fullName & Subdocument & Subdocument that contains the first and last name of the user which are both strings\\
+	parent_post & String & The ID as a string of the post that this comment is associated with\\
 	\hline
-	posts & Array[String] & Array of post ids the user has posted\\
+	time_submitted & String & A string representing when the comment was posted\\
 	\hline
-	comments & Array[String] & Array of comment ids the user has commented on other posts\\
-	\hline
-	classes & Array[String] & Array of the classes the user is currently taking\\
+	content & String & The content of the comment\\
 	\hline
 \end{tabular}
 \endgroup
@@ -336,27 +344,29 @@ userCollection: [
 \section{Classes Collection}
 
 \subsection{Description}
-	The users collection will hold the data for each user including the _id, email, username, password, fullName, posts, comments under other users' posts, and a list of classes they are currently taking.
+	The classes collection will hold the data for each class in the system, which includes the _id, name, description, posts, tags, students, and instructor.
 
 \subsection{Sample Classes JSON}
 \begin{lstlisting}
 userCollection: [
 	{
-		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6310"),
-		"email": "validEmail@address.com",
-		"fullName": {"firstName": "Eric", "lastName": "Altenburg"},
+		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6710"),
+		"name": "CS 546 Web Programming I",
+		"description": "Web Programming I course at Stevens Institute of Technology",
 		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6311", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63134"],
-		"comments": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"],
-		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+		"students": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"],
+		"tags": ["Question", "Clarification", "Assignment 1"],
+		"instructor": "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6729",
 	},
 	...,
 	{
-		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6510"),
-		"email": "validEmail@address.com",
-		"fullName": {"firstName": "John", "lastName": "Doe"},
-		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
-		"comments": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6511", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63534"],
-		"classes": ["8b7997a2-c0d2-4f8c-b27a-6a1d4b5b6411", ... , "8b7997a2-c0d2-4f8c-b27a-6a1d4b5b63434"]
+		"_id": ObjectId("7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6720"),
+		"name": "CS 554 Web Programming II",
+		"description": "Web Programming II course at Stevens Institute of Technology",
+		"posts": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b63123", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b634567"],
+		"students": ["7b7997a2-c0d2-4f8c-b27a-6a1d4b5b61231", ... , "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b632354"],
+		"tags": ["Question", "Clarification", "Assignment 1"],
+		"instructor": "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6729",
 	}
 ]
 \end{lstlisting}
@@ -374,15 +384,17 @@ userCollection: [
 	\hline
 	_id & ObjectId & Automatically generated\\
 	\hline
-	email & String & Email address for the user, must be valid\\
+	name & String & Name of the course\\
 	\hline
-	fullName & Subdocument & Subdocument that contains the first and last name of the user which are both strings\\
+	description & String & Description of the course\\
 	\hline
-	posts & Array[String] & Array of post ids the user has posted\\
+	posts & Array[String] & Array of post id associated with this class\\
 	\hline
-	comments & Array[String] & Array of comment ids the user has commented on other posts\\
+	students & Array[String] & Array of user ids for users enrolled in this class\\
 	\hline
-	classes & Array[String] & Array of the classes the user is currently taking\\
+	tags & Array[String] & Array of strings for available tags on posts for this class\\
+	\hline
+	instructor & String & Id of instructor teaching this class\\
 	\hline
 \end{tabular}
 \endgroup
