@@ -1,0 +1,22 @@
+{
+  "name": "lighthouse",
+  "version": "1.0.0",
+  "description": "Web application to provide a forum of help for classes - CS 546 Fall 2020 Final Project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node -r dotenv/config ."
+  },
+  "author": "Max Shi, Hamzah Nizami, Eric Altenburg, Daniel Kimball",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.0",
+    "handlebars": "^4.7.6",
+    "mongodb": "^3.6.3"
+  },
+  "devDependencies": {
+    "prettier": "^2.1.2"
+  }
+}
