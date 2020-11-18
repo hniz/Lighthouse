@@ -1,7 +1,8 @@
 const loginRoute = require('./login');
-const collections = require('../config/mongoCollections');
+const apiRoutes = require('./api');
 
 const routeConstructor = (app) => {
+    app.use('/api', apiRoutes);
     app.use('/login', loginRoute);
     app.get('/', (req, res) => {
         res.render('home_page', { title: 'Lighthouse' });

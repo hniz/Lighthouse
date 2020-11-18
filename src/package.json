@@ -10,7 +10,9 @@
   "author": "Max Shi, Hamzah Nizami, Eric Altenburg, Daniel Kimball",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "dotenv": "^8.2.0",
+    "email-validator": "^2.0.4",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
     "handlebars": "^4.7.6",
