@@ -1,4 +1,5 @@
 const loginRoute = require('./login');
+const collections = require('../config/mongoCollections');
 
 const routeConstructor = (app) => {
     app.use('/login', loginRoute);
