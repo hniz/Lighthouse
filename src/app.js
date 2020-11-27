@@ -3,6 +3,7 @@ const app = express();
 const static = express.static(__dirname + '/public');
 const configRoutes = require('./routes');
 const exphbs = require('express-handlebars');
+const configAuth = require('./auth');
 
 const handleBars = exphbs.create({
     defaultLayout: 'main',
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.engine('handlebars', handleBars.engine);
 app.set('view engine', 'handlebars');
 
+configAuth(app);
 configRoutes(app);
 
 app.listen(3000, () => {
