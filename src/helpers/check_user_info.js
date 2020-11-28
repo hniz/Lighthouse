@@ -23,4 +23,18 @@ const checkUserInfo = (email, password, firstName, lastName, type) => {
     return true;
 };
 
-module.exports = checkUserInfo;
+const validateEmail = (email) => { 
+    if (
+        !email ||
+        typeof email !== 'string' ||
+        !email.trim() ||
+        !emailValidator.validate(email)
+    )
+        return false;
+    return true;
+}
+
+module.exports = { 
+    checkUserInfo,
+    validateEmail
+};
