@@ -58,7 +58,7 @@ const deleteUser = async({ email }) => {  //Notes: Should we get password confir
         //Need to delete the posts, comments and users collection as well.
         const postsArray = userLookup.posts;
         postsArray.forEach(member => { 
-            posts.deletePost(member) 
+            posts.deletePost(member, userLookup._id) 
         })
         const commentsArray = userLookup.comments;
         commentsArray.forEach(member => { 
@@ -66,7 +66,7 @@ const deleteUser = async({ email }) => {  //Notes: Should we get password confir
         })
         const classesArray = userLookup.classes;
         classesArray.forEach(member => { 
-            classesArray.deleteClasses(member)
+            classes.deleteClasses(member)
         })
         const deleteInfo = await users.deleteOne({email: email})
         if(deleteInfo.deletedCount === 0){ 
