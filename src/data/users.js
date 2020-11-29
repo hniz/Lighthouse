@@ -62,11 +62,11 @@ const deleteUser = async({ email }) => {  //Notes: Should we get password confir
         })
         const commentsArray = userLookup.comments;
         commentsArray.forEach(member => { 
-            comments.deleteComment(member)
+            comments.deleteUserComments(member, userLookup._id)
         })
         const classesArray = userLookup.classes;
         classesArray.forEach(member => { 
-            classes.deleteClasses(member)
+            classes.deleteClasses(member, userLookup._id)
         })
         const deleteInfo = await users.deleteOne({email: email})
         if(deleteInfo.deletedCount === 0){ 
