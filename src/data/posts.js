@@ -17,10 +17,9 @@ const deletePost = async(id, userToDelete) => {
     id = ObjectId(id).valueOf();
     const commentsArray = posts.comments;
     commentsArray.forEach(comment => { 
-        comments.deleteComment(comment)
+        comments.deletePostComments(comment, posts._id)
     });
 
-    const posts = await collections.posts();
     const users = await collections.users();
     const deleteInfo = await posts.deleteOne({_id:id})
     if(deleteInfo.deletedCount === 0){ 
