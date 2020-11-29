@@ -7,7 +7,7 @@ const deleteUserComments = async(id, userToDelete) => {
     
     if(!checkValidId(id)){ 
         return {
-            error: "Invalid post ID provided for deletion",
+            error: "Invalid comment ID provided for deletion",
             statusCode: 400
         }
     }
@@ -34,7 +34,7 @@ const deletePostComments = async(id, postToDelete) => {
     
     if(!checkValidId(id)){ 
         return {
-            error: "Invalid post ID provided for deletion",
+            error: "Invalid comment ID provided for deletion",
             statusCode: 400
         }
     }
