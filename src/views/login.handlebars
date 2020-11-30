@@ -6,3 +6,9 @@
     <input type="password" id="login-password" name="login-password">
     <button type="submit">Log In</button>
 </form>
+{{#if invalid}}
+<h3>Invalid username and/or password!</h3>
+{{/if}}
+{{#if error}}
+<h3>Unknown server error. Please try again later.</h3>
+{{/if}}

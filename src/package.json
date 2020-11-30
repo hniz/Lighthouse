@@ -5,8 +5,12 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node -r dotenv/config ."
+    "start": "node -r dotenv/config .",
+    "lint": "eslint . --ext .js --fix"
   },
+  "pre-commit": [
+    "lint"
+  ],
   "author": "Max Shi, Hamzah Nizami, Eric Altenburg, Daniel Kimball",
   "license": "ISC",
   "dependencies": {
@@ -15,10 +19,13 @@
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
+    "express-session": "^1.17.1",
     "handlebars": "^4.7.6",
     "mongodb": "^3.6.3"
   },
   "devDependencies": {
+    "eslint": "^7.14.0",
+    "pre-commit": "^1.2.2",
     "prettier": "^2.1.2"
   }
 }

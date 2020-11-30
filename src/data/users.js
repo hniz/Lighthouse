@@ -59,7 +59,7 @@ const getUserByToken = async ({ token }) => {
     const users = await collections.users();
     const userLookup = await users.findOne({ token });
     if (!userLookup) {
-        return { error: 'No user with given email', statusCode: 404 };
+        return { error: 'No user with given token', statusCode: 404 };
     } else {
         return {
             user: userLookup,
@@ -94,7 +94,7 @@ const modifyUser = async ({
         {
             email,
         },
-        { $set: changedFields },
+        { $set: changedFields }
     );
     if (result.ok !== 1) {
         return {
