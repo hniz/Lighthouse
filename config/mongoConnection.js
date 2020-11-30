@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
 
-let _connection = undefined;
-let _db = undefined;
+let _connection;
+let _db;
 
 module.exports = async () => {
     if (!_connection) {

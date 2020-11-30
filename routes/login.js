@@ -1,6 +1,5 @@
 const express = require('express');
 const { authorize, generateToken } = require('../auth');
-const bcrypt = require('bcrypt');
 const Router = express.Router();
 const { modifyUser } = require('../data/users');
 

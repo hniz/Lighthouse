@@ -94,7 +94,7 @@ const modifyUser = async ({
         {
             email,
         },
-        { $set: changedFields }
+        { $set: changedFields },
     );
     if (result.ok !== 1) {
         return {

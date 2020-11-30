@@ -1,0 +1,20 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 8,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "env": {
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+        "semi": "error",
+        "comma-dangle": ["error", "always-multiline"],
+        "quotes": ["error", "single"],
+        "no-trailing-spaces": ["error", { "skipBlankLines": true,
+            "ignoreComments": true }]
+    }
+}

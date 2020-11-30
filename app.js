@@ -13,7 +13,7 @@ const handleBars = exphbs.create({
         asJSON: (obj, spacing) => {
             if (typeof spacing === 'number')
                 return new Handlebars.SafeString(
-                    JSON.stringify(obj, null, spacing)
+                    JSON.stringify(obj, null, spacing),
                 );
 
             return new Handlebars.SafeString(JSON.stringify(obj));
@@ -34,7 +34,7 @@ app.use(
         secret: 'the secret string!',
         resave: false,
         saveUninitialized: true,
-    })
+    }),
 );
 
 configAuth(app);

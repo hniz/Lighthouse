@@ -6,10 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node -r dotenv/config .",
-    "lint": "eslint . --ext .js --fix"
+    "lint": "eslint . --ext .js --fix",
+    "jshint": "jshint --exclude node_modules/ ."
   },
   "pre-commit": [
-    "lint"
+    "lint",
+    "jshint"
   ],
   "author": "Max Shi, Hamzah Nizami, Eric Altenburg, Daniel Kimball",
   "license": "ISC",
@@ -25,6 +27,7 @@
   },
   "devDependencies": {
     "eslint": "^7.14.0",
+    "jshint": "^2.12.0",
     "pre-commit": "^1.2.2",
     "prettier": "^2.1.2"
   }

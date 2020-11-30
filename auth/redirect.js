@@ -29,7 +29,7 @@ const redirectRoutes = (app) => {
             }
             req.redirectUrl = req.baseUrl;
             return res.redirect('/login');
-        })
+        }),
     );
 };
 
