@@ -1,9 +1,9 @@
 const loginRoute = require('./login');
-const apiRoutes = require('./api');
+const registerRoute = require('./register');
 
 const routeConstructor = (app) => {
-    app.use('/api', apiRoutes);
     app.use('/login', loginRoute);
+    app.use('/register', registerRoute);
     app.get('/', (req, res) => {
         res.render('home_page', { title: 'Lighthouse' });
     });

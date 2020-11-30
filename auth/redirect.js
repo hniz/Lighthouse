@@ -2,8 +2,6 @@
     The only routes that will not be redirected to auth is /, /login, and /logout
 */
 
-const { getUserByToken } = require('../data/users');
-
 const exclude = (routes, middleware) => {
     return function (req, res, next) {
         if (routes.includes(req.path)) {
@@ -16,20 +14,17 @@ const exclude = (routes, middleware) => {
 
 const redirectRoutes = (app) => {
     app.use(
-        exclude(['/', '/login', '/logout'], async (req, res, next) => {
-            if (req.session.token) {
-                const lookup = await getUserByToken({
-                    token: req.session.token,
-                });
-                if (lookup.error) {
-                    req.session.destroy();
-                } else {
+        exclude(
+            ['/', '/login', '/logout', '/register'],
+            async (req, res, next) => {
+                if (req.session.token) {
                     return next();
+                } else {
+                    req.redirectUrl = req.baseUrl;
+                    return res.redirect('/login');
                 }
             }
-            req.redirectUrl = req.baseUrl;
-            return res.redirect('/login');
-        }),
+        )
     );
 };
 

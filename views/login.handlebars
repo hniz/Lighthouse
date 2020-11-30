@@ -1,11 +1,12 @@
 <h1>Log In</h1>
 <form action="/login" method="POST">
-    <label for="login-username">Username</label>
-    <input type="text" id="login-username" name="login-username">
+    <label for="login-email">Email</label>
+    <input type="text" id="login-email" name="login-email">
     <label for="login-password">Password</label>
     <input type="password" id="login-password" name="login-password">
     <button type="submit">Log In</button>
 </form>
+<a href="/register">Register for Lighthouse!</a>
 {{#if invalid}}
 <h3>Invalid username and/or password!</h3>
 {{/if}}

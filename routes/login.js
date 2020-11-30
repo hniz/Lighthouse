@@ -4,12 +4,13 @@ const Router = express.Router();
 const { modifyUser } = require('../data/users');
 
 Router.get('/', async (req, res) => {
-    res.render('login', { title: 'Log in to Lighthouse' });
+    if (req.isAuthorized) res.redirect('/dashboard');
+    else res.render('login', { title: 'Log in to Lighthouse' });
 });
 
 Router.post('/', async (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
+    const email = req.body['login-email'];
+    const password = req.body['login-password'];
     const authorizationResult = await authorize(email, password);
     if (authorizationResult.error) {
         return res.status(authorizationResult.statusCode).render('login', {
@@ -17,7 +18,7 @@ Router.post('/', async (req, res) => {
             invalid: true,
         });
     } else {
-        const token = generateToken();
+        const token = await generateToken();
         const result = await modifyUser({ email, token });
         if (result.error) {
             return res.status(result.statusCode).render('login', {
@@ -26,7 +27,8 @@ Router.post('/', async (req, res) => {
             });
         } else {
             req.session.token = token;
-            return res.redirect(req.redirectUrl);
+            if (req.redirectUrl) return res.redirect(req.redirectUrl);
+            else return res.redirect('/dashboard');
         }
     }
 });
