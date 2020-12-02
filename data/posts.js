@@ -2,6 +2,30 @@ const collections = require('../config/mongoCollections');
 const checkValidId = require('../helpers/check_valid_id');
 const { ObjectId } = require('mongodb');
 const comments = require('./comments');
+const checkUserInfo = require('../helpers/check_user_info');
+
+const create = async({title, author, content}) => {
+    const posts = await collections.posts();
+    if(checkUserInfo.validateString(title) ||checkUserInfo.validateString(author) || checkUserInfo.validateString(content)){
+        posts.insertOne({
+            title,
+            author,
+            time_submitted: String(new Date()),
+            content,
+            comments: [],
+            tags: [],
+            score: 1,
+        });
+        return {
+            statusCode: 201,
+        };
+    } else {
+        return {
+            error: 'Missing or invalid field(s) given',
+            statusCode: 400,
+        };
+    }
+};
 
 const deletePost = async (id, userToDelete) => {
     //Assuming that the deletion of a post means the deletion of comments associated
@@ -39,4 +63,5 @@ const deletePost = async (id, userToDelete) => {
 
 module.exports = {
     deletePost,
+    create,
 };
