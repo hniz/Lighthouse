@@ -3,6 +3,26 @@ const checkValidId = require('../helpers/check_valid_id');
 const { ObjectId, ObjectID } = require('mongodb');
 const posts = require('./posts');
 
+const getClassById = async (id) => {
+    if (!checkValidId(id)) {
+        return {
+            error: 'Invalid class ID provided.',
+            statusCode: 400,
+        };
+    }
+    id = ObjectId(id).valueOf();
+    const users = await collections.users();
+    const lookup = await users.findOne({ _id: id });
+    if (!lookup) {
+        return { error: 'No class with given id', statusCode: 404 };
+    } else {
+        return {
+            user: lookup,
+            statusCode: 200,
+        };
+    }
+};
+
 const deleteClassesFromUser = async (id, userToDelete) => {
     if (!checkValidId(id)) {
         return {
@@ -15,7 +35,7 @@ const deleteClassesFromUser = async (id, userToDelete) => {
     const users = await collections.users();
     users.updateOne(
         { _id: ObjectId(userToDelete).valueOf() },
-        { $pull: { classes: id.toString() } },
+        { $pull: { classes: id.toString() } }
     );
     const classes = await collections.classes();
     classes.updateOne({ _id: id }, { $pull: { students: userToDelete } }); //student no longer enrolled in class
@@ -46,12 +66,12 @@ const deleteClass = async (id) => {
     studentArray.forEach((student) => {
         users.updateOne(
             { _id: ObjectId(student).valueOf() },
-            { $pull: { classes: id.toString() } },
+            { $pull: { classes: id.toString() } }
         );
     });
     users.updateOne(
         { _id: ObjectID(classes.instructor).valueOf() },
-        { $pull: { classes: id.toString() } },
+        { $pull: { classes: id.toString() } }
     ); //update for instructors
 
     const deleteInfo = await classes.deleteOne({ _id: id });
@@ -67,6 +87,7 @@ const deleteClass = async (id) => {
 };
 
 module.exports = {
+    getClassById,
     deleteClassesFromUser,
     deleteClass,
 };

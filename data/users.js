@@ -42,7 +42,7 @@ const create = async ({ email, firstName, lastName, password, type }) => {
     }
 };
 
-const getUserByEmail = async ({ email }) => {
+const getUserByEmail = async (email) => {
     const users = await collections.users();
     const userLookup = await users.findOne({ email });
     if (!userLookup) {
@@ -55,7 +55,7 @@ const getUserByEmail = async ({ email }) => {
     }
 };
 
-const getUserByToken = async ({ token }) => {
+const getUserByToken = async (token) => {
     const users = await collections.users();
     const userLookup = await users.findOne({ token });
     if (!userLookup) {
@@ -94,7 +94,7 @@ const modifyUser = async ({
         {
             email,
         },
-        { $set: changedFields },
+        { $set: changedFields }
     );
     if (result.ok !== 1) {
         return {

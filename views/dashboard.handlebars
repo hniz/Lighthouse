@@ -1,0 +1,15 @@
+<h1>Welcome, {{{name}}}!</h1>
+<h3>Classes</h3>
+<a href="/classes/join">Join a class</a>
+<ul class="class-list">
+    {{#each classes}}
+    <li>{{name}}</li>
+    {{else}}
+    <h3><a href="/classes/join">Join a class</a></h3>
+    {{/each}}
+</ul>
+<a>Create a post</a>
+<ul class="post-list">
+    <h3>Select a class to view posts</h3>
+</ul>
+<a href="/logout">Log Out</a>
