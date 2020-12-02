@@ -3,6 +3,7 @@ const checkValidId = require('../helpers/check_valid_id');
 const { ObjectId } = require('mongodb');
 const comments = require('./comments');
 const checkUserInfo = require('../helpers/check_user_info');
+const { checkPostInfo } = require('../helpers/check_post_info');
 
 const create = async({title, author, content}) => {
     const posts = await collections.posts();
@@ -26,6 +27,32 @@ const create = async({title, author, content}) => {
         };
     }
 };
+
+
+const modifyPost = async({id, title, author, content}) => {
+    const posts = await collections.posts;
+    const changedFields = checkPostInfo({id, title, author, content});
+    if(changedFields.error){
+        return {
+            error: changedFields.errors,
+            statusCode: 400,
+        };
+    }
+    id = ObjectId(id).valueOf();
+    const result = await posts.findOneAndUpdate(
+        {
+            id,
+        },
+        { $set: changedFields}
+    );
+    if(result.ok !== 1){
+        return {
+            error: 'Error updating fields in comments.',
+            statusCode: 500,
+        };
+    }
+};
+
 
 const deletePost = async (id, userToDelete) => {
     //Assuming that the deletion of a post means the deletion of comments associated
@@ -64,4 +91,5 @@ const deletePost = async (id, userToDelete) => {
 module.exports = {
     deletePost,
     create,
+    modifyPost,
 };
