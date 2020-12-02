@@ -2,6 +2,38 @@ const collections = require('../config/mongoCollections');
 const checkValidId = require('../helpers/check_valid_id');
 const { ObjectId, ObjectID } = require('mongodb');
 const posts = require('./posts');
+const checkUserInfo = require('../helpers/check_user_info');
+
+const create = async({name, description, instructor}) => {
+    const classes = await collections.classes;
+    if(!checkUserInfo.validateString(name) || !checkUserInfo.validateString(description) || !checkUserInfo.validateString(instructor)){
+        return {
+            error: 'Missing or invalid field(s) given.',
+            statusCode: 400,
+        };
+    } else {
+        const classLookup = await classes.findOne({ name }); //Need name to be the unique identifier
+        if(!classLookup){
+            classes.insertOne({
+                name,
+                description,
+                posts: [],
+                students: [],
+                tags: [],
+                instructor,
+            });
+            return {
+                statusCode : 201,
+            };
+        } else {
+            return {
+                error: 'Class already exists',
+                statusCode: 400,
+            };
+        }
+    }
+};
+
 
 const getClassById = async (id) => {
     if (!checkValidId(id)) {
@@ -90,4 +122,5 @@ module.exports = {
     getClassById,
     deleteClassesFromUser,
     deleteClass,
+    create,
 };
