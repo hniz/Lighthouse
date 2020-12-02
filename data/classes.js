@@ -3,6 +3,7 @@ const checkValidId = require('../helpers/check_valid_id');
 const { ObjectId, ObjectID } = require('mongodb');
 const posts = require('./posts');
 const checkUserInfo = require('../helpers/check_user_info');
+const { checkClassInfo } = require('../helpers/check_class_info');
 
 const create = async({name, description, instructor}) => {
     const classes = await collections.classes;
@@ -50,6 +51,33 @@ const getClassById = async (id) => {
     } else {
         return {
             user: lookup,
+            statusCode: 200,
+        };
+    }
+};
+
+const modifyClass = async({name, description, students, tags, instructor}) => {
+    const classes = await collections.classes;
+    const changedFields = checkClassInfo({name, description, students, tags, instructor});
+    if(changedFields.errors){
+        return {
+            error: changedFields.errors,
+            statusCode: 400,
+        };
+    }
+    const result = await classes.findOneAndUpdate(
+        {
+            name,
+        },
+        { $set: changedFields}
+    );
+    if(result.ok !== 1){
+        return {
+            error: 'Error updating fields in class',
+            statusCode: 500,
+        };
+    } else{
+        return {
             statusCode: 200,
         };
     }
@@ -123,4 +151,5 @@ module.exports = {
     deleteClassesFromUser,
     deleteClass,
     create,
+    modifyClass,
 };
