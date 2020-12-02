@@ -2,11 +2,12 @@ const collections = require('../config/mongoCollections');
 const checkValidId = require('../helpers/check_valid_id');
 const { ObjectId } = require('mongodb');
 const checkUserInfo = require('../helpers/check_user_info');
+const { checkCommentInfo }  = require('../helpers/check_comment_info');
 
 
-const create = async({author, parent_post, content}) => { 
+const create = async({author, parent_post, content}) => {
     const comments = await collections.comments;
-    if(checkUserInfo.validateString(author) || checkUserInfo.validateString(parent_post) || checkUserInfo.validateString(content)){ 
+    if(checkUserInfo.validateString(author) || checkUserInfo.validateString(parent_post) || checkUserInfo.validateString(content)){
         comments.insertOne({
             author,
             parent_post,
@@ -23,6 +24,31 @@ const create = async({author, parent_post, content}) => {
         };
     }
 };
+
+const modifyComment = async({id, author, parent_post, content}) => {
+    const comments = await collections.comments;
+    const changedFields = checkCommentInfo({id, author, parent_post, content});
+    if(changedFields.error){
+        return {
+            error: changedFields.errors,
+            statusCode: 400,
+        };
+    }
+    id = ObjectId(id).valueOf();
+    const result = await comments.findOneAndUpdate(
+        {
+            id,
+        },
+        { $set: changedFields}
+    );
+    if(result.ok !== 1){
+        return {
+            error: 'Error updating fields in comments.',
+            statusCode: 500,
+        };
+    }
+};
+
 
 const deleteUserComments = async (id, userToDelete) => {
     const comments = await collections.comments();
@@ -87,4 +113,5 @@ module.exports = {
     deleteUserComments,
     deletePostComments,
     create,
+    modifyComment,
 };
