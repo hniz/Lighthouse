@@ -46,6 +46,10 @@ const modifyComment = async({id, author, parent_post, content}) => {
             error: 'Error updating fields in comments.',
             statusCode: 500,
         };
+    } else{
+        return {
+            statusCode: 200,
+        };
     }
 };
 
