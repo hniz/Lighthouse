@@ -5,16 +5,20 @@ const posts = require('./posts');
 const checkUserInfo = require('../helpers/check_user_info');
 const { checkClassInfo } = require('../helpers/check_class_info');
 
-const create = async({name, description, instructor}) => {
-    const classes = await collections.classes;
-    if(!checkUserInfo.validateString(name) || !checkUserInfo.validateString(description) || !checkUserInfo.validateString(instructor)){
+const create = async ({ name, description, instructor }) => {
+    const classes = await collections.classes();
+    if (
+        !checkUserInfo.validateString(name) ||
+        !checkUserInfo.validateString(description) ||
+        !checkUserInfo.validateString(instructor)
+    ) {
         return {
             error: 'Missing or invalid field(s) given.',
             statusCode: 400,
         };
     } else {
         const classLookup = await classes.findOne({ name }); //Need name to be the unique identifier
-        if(!classLookup){
+        if (!classLookup) {
             classes.insertOne({
                 name,
                 description,
@@ -24,7 +28,7 @@ const create = async({name, description, instructor}) => {
                 instructor,
             });
             return {
-                statusCode : 201,
+                statusCode: 201,
             };
         } else {
             return {
@@ -34,7 +38,6 @@ const create = async({name, description, instructor}) => {
         }
     }
 };
-
 
 const getClassById = async (id) => {
     if (!checkValidId(id)) {
@@ -56,10 +59,22 @@ const getClassById = async (id) => {
     }
 };
 
-const modifyClass = async({name, description, students, tags, instructor}) => {
+const modifyClass = async ({
+    name,
+    description,
+    students,
+    tags,
+    instructor,
+}) => {
     const classes = await collections.classes;
-    const changedFields = checkClassInfo({name, description, students, tags, instructor});
-    if(changedFields.errors){
+    const changedFields = checkClassInfo({
+        name,
+        description,
+        students,
+        tags,
+        instructor,
+    });
+    if (changedFields.errors) {
         return {
             error: changedFields.errors,
             statusCode: 400,
@@ -69,14 +84,14 @@ const modifyClass = async({name, description, students, tags, instructor}) => {
         {
             name,
         },
-        { $set: changedFields}
+        { $set: changedFields }
     );
-    if(result.ok !== 1){
+    if (result.ok !== 1) {
         return {
             error: 'Error updating fields in class',
             statusCode: 500,
         };
-    } else{
+    } else {
         return {
             statusCode: 200,
         };

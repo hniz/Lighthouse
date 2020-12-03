@@ -1,11 +1,19 @@
 <h1>Welcome, {{{name}}}!</h1>
 <h3>Classes</h3>
-<a href="/classes/join">Join a class</a>
+{{#if instructor}}
+<a href="/class/new">Create a class</a>
+{{else}}
+<a href="/class/join">Join a class</a>
+{{/if}}
 <ul class="class-list">
     {{#each classes}}
     <li>{{name}}</li>
     {{else}}
-    <h3><a href="/classes/join">Join a class</a></h3>
+    {{#if instructor}}
+    <h3><a href="/class/new">Create a class</a></h3>
+    {{else}}
+    <h3><a href="/class/join">Join a class</a></h3>
+    {{/if}}
     {{/each}}
 </ul>
 <a>Create a post</a>

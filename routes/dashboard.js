@@ -16,6 +16,7 @@ Router.get('/', async (req, res) => {
         title: 'Dashboard',
         name: `${user.fullName.firstName} ${user.fullName.lastName}`,
         classes,
+        instructor: !!req.session.instructor,
     });
 });
 

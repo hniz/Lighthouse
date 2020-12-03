@@ -6,6 +6,8 @@ const checkToken = async (req, res, next) => {
         const lookup = await getUserByToken(token);
         if (lookup.error) {
             req.session.destroy();
+        } else if (lookup.user.type === 'instructor') {
+            req.session.instructor = true;
         }
         return next();
     } else return next();
