@@ -5,28 +5,56 @@ const posts = require('./posts');
 const checkUserInfo = require('../helpers/check_user_info');
 const { checkClassInfo } = require('../helpers/check_class_info');
 
-const create = async ({ name, description, instructor }) => {
+const create = async ({ name, description, instructorToken }) => {
     const classes = await collections.classes();
+    const users = await collections.users();
     if (
         !checkUserInfo.validateString(name) ||
         !checkUserInfo.validateString(description) ||
-        !checkUserInfo.validateString(instructor)
+        !checkUserInfo.validateString(instructorToken)
     ) {
         return {
             error: 'Missing or invalid field(s) given.',
             statusCode: 400,
         };
     } else {
+        const instructorLookup = await users.findOne({
+            token: instructorToken,
+        });
         const classLookup = await classes.findOne({ name }); //Need name to be the unique identifier
+        if (!instructorLookup || instructorLookup.type !== 'instructor') {
+            if (!instructorLookup)
+                return {
+                    error: 'User not found.',
+                    statusCode: 404,
+                };
+            else
+                return {
+                    error: 'User is not authorized to create a course.',
+                    statusCode: 401,
+                };
+        }
         if (!classLookup) {
-            classes.insertOne({
+            const course = await classes.insertOne({
                 name,
                 description,
                 posts: [],
                 students: [],
                 tags: [],
-                instructor,
+                instructor: instructorLookup._id.toString(),
             });
+            const classID = course.insertedId.toString();
+            instructorLookup.classes.push(classID);
+            await users.findOneAndUpdate(
+                {
+                    email: instructorLookup.email,
+                },
+                {
+                    $set: {
+                        classes: instructorLookup.classes,
+                    },
+                }
+            );
             return {
                 statusCode: 201,
             };
@@ -46,14 +74,14 @@ const getClassById = async (id) => {
             statusCode: 400,
         };
     }
-    id = ObjectId(id).valueOf();
-    const users = await collections.users();
-    const lookup = await users.findOne({ _id: id });
+    const convertedid = ObjectId(id);
+    const classes = await collections.classes();
+    const lookup = await classes.findOne({ _id: convertedid });
     if (!lookup) {
         return { error: 'No class with given id', statusCode: 404 };
     } else {
         return {
-            user: lookup,
+            class: lookup,
             statusCode: 200,
         };
     }
@@ -66,7 +94,7 @@ const modifyClass = async ({
     tags,
     instructor,
 }) => {
-    const classes = await collections.classes;
+    const classes = await collections.classes();
     const changedFields = checkClassInfo({
         name,
         description,
