@@ -11,7 +11,11 @@ Router.get('/', async (req, res) => {
     const user = userLookup.user;
     const classes = (
         await Promise.all(user.classes.map((classID) => getClassById(classID)))
-    ).map((course) => course.class);
+    ).map((course) => {
+        const data = course.class;
+        data.id = data._id.toString();
+        return data;
+    });
     res.render('dashboard', {
         title: 'Dashboard',
         name: `${user.fullName.firstName} ${user.fullName.lastName}`,
