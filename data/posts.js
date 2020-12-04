@@ -5,9 +5,10 @@ const comments = require('./comments');
 const checkUserInfo = require('../helpers/check_user_info');
 const { checkPostInfo } = require('../helpers/check_post_info');
 
-const create = async({title, author, content}) => {
+const create = async({title, author, content, userToken}) => {
     const posts = await collections.posts();
-    if(checkUserInfo.validateString(title) ||checkUserInfo.validateString(author) || checkUserInfo.validateString(content)){
+    const users = await collections.users();
+    if(checkUserInfo.validateString(userToken) || checkUserInfo.validateString(title) ||checkUserInfo.validateString(author) || checkUserInfo.validateString(content)){
         posts.insertOne({
             title,
             author,
@@ -17,6 +18,30 @@ const create = async({title, author, content}) => {
             tags: [],
             score: 1,
         });
+        const postID = posts.insertedId.toString();
+        const userLookup = await users.findOne({
+            token: userToken,
+        });
+        if(!userLookup){
+            return {
+                error: 'User not found.',
+                statusCode: 404,
+            };
+        }
+
+        userLookup.posts.push(postID);
+        await users.findOneAndUpdate(
+            {
+                email: userLookup.email,
+            },
+            {
+                $set: {
+                    posts: userLookup.posts,
+                },
+            }
+        );
+
+
         return {
             statusCode: 201,
         };
