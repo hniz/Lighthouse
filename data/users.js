@@ -5,6 +5,8 @@ const comments = require('./comments');
 const classes = require('./classes');
 const bcrypt = require('bcrypt');
 const { checkUpdatedUserInfo } = require('../helpers/check_user_info');
+const checkValidId = require('../helpers/check_valid_id');
+const { ObjectId } = require('mongodb');
 
 const create = async ({ email, firstName, lastName, password, type }) => {
     const users = await collections.users();
@@ -38,6 +40,27 @@ const create = async ({ email, firstName, lastName, password, type }) => {
         return {
             error: 'Missing one or more fields.',
             statusCode: 400,
+        };
+    }
+};
+
+const getUserById = async (id) => {
+    if (!checkValidId(id)) {
+        return {
+            error: 'Invalid user ID provided.',
+            statusCode: 400,
+        };
+    }
+    const users = await collections.users();
+    const convertedid = ObjectId(id);
+
+    const userLookup = await users.findOne({ _id: convertedid });
+    if (!userLookup) {
+        return { error: 'No user with given id', statusCode: 404 };
+    } else {
+        return {
+            user: userLookup,
+            statusCode: 200,
         };
     }
 };
@@ -156,5 +179,6 @@ module.exports = {
     deleteUser,
     getUserByEmail,
     getUserByToken,
+    getUserById,
     modifyUser,
 };

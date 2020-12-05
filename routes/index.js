@@ -3,6 +3,7 @@ const registerRoute = require('./register');
 const logoutRoute = require('./logout');
 const dashboardRoute = require('./dashboard');
 const classRoute = require('./class');
+const profileRoute = require('./user');
 
 const routeConstructor = (app) => {
     app.use('/login', loginRoute);
@@ -10,6 +11,7 @@ const routeConstructor = (app) => {
     app.use('/logout', logoutRoute);
     app.use('/dashboard', dashboardRoute);
     app.use('/class', classRoute);
+    app.use('/user', profileRoute);
     app.get('/', (req, res) => {
         res.render('home_page', { title: 'Lighthouse' });
     });
