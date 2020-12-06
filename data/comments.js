@@ -2,13 +2,42 @@ const collections = require('../config/mongoCollections');
 const checkValidId = require('../helpers/check_valid_id');
 const { ObjectId } = require('mongodb');
 const checkUserInfo = require('../helpers/check_user_info');
-const { checkCommentInfo }  = require('../helpers/check_comment_info');
+const { checkCommentInfo } = require('../helpers/check_comment_info');
 
-
-const create = async({ userToken, author, parent_post, content}) => {
+const create = async ({ userToken, parent_post, content }) => {
     const comments = await collections.comments();
     const users = await collections.users();
-    if(checkUserInfo.validateString(author) || checkUserInfo.validateString(userToken) || checkUserInfo.validateString(parent_post) || checkUserInfo.validateString(content)){
+    const posts = await collections.posts();
+    if (
+        checkUserInfo.validateString(userToken) &&
+        checkValidId(parent_post) &&
+        checkUserInfo.validateString(parent_post) &&
+        checkUserInfo.validateString(content)
+    ) {
+        const userLookup = await users.findOne({
+            token: userToken,
+        });
+        if (!userLookup) {
+            return {
+                error: 'User not found.',
+                statusCode: 404,
+            };
+        }
+        const parentPostId = ObjectId(parent_post);
+        const postLookup = await posts.findOne({ _id: parentPostId });
+        if (!postLookup) {
+            return {
+                error: 'Post not found.',
+                statusCode: 404,
+            };
+        }
+        if (!userLookup.classes.includes(postLookup.class)) {
+            return {
+                error: 'User is not authorized for this comment.',
+                statusCode: 401,
+            };
+        }
+        const author = userLookup._id.toString();
         await comments.insertOne({
             author,
             parent_post,
@@ -16,16 +45,17 @@ const create = async({ userToken, author, parent_post, content}) => {
             content,
         });
         const commentID = comments.insertedId.toString();
-        const userLookup = await users.findOne({
-            token: userToken,
-        });
-        if(!userLookup){
-            return {
-                error: 'User not found.',
-                statusCode: 404,
-            };
-        }
-        
+        postLookup.comments.push(commentID);
+        await posts.findOneAndUpdate(
+            {
+                _id: parentPostId,
+            },
+            {
+                $set: {
+                    comments: postLookup.comments,
+                },
+            }
+        );
         userLookup.comments.push(commentID);
         await users.findOneAndUpdate(
             {
@@ -49,10 +79,15 @@ const create = async({ userToken, author, parent_post, content}) => {
     }
 };
 
-const modifyComment = async({id, author, parent_post, content}) => {
+const modifyComment = async ({ id, author, parent_post, content }) => {
     const comments = await collections.comments;
-    const changedFields = checkCommentInfo({id, author, parent_post, content});
-    if(changedFields.error){
+    const changedFields = checkCommentInfo({
+        id,
+        author,
+        parent_post,
+        content,
+    });
+    if (changedFields.error) {
         return {
             error: changedFields.errors,
             statusCode: 400,
@@ -63,20 +98,19 @@ const modifyComment = async({id, author, parent_post, content}) => {
         {
             id,
         },
-        { $set: changedFields}
+        { $set: changedFields }
     );
-    if(result.ok !== 1){
+    if (result.ok !== 1) {
         return {
             error: 'Error updating fields in comments.',
             statusCode: 500,
         };
-    } else{
+    } else {
         return {
             statusCode: 200,
         };
     }
 };
-
 
 const deleteUserComments = async (id, userToDelete) => {
     const comments = await collections.comments();
@@ -100,7 +134,7 @@ const deleteUserComments = async (id, userToDelete) => {
     }
     users.updateOne(
         { _id: ObjectId(userToDelete).valueOf() },
-        { $pull: { comments: id.toString() } },
+        { $pull: { comments: id.toString() } }
     );
     return {
         statusCode: 204,
@@ -130,7 +164,7 @@ const deletePostComments = async (id, postToDelete) => {
     }
     posts.updateOne(
         { _id: ObjectId(postToDelete).valueOf() },
-        { $pull: { comments: id.toString() } },
+        { $pull: { comments: id.toString() } }
     );
     return {
         statusCode: 204,

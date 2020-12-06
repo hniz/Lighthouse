@@ -5,8 +5,10 @@ const dashboardRoute = require('./dashboard');
 const classRoute = require('./class');
 const profileRoute = require('./user');
 const postsRoute = require('./post');
+const apiRoutes = require('./api');
 
 const routeConstructor = (app) => {
+    app.use('/api', apiRoutes);
     app.use('/login', loginRoute);
     app.use('/register', registerRoute);
     app.use('/logout', logoutRoute);
