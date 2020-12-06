@@ -31,6 +31,12 @@ const create = async ({ title, content, userToken, classID }) => {
                 statusCode: 404,
             };
         }
+        if (!userLookup.classes.includes(classLookup._id.toString())) {
+            return {
+                error: 'You are not registered for this class!',
+                statusCode: 401,
+            };
+        }
         const result = await posts.insertOne({
             title,
             author: userLookup._id.toString(),
