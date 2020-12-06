@@ -75,6 +75,28 @@ const create = async ({ name, description, instructorToken }) => {
     }
 };
 
+const getClassPosts = async(id) =>{
+    if (!checkValidId(id)) {
+        return {
+            error: 'Invalid class ID provided.',
+            statusCode: 400,
+        };
+    }
+    const convertedid = ObjectId(id);
+    const classes = await collections.classes();
+    const fetchedClass = await classes.findOne({ _id: convertedid });
+    const allPostsStringId = fetchedClass.posts;
+    let classPosts = []; //returns a list of objects with posts data for that class
+    allPostsStringId.forEach(post => {
+        classPosts.push(posts.getPostById(post));
+    });
+    return {
+        classPosts: classPosts,
+        statusCode: 200,
+    };
+
+};
+
 const getClassById = async (id) => {
     if (!checkValidId(id)) {
         return {
@@ -304,4 +326,5 @@ module.exports = {
     create,
     modifyClass,
     addStudentToClass,
+    getClassPosts,
 };

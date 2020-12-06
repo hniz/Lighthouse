@@ -112,6 +112,27 @@ const modifyPost = async ({ id, title, author, content }) => {
     }
 };
 
+const getPostById = async(id) => {
+    if (!checkValidId(id)) {
+        return {
+            error: 'Invalid class ID provided.',
+            statusCode: 400,
+        };
+    }
+    
+    const convertedid = ObjectId(id);
+    const posts = await collections.posts();
+    const lookup = await posts.findOne({ _id: convertedid});
+    if(!lookup){
+        return { error: 'No post with given id', statusCode: 404 };
+    } else {
+        return {
+            post: lookup,
+            statusCode: 200,
+        };
+    }
+};
+
 const deletePost = async (id, userToDelete) => {
     //Assuming that the deletion of a post means the deletion of comments associated
     const posts = await collections.posts();
@@ -150,4 +171,5 @@ module.exports = {
     deletePost,
     create,
     modifyPost,
+    getPostById,
 };
