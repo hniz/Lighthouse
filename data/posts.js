@@ -5,29 +5,43 @@ const comments = require('./comments');
 const checkUserInfo = require('../helpers/check_user_info');
 const { checkPostInfo } = require('../helpers/check_post_info');
 
-const create = async({title, author, content, userToken}) => {
+const create = async ({ title, content, userToken, classID }) => {
     const posts = await collections.posts();
     const users = await collections.users();
-    if(checkUserInfo.validateString(userToken) || checkUserInfo.validateString(title) ||checkUserInfo.validateString(author) || checkUserInfo.validateString(content)){
-        posts.insertOne({
+    const classes = await collections.classes();
+    if (
+        checkUserInfo.validateString(userToken) &&
+        checkUserInfo.validateString(title) &&
+        checkUserInfo.validateString(content) &&
+        checkValidId(classID)
+    ) {
+        const userLookup = await users.findOne({
+            token: userToken,
+        });
+        if (!userLookup) {
+            return {
+                error: 'User not found.',
+                statusCode: 404,
+            };
+        }
+        const classLookup = await classes.findOne({ _id: ObjectId(classID) });
+        if (!classLookup) {
+            return {
+                error: 'Class not found.',
+                statusCode: 404,
+            };
+        }
+        const result = await posts.insertOne({
             title,
-            author,
+            author: userLookup._id.toString(),
+            class: classLookup._id.toString(),
             time_submitted: String(new Date()),
             content,
             comments: [],
             tags: [],
             score: 1,
         });
-        const postID = posts.insertedId.toString();
-        const userLookup = await users.findOne({
-            token: userToken,
-        });
-        if(!userLookup){
-            return {
-                error: 'User not found.',
-                statusCode: 404,
-            };
-        }
+        const postID = result.insertedId.toString();
 
         userLookup.posts.push(postID);
         await users.findOneAndUpdate(
@@ -41,6 +55,17 @@ const create = async({title, author, content, userToken}) => {
             }
         );
 
+        classLookup.posts.push(postID);
+        await classes.findOneAndUpdate(
+            {
+                _id: ObjectId(classID),
+            },
+            {
+                $set: {
+                    posts: classLookup.posts,
+                },
+            }
+        );
 
         return {
             statusCode: 201,
@@ -53,11 +78,10 @@ const create = async({title, author, content, userToken}) => {
     }
 };
 
-
-const modifyPost = async({id, title, author, content}) => {
+const modifyPost = async ({ id, title, author, content }) => {
     const posts = await collections.posts;
-    const changedFields = checkPostInfo({id, title, author, content});
-    if(changedFields.error){
+    const changedFields = checkPostInfo({ id, title, author, content });
+    if (changedFields.error) {
         return {
             error: changedFields.errors,
             statusCode: 400,
@@ -68,20 +92,19 @@ const modifyPost = async({id, title, author, content}) => {
         {
             id,
         },
-        { $set: changedFields}
+        { $set: changedFields }
     );
-    if(result.ok !== 1){
+    if (result.ok !== 1) {
         return {
             error: 'Error updating fields in comments.',
             statusCode: 500,
         };
-    }else{
+    } else {
         return {
             statusCode: 200,
         };
     }
 };
-
 
 const deletePost = async (id, userToDelete) => {
     //Assuming that the deletion of a post means the deletion of comments associated
@@ -110,7 +133,7 @@ const deletePost = async (id, userToDelete) => {
     }
     users.updateOne(
         { _id: ObjectId(userToDelete).valueOf() },
-        { $pull: { posts: id.toString() } },
+        { $pull: { posts: id.toString() } }
     );
     return {
         statusCode: 204,
