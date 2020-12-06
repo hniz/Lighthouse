@@ -5,7 +5,12 @@ const { modifyUser } = require('../data/users');
 
 Router.get('/', async (req, res) => {
     if (req.isAuthorized) res.redirect('/dashboard');
-    else res.render('login', { title: 'Log in to Lighthouse' });
+    else {
+        res.render('login', {
+            title: 'Log in to Lighthouse',
+            redirect: req.query.redirect,
+        });
+    }
 });
 
 Router.post('/', async (req, res) => {
@@ -27,7 +32,8 @@ Router.post('/', async (req, res) => {
             });
         } else {
             req.session.token = token;
-            if (req.redirectUrl) return res.redirect(req.redirectUrl);
+            const redirectUrl = req.body['redirect-url'];
+            if (redirectUrl) return res.redirect(redirectUrl);
             else return res.redirect('/dashboard');
         }
     }

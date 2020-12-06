@@ -20,8 +20,7 @@ const redirectRoutes = (app) => {
                 if (req.session.token) {
                     return next();
                 } else {
-                    req.redirectUrl = req.baseUrl;
-                    return res.redirect('/login');
+                    return res.redirect(`/login?redirect=${req.path}`);
                 }
             }
         )
