@@ -13,7 +13,12 @@ Router.get('/', async (req, res) => {
         }
         const fetchedClass = result.class;
         if (fetchedClass.posts.length === 0) {
+<<<<<<< HEAD
             res.send('<p> No posts for this class found.</p>'); //maybe an error message here of no posts available
+=======
+            res.send('<p> No posts for this class found.</p>');
+            return;
+>>>>>>> 11236a1fce403c7a1dccffc3d1c142b8cd176798
         }
         const getClassPostsResult = await classes.getClassPosts(req.query.id);
         if (getClassPostsResult.error) {
@@ -29,7 +34,6 @@ Router.get('/', async (req, res) => {
                 ids: post._id.toString(),
             });
         });
-        console.log(postData);
         res.render('partials/display_class_posts', {
             data: postData,
         });

@@ -90,7 +90,6 @@ const getClassPosts = async(id) =>{
     const classPosts = await Promise.all(allPostsStringId.map(post => {
         return posts.getPostById(post);
     }));
-    console.log(classPosts);
     return {
         classPosts: classPosts,
         statusCode: 200,

@@ -1,5 +1,4 @@
 (function ($) {
-    console.log('yeet');
     var classPosts = $('.post-list');
     var classList = $('.class-list');
     var classes = classList.find('li').on('click', function (event) {
@@ -11,7 +10,6 @@
             data: { id: classid },
         };
         $.ajax(requestConfig).then((responseMessage) => {
-            console.log(responseMessage);
             classPosts.html($(responseMessage));
         });
     });
