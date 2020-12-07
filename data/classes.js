@@ -3,7 +3,7 @@ const checkValidId = require('../helpers/check_valid_id');
 const { ObjectId, ObjectID } = require('mongodb');
 const posts = require('./posts');
 const checkUserInfo = require('../helpers/check_user_info');
-const { checkClassInfo } = require('../helpers/check_class_info');
+const checkClassInfo = require('../helpers/check_class_info');
 
 const create = async ({ name, description, instructorToken }) => {
     const classes = await collections.classes();
@@ -35,6 +35,11 @@ const create = async ({ name, description, instructorToken }) => {
                 };
         }
         if (!classLookup) {
+            let code = `${name}-${Math.floor(Math.random() * 10000)}`;
+            while (await classes.findOne({ code })) {
+                code = `${name}-${Math.floor(Math.random() * 10000)}`;
+            }
+            const password = `${Math.floor(Math.random() * 10000000)}`;
             const course = await classes.insertOne({
                 name,
                 description,
@@ -42,6 +47,8 @@ const create = async ({ name, description, instructorToken }) => {
                 students: [],
                 tags: [],
                 instructor: instructorLookup._id.toString(),
+                code,
+                password,
             });
             const classID = course.insertedId.toString();
             instructorLookup.classes.push(classID);
@@ -88,19 +95,42 @@ const getClassById = async (id) => {
 };
 
 const modifyClass = async ({
+    id,
     name,
     description,
     students,
     tags,
     instructor,
+    code,
+    password,
 }) => {
     const classes = await collections.classes();
+    if (!checkValidId(id)) {
+        return {
+            error: 'Invalid class ID provided.',
+            statusCode: 400,
+        };
+    }
+    const convertedid = ObjectId(id);
+    const lookup = await classes.findOne({ _id: convertedid });
+    if (!lookup) {
+        return { error: 'No class with given id', statusCode: 404 };
+    }
+    const uniqueClassLookup = await classes.findOne({ code });
+    if (code && uniqueClassLookup) {
+        return {
+            error: 'Class code is not unique.',
+            statusCode: 400,
+        };
+    }
     const changedFields = checkClassInfo({
         name,
         description,
         students,
         tags,
         instructor,
+        code,
+        password,
     });
     if (changedFields.errors) {
         return {

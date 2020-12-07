@@ -1,68 +1,89 @@
 const checkUserInfo = require('../helpers/check_user_info');
 
-const checkUpdatedClassInfo = ({ name, description, students, tags, instructor}) => {
+const checkUpdatedClassInfo = ({
+    name,
+    description,
+    students,
+    tags,
+    instructor,
+    code,
+    password,
+}) => {
     const changedFields = {};
     let errors = [];
-    if(name){
-        if(checkUserInfo.validateString(name)){
+    if (name) {
+        if (checkUserInfo.validateString(name)) {
             changedFields.name = name;
-        } else{
+        } else {
             errors.push('name');
         }
     }
-    if(description){
-        if(checkUserInfo.validateString(description)){
+    if (description) {
+        if (checkUserInfo.validateString(description)) {
             changedFields.description = description;
         } else {
             errors.push('description');
         }
     }
-    if(instructor){
-        if(checkUserInfo.validateString(instructor)){
+    if (instructor) {
+        if (checkUserInfo.validateString(instructor)) {
             changedFields.instructor = instructor;
         } else {
             errors.push('instructor');
         }
     }
-    if(students){
-        if(Array.isArray(students)){
+    if (students) {
+        if (Array.isArray(students)) {
             let valid = true;
-            students.forEach(student =>{
-                if(typeof student !== 'string'){
+            students.forEach((student) => {
+                if (typeof student !== 'string') {
                     errors.push('students');
                     valid = false;
                 }
             });
-            
-            if(valid){
+
+            if (valid) {
                 changedFields.students = students;
             }
-
         } else {
             errors.push('students');
         }
     }
-    if(tags){
-        if(Array.isArray(tags)){
+    if (tags) {
+        if (Array.isArray(tags)) {
             let valid = true;
-            tags.forEach(tag =>{
-                if(typeof tag !== 'string'){
+            tags.forEach((tag) => {
+                if (typeof tag !== 'string') {
                     errors.push('tags');
                     valid = false;
                 }
             });
-            
-            if(valid){
+
+            if (valid) {
                 changedFields.tags = tags;
             }
-
         } else {
             errors.push('tags');
         }
     }
-    if(errors.length > 0){
+    if (password) {
+        if (checkUserInfo.validateString(password)) {
+            changedFields.password = password;
+        } else {
+            errors.push('password');
+        }
+    }
+    if (code) {
+        if (checkUserInfo.validateString(code)) {
+            changedFields.code = code;
+        } else {
+            errors.push('code');
+        }
+    }
+
+    if (errors.length > 0) {
         const errorString = `Invalid ${errors.join(', ')}.`;
-        return { error: errorString};
+        return { error: errorString };
     } else return changedFields;
 };
 

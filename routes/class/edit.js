@@ -1,0 +1,76 @@
+const e = require('express');
+const { getClassById, modifyClass } = require('../../data/classes');
+const { getUserByToken } = require('../../data/users');
+const Router = e.Router();
+
+Router.get('/:id', async (req, res) => {
+    const id = req.params.id;
+    const userLookup = await getUserByToken(req.session.token);
+    const classLookup = await getClassById(id);
+    if (userLookup.error) {
+        res.status(userLookup.statusCode).render('error', {
+            title: 'Error',
+            error: userLookup.error,
+        });
+    } else if (classLookup.error) {
+        res.status(classLookup.statusCode).render('error', {
+            title: 'Error',
+            error: classLookup.error,
+        });
+    } else if (
+        classLookup.class.instructor !== userLookup.user._id.toString()
+    ) {
+        res.status(401).render('error', {
+            title: 'Error',
+            error: 'You are not authorized to edit this class.',
+        });
+    } else {
+        res.render('edit_class', {
+            title: `Edit ${classLookup.class.name}`,
+            class: classLookup.class,
+        });
+    }
+});
+
+Router.post('/', async (req, res) => {
+    const id = req.body['class-id'];
+    const userLookup = await getUserByToken(req.session.token);
+    const classLookup = await getClassById(id);
+    if (userLookup.error) {
+        res.status(userLookup.statusCode).render('error', {
+            title: 'Error',
+            error: userLookup.error,
+        });
+    } else if (classLookup.error) {
+        res.status(classLookup.statusCode).render('error', {
+            title: 'Error',
+            error: classLookup.error,
+        });
+    } else if (
+        classLookup.class.instructor !== userLookup.user._id.toString()
+    ) {
+        res.status(401).render('error', {
+            title: 'Error',
+            error: 'You are not authorized to edit this class.',
+        });
+    } else {
+        const fields = {
+            name: req.body['class-name'],
+            description: req.body['class-description'],
+            code: req.body['class-code'],
+            password: req.body['class-password'],
+            id: req.body['class-id'],
+        };
+        const result = await modifyClass(fields);
+        if (result.error) {
+            res.status(result.statusCode).render('error', {
+                title: 'Error',
+                error: result.error,
+            });
+        } else {
+            res.redirect(`${req.baseUrl}/${fields.id}`);
+        }
+    }
+});
+
+module.exports = Router;

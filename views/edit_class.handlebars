@@ -1,0 +1,12 @@
+<form action="/class/edit" method="POST">
+    <label for="class-name">Class Name</label>
+    <input type="text" name="class-name" id="class-name" value="{{{class.name}}}">
+    <label for="class-description">Class Description</label>
+    <input type="text" name="class-description" id="class-description" value="{{{class.description}}}">
+    <label for="class-code">Unique Class Code</label>
+    <input type="text" name="class-code" id="class-code" value="{{{class.code}}}">
+    <label for="class-password">Class Password</label>
+    <input type="password" name="class-password" id="class-password" value="{{{class.password}}}">
+    <input type="hidden" name="class-id" id="class-id" value="{{{class._id}}}">
+    <button type="submit">Submit</button>
+</form>
