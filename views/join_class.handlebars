@@ -1,0 +1,10 @@
+<form action="/class/join" method="POST">
+    <label for="class-code">Class Code</label>
+    <input type="text" name="class-code" id="class-code">
+    <label for="class-password">Class Password</label>
+    <input type="password" name="class-password" id="class-password">
+    <button type="submit">Join</button>
+</form>
+{{#if error}}
+<h3>{{{error}}}</h3>
+{{/if}}

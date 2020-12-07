@@ -4,6 +4,7 @@ const { ObjectId, ObjectID } = require('mongodb');
 const posts = require('./posts');
 const checkUserInfo = require('../helpers/check_user_info');
 const checkClassInfo = require('../helpers/check_class_info');
+const { validateString } = require('../helpers/check_user_info');
 
 const create = async ({ name, description, instructorToken }) => {
     const classes = await collections.classes();
@@ -89,6 +90,82 @@ const getClassById = async (id) => {
     } else {
         return {
             class: lookup,
+            statusCode: 200,
+        };
+    }
+};
+
+const getClassByCode = async (code) => {
+    if (!validateString(code)) {
+        return {
+            error: 'Invalid code provided.',
+            statusCode: 400,
+        };
+    }
+    const classes = await collections.classes();
+    const lookup = await classes.findOne({ code });
+    if (!lookup) {
+        return { error: 'No class with given code', statusCode: 404 };
+    } else {
+        return {
+            class: lookup,
+            statusCode: 200,
+        };
+    }
+};
+
+const addStudentToClass = async ({ studentToken, classCode }) => {
+    const classes = await collections.classes();
+    const users = await collections.users();
+    if (!validateString(classCode) || !validateString(studentToken)) {
+        return {
+            error: 'Missing or invalid field(s) given.',
+            statusCode: 400,
+        };
+    }
+    const classLookup = await classes.findOne({ code: classCode });
+    const userLookup = await users.findOne({ token: studentToken });
+    if (!classLookup) {
+        return {
+            error: 'No class with the given code.',
+            statusCode: 404,
+        };
+    }
+    if (!userLookup) {
+        return {
+            error: 'No user found.',
+            statusCode: 404,
+        };
+    }
+    classLookup.students.push(userLookup._id.toString());
+    userLookup.classes.push(classLookup._id.toString());
+    const result = await classes.findOneAndUpdate(
+        {
+            code: classCode,
+        },
+        {
+            $set: {
+                students: classLookup.students,
+            },
+        }
+    );
+    const result2 = await users.findOneAndUpdate(
+        {
+            token: studentToken,
+        },
+        {
+            $set: {
+                classes: userLookup.classes,
+            },
+        }
+    );
+    if (result.ok !== 1 || result2.ok !== 1) {
+        return {
+            error: 'Error updating fields',
+            statusCode: 500,
+        };
+    } else {
+        return {
             statusCode: 200,
         };
     }
@@ -221,8 +298,10 @@ const deleteClass = async (id) => {
 
 module.exports = {
     getClassById,
+    getClassByCode,
     deleteClassesFromUser,
     deleteClass,
     create,
     modifyClass,
+    addStudentToClass,
 };
