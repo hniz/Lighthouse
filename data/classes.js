@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const collections = require('../config/mongoCollections');
 const checkValidId = require('../helpers/check_valid_id');
 const { ObjectId, ObjectID } = require('mongodb');
@@ -73,6 +74,29 @@ const create = async ({ name, description, instructorToken }) => {
             };
         }
     }
+};
+
+const getClassPosts = async (id) => {
+    if (!checkValidId(id)) {
+        return {
+            error: 'Invalid class ID provided.',
+            statusCode: 400,
+        };
+    }
+    const convertedid = ObjectId(id);
+    const classes = await collections.classes();
+    const fetchedClass = await classes.findOne({ _id: convertedid });
+    const allPostsStringId = fetchedClass.posts;
+
+    const classPosts = await Promise.all(
+        allPostsStringId.map((post) => {
+            return posts.getPostById(post);
+        })
+    );
+    return {
+        classPosts: classPosts,
+        statusCode: 200,
+    };
 };
 
 const getClassById = async (id) => {
@@ -304,4 +328,5 @@ module.exports = {
     create,
     modifyClass,
     addStudentToClass,
+    getClassPosts,
 };
