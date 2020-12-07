@@ -1,18 +1,22 @@
 const e = require('express');
-const { classes } = require('../../data/classes');
+const classes = require('../../data/classes');
 const Router = e.Router();
 
 Router.get('/', async(req, res) => {
-    const classId = req.body.id;
+    const classId = req.query.id;
     try{
         const result = await classes.getClassById(classId);
-        const { fetchedClass }  = result.class;
-        if(fetchedClass.posts.length === 0){
-            res.redirect('/dashboard'); //maybe an error message here of no posts available 
+        if(result.error){
+            res.status(result.statusCode).render('partials/class_not_found', { layout: null });
         }
-        const allClassPosts = classes.getClassPosts(req.body.id);
+        const fetchedClass = result.class;
+        if(fetchedClass.posts.length === 0){
+            res.send('<p> No posts for this class found.</p>'); //maybe an error message here of no posts available 
+        }
+        const { classPosts } = await classes.getClassPosts(req.body.id);
         let postData = { postInfo: [ ] };
-        allClassPosts.forEach(post =>{
+        console.log(classPosts);
+        classPosts.forEach(post =>{
             postData.postInfo.push({
                 title: post.title,
                 ids: post._id.str,
@@ -23,7 +27,8 @@ Router.get('/', async(req, res) => {
         });
 
     } catch(e){
-        res.status(e.statusCode).redirect('/dashboard');
+        console.log(e);
+        res.status(500).send('<p> Sorry, there was an error fetching the class posts.</p>');
     }
     
 

@@ -86,10 +86,11 @@ const getClassPosts = async(id) =>{
     const classes = await collections.classes();
     const fetchedClass = await classes.findOne({ _id: convertedid });
     const allPostsStringId = fetchedClass.posts;
-    let classPosts = []; //returns a list of objects with posts data for that class
-    allPostsStringId.forEach(post => {
-        classPosts.push(posts.getPostById(post));
-    });
+    
+    const classPosts = await Promise.all(allPostsStringId.map(post => {
+        return posts.getPostById(post);
+    }));
+    console.log(classPosts);
     return {
         classPosts: classPosts,
         statusCode: 200,
