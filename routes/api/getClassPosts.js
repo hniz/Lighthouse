@@ -13,7 +13,9 @@ Router.get('/', async (req, res) => {
         }
         const fetchedClass = result.class;
         if (fetchedClass.posts.length === 0) {
-            res.send('<p> No posts for this class found.</p>');
+            res.render('partials/display_class_posts', {
+                postsExist: false,
+            });
             return;
         }
         const getClassPostsResult = await classes.getClassPosts(req.query.id);
@@ -31,7 +33,9 @@ Router.get('/', async (req, res) => {
             });
         });
         res.render('partials/display_class_posts', {
+            postsExist: true,
             data: postData,
+            classId: classId,
         });
     } catch (e) {
         res.status(500).send(
