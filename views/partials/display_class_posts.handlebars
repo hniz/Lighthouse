@@ -1,8 +1,20 @@
 <a href="/post/new/{{classId}}">Create a post</a>
 {{#if postsExist }}
 {{#each data}}
-        <li><a href="/posts/{{ids}}">{{title}}</a></li>
+<li>
+        <a href="/posts/{{ids}}">{{title}}</a>
+        <ul class="comments">
+                {{#each comments}}
+                <li>{{{content}}}</li>
+                {{/each}}
+        </ul>
+        <form class="comment-form" action="/api/comment" method="POST">
+                <input type="text" name="comment-content" id="comment-content">
+                <input type="hidden" name="parent-id" id="parent-id" value="{{{ids}}}">
+                <button type="submit">Post</button>
+        </form>
+</li>
 {{/each}}
 {{else}}
-        <p>Sorry, there are no posts currently available for this class. Make the first one!</p>
+<p>Sorry, there are no posts currently available for this class. Make the first one!</p>
 {{/if}}

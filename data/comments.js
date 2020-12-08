@@ -38,13 +38,13 @@ const create = async ({ userToken, parent_post, content }) => {
             };
         }
         const author = userLookup._id.toString();
-        await comments.insertOne({
+        const insertCommentResult = await comments.insertOne({
             author,
             parent_post,
             time_submitted: String(new Date()),
             content,
         });
-        const commentID = comments.insertedId.toString();
+        const commentID = insertCommentResult.insertedId.toString();
         postLookup.comments.push(commentID);
         await posts.findOneAndUpdate(
             {
@@ -112,6 +112,30 @@ const modifyComment = async ({ id, author, parent_post, content }) => {
     }
 };
 
+const getPostComments = async (postID) => {
+    const { getPostById } = require('./posts');
+    const comments = await collections.comments();
+    const postLookup = await getPostById(postID);
+    if (postLookup.error) return postLookup;
+    const commentsArr = postLookup.post.comments;
+    let result;
+    try {
+        // eslint-disable-next-line no-undef
+        result = await Promise.all(
+            commentsArr.map((id) => comments.findOne({ _id: ObjectId(id) }))
+        );
+    } catch (e) {
+        return {
+            error: 'Internal server error.',
+            statusCode: 500,
+        };
+    }
+    return {
+        comments: result,
+        statusCode: 200,
+    };
+};
+
 const deleteUserComments = async (id, userToDelete) => {
     const comments = await collections.comments();
 
@@ -176,4 +200,5 @@ module.exports = {
     deletePostComments,
     create,
     modifyComment,
+    getPostComments,
 };
