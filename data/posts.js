@@ -112,18 +112,18 @@ const modifyPost = async ({ id, title, author, content }) => {
     }
 };
 
-const getPostById = async(id) => {
+const getPostById = async (id) => {
     if (!checkValidId(id)) {
         return {
             error: 'Invalid class ID provided.',
             statusCode: 400,
         };
     }
-    
+
     const convertedid = ObjectId(id);
     const posts = await collections.posts();
-    const lookup = await posts.findOne({ _id: convertedid});
-    if(!lookup){
+    const lookup = await posts.findOne({ _id: convertedid });
+    if (!lookup) {
         return { error: 'No post with given id', statusCode: 404 };
     } else {
         return {

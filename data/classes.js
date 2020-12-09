@@ -241,9 +241,54 @@ const modifyClass = async ({
     }
     const result = await classes.findOneAndUpdate(
         {
-            name,
+            _id: convertedid,
         },
         { $set: changedFields }
+    );
+    if (result.ok !== 1) {
+        return {
+            error: 'Error updating fields in class',
+            statusCode: 500,
+        };
+    } else {
+        return {
+            statusCode: 200,
+        };
+    }
+};
+
+const addTagToClass = async ({ tag, classID }) => {
+    const classes = await collections.classes();
+    if (!checkValidId(classID)) {
+        return {
+            error: 'Invalid class ID provided.',
+            statusCode: 400,
+        };
+    }
+    const convertedid = ObjectId(classID);
+    const lookup = await classes.findOne({ _id: convertedid });
+    if (!lookup) {
+        return { error: 'No class with given id', statusCode: 404 };
+    }
+    if (!lookup.tags) {
+        lookup.tags = [tag];
+    } else if (lookup.tags.includes(tag)) {
+        return {
+            error: 'Tag already exists.',
+            statusCode: 400,
+        };
+    } else {
+        lookup.tags.push(tag);
+    }
+    const result = await classes.findOneAndUpdate(
+        {
+            _id: convertedid,
+        },
+        {
+            $set: {
+                tags: lookup.tags,
+            },
+        }
     );
     if (result.ok !== 1) {
         return {
@@ -329,4 +374,5 @@ module.exports = {
     modifyClass,
     addStudentToClass,
     getClassPosts,
+    addTagToClass,
 };

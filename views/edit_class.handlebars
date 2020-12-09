@@ -10,3 +10,15 @@
     <input type="hidden" name="class-id" id="class-id" value="{{{class._id}}}">
     <button type="submit">Submit</button>
 </form>
+
+<form action="/class/edit/tags" method="POST">
+    <label for="tag-input">Tags</label>
+    <input name="tag-name" id="tag-input" type="text">
+    <input type="hidden" name="class-id" id="class-id" value="{{{class._id}}}">
+    <button type="submit">Add tag</button>
+</form>
+<ul>
+    {{#each class.tags}}
+    <li>{{this}}</li>
+    {{/each}}
+</ul>
