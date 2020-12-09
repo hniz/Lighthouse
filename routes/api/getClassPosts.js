@@ -45,8 +45,11 @@ Router.get('/', async (req, res) => {
             data: postData,
             classId: classId,
             layout: null,
+            instructor:
+                result.class.instructor === userLookup.user._id.toString(),
         });
     } catch (e) {
+        console.log(e);
         res.status(500).send(
             '<p> Sorry, there was an error fetching the class posts.</p>'
         );
