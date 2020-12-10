@@ -22,8 +22,9 @@ const handleBars = exphbs.create({
 });
 
 app.use('/public', staticFiles);
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 
 app.engine('handlebars', handleBars.engine);
 app.set('view engine', 'handlebars');
