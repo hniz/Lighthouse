@@ -17,7 +17,7 @@ const redirectRoutes = (app) => {
         exclude(
             ['/', '/login', '/logout', '/register'],
             async (req, res, next) => {
-                if (req.session.token) {
+                if (req.session && req.session.token) {
                     return next();
                 } else {
                     return res.redirect(`/login?redirect=${req.path}`);
