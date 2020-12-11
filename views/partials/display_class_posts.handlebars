@@ -8,7 +8,7 @@
         <a href="/posts/{{ids}}">{{title}}</a>
         <ul class="comments">
                 {{#each comments}}
-                <li>{{{content}}}</li>
+                <li>{{{content}}} by {{{author}}} on {{{time_submitted}}}</li>
                 {{/each}}
         </ul>
         <form class="comment-form" action="/api/comment" method="POST">
