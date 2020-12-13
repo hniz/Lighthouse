@@ -4,6 +4,7 @@ jQuery(function ($) {
     let userPassword = document.getElementById('login-password');
     let errorDiv = document.getElementById('login-error');
     let errorUL = document.getElementById('login-error-list');
+    let redirect = document.getElementById('redirect-url');
 
     function validateEmail(email) {
         let emailRegex = /\S+@\S+\.\S+/;
@@ -58,7 +59,7 @@ jQuery(function ($) {
                         'login-password': password,
                     }),
                     success: function () {
-                        window.location.href = '/dashboard';
+                        window.location.href = redirect.value || '/dashboard';
                     },
                     error: function (jqXHR, exception) {
                         var msg = '';
