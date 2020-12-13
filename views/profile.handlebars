@@ -4,4 +4,10 @@
 {{else}}
 <h1>{{{user.fullName}}}</h1>
 <h3>{{{user.type}}}</h3>
+<h3>Participation</h3>
+<div>
+    <span>{{{user.classes.length}}}</span> classes
+    <span>{{{user.posts.length}}}</span> posts
+    <span>{{{user.comments.length}}}</span> comments
+</div>
 {{/if}}

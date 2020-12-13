@@ -1,6 +1,7 @@
 const express = require('express');
 const { getPostComments } = require('../../data/comments');
 const { getPostById } = require('../../data/posts');
+const { getUserByToken } = require('../../data/users');
 const Router = express.Router();
 
 Router.get('/:id', async (req, res) => {
@@ -10,6 +11,13 @@ Router.get('/:id', async (req, res) => {
         return res.render('post', {
             title: 'Post not found!',
             error: postLookup.error,
+        });
+    }
+    const user = await getUserByToken(req.session.token);
+    if (user.error || !user.user.classes.includes(postLookup.post.class)) {
+        return res.render('post', {
+            title: 'Post not found!',
+            error: 'You are not authorized to view this post!',
         });
     }
     const comments = await getPostComments(postID);
