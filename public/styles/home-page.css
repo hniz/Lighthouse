@@ -1,0 +1,54 @@
+/* home_page */
+.navbar {
+    height: 100px;
+    width: 100%;
+}
+
+.navbar_inner {
+    height: 90px;
+    width: 100%;
+    display: flex;
+}
+
+.title {
+    text-align: center;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+.imga {
+    width: 100%;
+}
+
+.yeah {
+    height: 80px;
+    width: 80px;
+    margin-left: 20px;
+    margin-top: 5px;
+    background-color: aqua;
+}
+
+.card {
+    margin-top: 10px;
+    width: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+}
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Add some padding inside the card container */
+.container {
+    padding: 2px 16px;
+}
+
+.sign_in_btn {
+    right: 10px;
+}

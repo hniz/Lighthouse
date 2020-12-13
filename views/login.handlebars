@@ -5,6 +5,7 @@
     <label for="login-password">Password</label>
     <input type="password" id="login-password" name="login-password">
     <input hidden type="text" name="redirect-url" id="redirect-url" value="{{{redirect}}}">
+    <img src="../public/img/login.svg" alt="Avatar" style="width:100%">
     <button type="submit">Log In</button>
 </form>
 <div id="login-error" hidden>
@@ -19,4 +20,4 @@
 {{#if error}}
 <h3>Unknown server error. Please try again later.</h3>
 {{/if}}
-    <script src="/public/js/login.js"></script>
+<script src="/public/js/login.js"></script>
