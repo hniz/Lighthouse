@@ -5,7 +5,7 @@ jQuery(function ($) {
     let errorDiv = document.getElementById('login-error');
     let errorUL = document.getElementById('login-error-list');
 
-    function validateEmail (email) {
+    function validateEmail(email) {
         let emailRegex = /\S+@\S+\.\S+/;
         return emailRegex.test(email);
     }
@@ -15,17 +15,15 @@ jQuery(function ($) {
             event.preventDefault();
 
             errorDiv.hidden = true;
-            
+
             while (errorUL.firstChild) {
                 errorUL.removeChild(errorUL.firstChild);
             }
-            
+
             let email = userEmail.value.trim();
             let password = userPassword.value;
             let hasErrors = false;
             let errors = [];
-            
-        
 
             if (!email) {
                 hasErrors = true;
@@ -40,10 +38,9 @@ jQuery(function ($) {
                 errors.push('No password was entered.');
             }
 
-
             if (hasErrors) {
                 errorDiv.hidden = false;
-                errors.forEach( element => {
+                errors.forEach((element) => {
                     let li = document.createElement('li');
                     li.innerHTML = element;
                     errorUL.appendChild(li);
@@ -52,16 +49,15 @@ jQuery(function ($) {
                 myForm.reset();
                 userEmail.focus();
             } else {
-
                 var requestConfig = {
                     method: 'POST',
                     url: '/login', // this is what is wrong, it only posts to /login/ but that redirects to /login with a get not a post
                     contentType: 'application/json',
                     data: JSON.stringify({
-                      'login-email': email,
-                      'login-password': password,
+                        'login-email': email,
+                        'login-password': password,
                     }),
-                    success: function (thing) {
+                    success: function () {
                         window.location.href = '/dashboard';
                     },
                     error: function (jqXHR, exception) {
@@ -83,10 +79,9 @@ jQuery(function ($) {
                         }
                         console.log(msg);
                     },
-                  };
+                };
                 $.ajax(requestConfig);
             }
-            
         });
     }
 });
