@@ -25,8 +25,8 @@ jQuery(function ($) {
 
             let email = userEmail.value.trim();
             let password = userPassword.value;
-            let firstName = userFirstName.value;
-            let lastName = userLastName.value;
+            let firstName = userFirstName.value.trim();
+            let lastName = userLastName.value.trim();
             let type = registerType.value;
             let hasErrors = false;
             let errors = [];

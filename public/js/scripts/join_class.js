@@ -15,8 +15,8 @@ jQuery(function ($) {
                 errorUL.removeChild(errorUL.firstChild);
             }
 
-            let classCode = inputClassCode.value;
-            let classPassword = inputClassPassword.value;
+            let classCode = inputClassCode.value.trim();
+            let classPassword = inputClassPassword.value.trim();
             let hasErrors = false;
             let errors = [];
             let resetFields = [];
