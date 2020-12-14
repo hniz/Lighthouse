@@ -70,7 +70,9 @@ Router.post('/', async (req, res) => {
                 error: result.error,
             });
         } else {
-            res.redirect('/dashboard');
+            let postsUrl = req.baseUrl.slice(0, 5);
+            console.log(`${postsUrl}/${fields.id}`);
+            res.redirect(`${postsUrl}/${fields.id}`);
         }
     }
 });
