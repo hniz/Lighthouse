@@ -71,7 +71,6 @@ Router.post('/', async (req, res) => {
             });
         } else {
             let postsUrl = req.baseUrl.slice(0, 5);
-            console.log(`${postsUrl}/${fields.id}`);
             res.redirect(`${postsUrl}/${fields.id}`);
         }
     }
