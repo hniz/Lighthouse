@@ -62,7 +62,7 @@ jQuery(function ($) {
                     data: JSON.stringify({
                         'post-class': postClassID,
                         'post-description': postDescription,
-                        'post-name': postName
+                        'post-name': postName,
                     }),
                     success: function() {
                         window.location.href = 'http://localhost:3000/dashboard'; // figure out where to redirect
@@ -85,7 +85,7 @@ jQuery(function ($) {
                             msg = 'Uncaught Error.\n' + jqXHR.responseText;
                         }
                         console.log(msg);
-                    }
+                    },
                 };
 
                 $.ajax(requestConfig);

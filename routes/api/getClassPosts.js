@@ -21,7 +21,7 @@ Router.get('/', async (req, res) => {
             res.render('partials/display_class_posts', {
                 postsExist: false,
                 layout: null,
-                classId: fetchedClass._id.toString()
+                classId: fetchedClass._id.toString(),
             });
             return;
         }
