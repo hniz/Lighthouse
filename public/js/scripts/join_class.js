@@ -2,8 +2,8 @@ jQuery(function ($) {
     let myForm = document.getElementById('join-class-form');
     let inputClassCode = document.getElementById('class-code');
     let inputClassPassword = document.getElementById('class-password');
-    let errorDiv = document.getElementById("join-class-error");
-    let errorUL = document.getElementById("join-class-error-list");
+    let errorDiv = document.getElementById('join-class-error');
+    let errorUL = document.getElementById('join-class-error-list');
 
     if (myForm) {
         myForm.addEventListener('submit', (event) => {
@@ -25,7 +25,7 @@ jQuery(function ($) {
                 hasErrors = true;
                 errors.push('No class code was entered.');
                 resetFields.push('class-code');
-            } 
+            }
             
             if (!classPassword) {
                 hasErrors = true;
@@ -54,7 +54,7 @@ jQuery(function ($) {
                     contentType: 'application/json',
                     data: JSON.stringify({
                         'class-code': classCode,
-                        'class-password': classPassword
+                        'class-password': classPassword,
                     }),
                     success: function() {
                         window.location.href = 'http://localhost:3000/dashboard';
@@ -77,7 +77,7 @@ jQuery(function ($) {
                             msg = 'Uncaught Error.\n' + jqXHR.responseText;
                         }
                         console.log(msg);
-                    }
+                    },
                 };
 
                 $.ajax(requestConfig);
