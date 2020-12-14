@@ -119,9 +119,7 @@ const getPostById = async (id) => {
             statusCode: 400,
         };
     }
-    console.log(typeof id);
     const convertedid = ObjectId(id);
-    console.log(convertedid);
     const posts = await collections.posts();
     const lookup = await posts.findOne({ _id: convertedid });
     if (!lookup) {
