@@ -50,7 +50,7 @@ Router.post('/', async (req, res) => {
             error: postLookup.error,
         });
     } else if (
-        postLookup.class.instructor !== userLookup.user._id.toString()
+        postLookup.post.author !== userLookup.user._id.toString()
     ) {
         res.status(401).render('error', {
             title: 'Error',
@@ -60,7 +60,7 @@ Router.post('/', async (req, res) => {
         const fields = {
             id: req.body['post-id'],
             title: req.body['post-title'],
-            author: req.body['post-author'], 
+            author: req.body['post-author'],
             content: req.body['post-content'],
         };
         const result = await modifyPost(fields);
@@ -70,7 +70,7 @@ Router.post('/', async (req, res) => {
                 error: result.error,
             });
         } else {
-            res.redirect(`${req.baseUrl}/${fields.id}`);
+            res.redirect('/dashboard');
         }
     }
 });
