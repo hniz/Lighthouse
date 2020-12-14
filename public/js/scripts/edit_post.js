@@ -61,14 +61,12 @@ jQuery(function ($) {
                     url: '/post/edit',
                     contentType: 'application/json',
                     data: JSON.stringify({
-                        'register-email': email,
-                        'register-password': password,
-                        'register-first': firstName,
-                        'register-last': lastName,
-                        'register-type': type,
+                        'post-id': postID,
+                        'post-title': postTitle,
+                        'post-content': postContent
                     }),
                     success: function() {
-                        window.location.href = 'http://localhost:3000/login';
+                        window.location.href = 'http://localhost:3000/dashboard';
                     },
                     error: function (jqXHR, exception) {
                         var msg = '';
