@@ -3,7 +3,7 @@
 <h3>{{{error}}}</h3>
 {{else}}
 <h2>New Post for {{{class.name}}}</h2>
-<form action="/post/new" method="POST">
+<form id="new-post-form" action="/post/new" method="POST">
     <label for="post-name">Post Title</label>
     <input type="text" name="post-name" id="post-name">
     <label for="post-description">Post Body</label>
@@ -11,4 +11,10 @@
     <input type="hidden" name="post-class" id="post-class" value={{{classID}}}>
     <button type="submit">Post</button>
 </form>
+<div id="new-post-error" hidden>
+    <ul id="new-post-error-list">
+
+    </ul>
+</div>
 {{/if}}
+<script src="/public/js/scripts/new_post.js"></script>
