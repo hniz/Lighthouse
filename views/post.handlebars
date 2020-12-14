@@ -2,6 +2,11 @@
 <h1>{{{error}}}</h1>
 {{else}}
 <h1>{{{post.title}}}</h1>
+{{#if isAuthor}}
+<a href="/post/edit/{{post._id}}">Edit this post</a>
+{{else}}
+<p>You can't edit this post.</p>
+{{/if}}
 <ul class="comments">
     {{#each post.comments}}
     <li>{{{content}}} by {{{author}}} on {{{time_submitted}}}</li>
