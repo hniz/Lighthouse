@@ -1,0 +1,93 @@
+/* Navigation Bar */
+.Navigation_Bar {
+    top: 0;
+    display: flex;
+
+    z-index: 1;
+    height: 100px;
+    width: 100%;
+}
+
+.Navigation_Bar_Inner {
+    height: 90px;
+    width: 100%;
+    display: flex;
+}
+
+.Home_Button {
+    position: absolute;
+    margin-top: 15px;
+    margin-left: 15px;
+    height: 60px;
+    width: 60px;
+}
+
+.Home_Button:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.Website_Title {
+    margin-left: 90px;
+    margin-top: 15px;
+    font-family: 'coolvetica';
+    font-size: 40pt;
+    color: #fffcf0;
+    overflow: hidden;
+}
+
+.About_Us {
+    margin-left: 100px;
+    margin-top: 28px;
+    font-family: 'coolvetica';
+    font-size: 20pt;
+    color: #fffcf0;
+    overflow: hidden;
+}
+
+.Logout {
+    position: absolute;
+    margin-top: 30px;
+    margin-right: 15px;
+    right: 0;
+    height: 40px;
+    width: 120px;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+}
+
+.Logout:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.Logout_Text {
+    font-family: 'coolvetica';
+    top: 10px;
+    font-size: 20pt;
+    color: #459dd8;
+    text-decoration: none;
+}
+
+.Logout_Text:hover {
+    color: black;
+}
+
+/* Page Content */
+.card {
+    margin-top: 10px;
+    width: 28%;
+    height: 600px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+}
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Add some padding inside the card container */
+.container {
+    padding: 2px 16px;
+}

@@ -21,6 +21,13 @@
     background-color: #ffffff;
 }
 
+/* Fonts */
+
+@font-face {
+    font-family: 'coolvetica';
+    src: local('coolvetica'), url(../fonts/coolvetica.ttf) format('opentype');
+}
+
 /* Elements */
 body {
     background-color: #459dd8;
