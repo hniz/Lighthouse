@@ -1,4 +1,4 @@
-<form action="/post/edit" method="POST">
+<form id="edit-post-form" action="/post/edit" method="POST">
     <label for="post-title">Post Title</label>
     <input type="text" name="post-title" id="post-title" value="{{{post.name}}}">
     <label for="post-content">Post Content</label>
@@ -6,7 +6,12 @@
     <input type="hidden" name="post-id" id="post-id" value="{{{post._id}}}"> 
     <button type="submit">Submit</button>
 </form>
+<div id="edit-post-error" hidden>
+    <ul id="edit-post-error-list">
 
+    </ul>
+</div>
+<script src="/public/js/scripts/edit_post.js"></script>
 {{!-- <form action="/class/edit/tags" method="POST">
     <label for="tag-input">Tags</label>
     <input name="tag-name" id="tag-input" type="text">
