@@ -131,16 +131,18 @@ const getPostComments = async (postID) => {
         };
     }
     const { getUserById } = require('./users');
-    for(let i = 0; i < result.length; i++){
+    for (let i = 0; i < result.length; i++) {
         let author = await getUserById(result[i].author);
-        if(author.error) return author;
-        result[i].author = author.user.fullName.firstName + '  ' + author.user.fullName.lastName;
+        if (author.error) return author;
+        result[i].author =
+            author.user.fullName.firstName +
+            '  ' +
+            author.user.fullName.lastName;
         let d = result[i].time_submitted;
         let new_date = d.slice(0, 21);
         result[i].time_submitted = new_date;
     }
-//    console.log(result)
-   
+
     return {
         comments: result,
         statusCode: 200,

@@ -7,7 +7,7 @@ const Router = e.Router();
 Router.get('/', async (req, res) => {
     const userLookup = await getUserByToken(req.session.token);
     const classId = req.query.id;
-
+    const tag = req.query.tag && decodeURI(req.query.tag);
     try {
         const result = await classes.getClassById(classId);
         if (result.error || !userLookup.user.classes.includes(classId)) {
@@ -24,6 +24,10 @@ Router.get('/', async (req, res) => {
             });
             return;
         }
+        if (tag && !fetchedClass.tags.includes(tag)) {
+            res.status(500).send('<p> Sorry, the tag is invalid.</p>');
+            return;
+        }
         const getClassPostsResult = await classes.getClassPosts(req.query.id);
         if (getClassPostsResult.error) {
             res.status(500).send(
@@ -31,8 +35,12 @@ Router.get('/', async (req, res) => {
             );
             return;
         }
+        const filteredPosts = getClassPostsResult.classPosts.filter(
+            ({ post }) => (tag ? post.tags.includes(tag) : true)
+        );
+
         let postData = [];
-        for (const { post } of getClassPostsResult.classPosts) {
+        for (const { post } of filteredPosts) {
             const { comments } = await getPostComments(post._id.toString());
             postData.push({
                 title: post.title,
@@ -42,7 +50,9 @@ Router.get('/', async (req, res) => {
         }
         res.render('partials/display_class_posts', {
             postsExist: true,
+            filteredPostsExist: filteredPosts.length > 0,
             data: postData,
+            tags: fetchedClass.tags,
             classId: classId,
             layout: null,
             instructor:

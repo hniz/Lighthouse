@@ -6,5 +6,4 @@ const classPostsRoute = require('./getClassPosts');
 Router.use('/comment', commentsRoute);
 Router.use('/getClassPosts', classPostsRoute);
 
-
 module.exports = Router;
