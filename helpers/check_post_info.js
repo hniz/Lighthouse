@@ -29,6 +29,7 @@ const checkUpdatedPostInfo= ({ id, title, author, content }) => {
             errors.push('content');
         }
     }
+    changedFields.time_submitted = String(new Date());
     if(errors.length > 0){
         const errorString = `Invalid ${errors.join(', ')}.`;
         return { error: errorString};

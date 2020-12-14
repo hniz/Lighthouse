@@ -28,10 +28,22 @@ Router.get('/:id', async (req, res) => {
         });
     }
     postLookup.post.comments = comments.comments;
-    return res.render('post', {
-        title: postLookup.post.name,
-        post: postLookup.post,
-    });
+    if(postLookup.post.author !== user.user._id.toString()){
+        return res.render('post', {
+            isAuthor: false,
+            title: postLookup.post.name,
+            post: postLookup.post,
+            postId: postLookup.post._id.toString(),
+        });
+    } else {
+        return res.render('post', {
+            isAuthor: true,
+            title: postLookup.post.name,
+            post: postLookup.post,
+            postId: postLookup.post._id.toString(),
+        });
+    }
+    
 });
 
 module.exports = Router;
