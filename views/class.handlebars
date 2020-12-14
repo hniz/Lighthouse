@@ -1,0 +1,44 @@
+{{#if error}}
+<h1>{{{error}}}</h1>
+{{else}}
+<h1>{{{courseName}}}</h1>
+<div id="class-content">
+    {{#if postsExist }}
+    {{#if tags}}
+    <div id="class-tags">
+        {{#each tags}}
+        <li class="class-tag"><a href="/class/{{{../classId}}}?tag={{{this}}}">{{{this}}}</a></li>
+        {{/each}}
+        <button id="reset-filter" hidden>Reset Filter</button>
+    </div>
+    {{else}}
+    <p>There are no tags for this class.</p><!-- Feel free to change this -->
+    {{/if}}
+    <ul id="post-list">
+        {{#each data}}
+        <li>
+            <a href="/post/{{ids}}">{{title}}</a>
+            <ul class="tags">
+                {{#each tags}}
+                <ul id="{{{this}}}">{{{this}}}</ul>
+                {{/each}}
+            </ul>
+            <ul class="comments">
+                {{#each comments}}
+                <li>{{{content}}} by {{{author}}} on {{{time_submitted}}}</li>
+                {{/each}}
+            </ul>
+            <form class="comment-form" action="/api/comment" method="POST">
+                <input type="text" name="comment-content" id="comment-content">
+                <input type="hidden" name="parent-id" id="parent-id" value="{{{ids}}}">
+                <button type="submit">Post</button>
+            </form>
+        </li>
+        {{/each}}
+    </ul>
+    {{else}}
+    <p>Sorry, there are no posts currently available for this class. Make the first one!</p>
+    {{/if}}
+</div>
+{{/if}}
+<script src="/public/js/view_class.js"></script>

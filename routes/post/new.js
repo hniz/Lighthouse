@@ -9,9 +9,12 @@ Router.get('/:id', async (req, res) => {
     const classLookup = await getClassById(id);
     const userLookup = await getUserByToken(req.session.token);
     if (userLookup.error || classLookup.error) {
-        res.status(classLookup.statusCode).render('new_post', {
+        const statusCode = classLookup.error ?
+            classLookup.statusCode :
+            userLookup.statusCode;
+        res.status(statusCode).render('new_post', {
             title: 'Error',
-            error: classLookup.error,
+            error: classLookup.error || userLookup.error,
         });
     } else {
         const classID = classLookup.class._id.toString();
