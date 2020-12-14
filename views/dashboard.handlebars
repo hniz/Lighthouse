@@ -1,54 +1,40 @@
 <link rel="stylesheet" href="/public/styles/dashboard.css">
 
-<!-- Navigation Bar -->
-<div class="Navigation_Bar cornsilk">
-    <div class="Navigation_Bar_Inner liberty">
-        <!-- Home Button -->
-        <div class="Home_Button">
-            <a href="/">
-                <img src="../public/img/lighthouse_logo.svg" alt="home">
-            </a>
-        </div>
-        <!-- Website Title -->
-        <div class="Website_Title">
-            Lighthouse
-        </div>
-
-        <!-- About Us -->
-        <div class="About_Us">
-            About Us
-        </div>
-
-        <!-- Login/Logout -->
-        <div class="Logout cornsilk">
-            <a href="/logout" class="Logout_Text"> Logout </a>
-        </div>
-    </div>
-</div>
-
 <!-- Page Content -->
-</div>
-<h1>Welcome, {{{name}}}!</h1>
-<h3>Classes</h3>
-{{#if instructor}}
-<a href="/class/new">Create a class</a>
-teacher page
-{{else}}
-<a href="/class/join">Join a class</a>
-{{/if}}
-<ul class="class-list">
-    {{#each classes}}
-    <li id="{{{id}}}">{{{name}}}</li>
-    {{else}}
+
+<div class="left cornsilk">
+    <h1>Welcome, {{{name}}}!</h1>
+    <h3>Classes</h3>
     {{#if instructor}}
-    <h3><a href="/class/new">Create a class</a></h3>
+    <a href="/class/new">Create a class</a>
+    teacher page
     {{else}}
-    <h3><a href="/class/join">Join a class</a></h3>
+    <a href="/class/join">Join a class</a>
     {{/if}}
-    {{/each}}
-</ul>
-<ul class="post-list">
-    <h3>Select a class to view posts</h3>
-</ul>
-<a href="/logout">Log Out</a>
+    <ul class="class-list">
+        {{#each classes}}
+        <li id="{{{id}}}">{{{name}}}</li>
+        {{else}}
+        {{#if instructor}}
+        <h3><a href="/class/new">Create a class</a></h3>
+        {{else}}
+        <h3><a href="/class/join">Join a class</a></h3>
+        {{/if}}
+        {{/each}}
+    </ul>
+    <ul class="post-list">
+        <h3>Select a class to view posts</h3>
+    </ul>
+</div>
+
+<div class="right cornsilk">
+    <div class="post"> post 1</div>
+    <ul class="post_list">
+        {{#each posts}}
+        <li id="{{{id}}}">{{{name}}}</li>
+        {{/each}}
+    </ul>
+</div>
+
+<!-- Scripts -->
 <script src="/public/js/get_class_posts.js"></script>

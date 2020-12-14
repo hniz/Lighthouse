@@ -64,7 +64,7 @@ jQuery(function ($) {
                 resetFields.push('register-last');
             }
 
-            if (type === "SELECT") {
+            if (type === 'SELECT') {
                 hasErrors = true;
                 errors.push('Please select the type of account.');
             }
@@ -93,7 +93,7 @@ jQuery(function ($) {
                         'register-password': password,
                         'register-first': firstName,
                         'register-last': lastName,
-                        'register-type': type
+                        'register-type': type,
                     }),
                     success: function() {
                         window.location.href = 'http://localhost:3000/login';
@@ -116,7 +116,7 @@ jQuery(function ($) {
                             msg = 'Uncaught Error.\n' + jqXHR.responseText;
                         }
                         console.log(msg);
-                    }
+                    },
                 };
 
                 $.ajax(requestConfig);
