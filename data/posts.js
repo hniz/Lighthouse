@@ -3,7 +3,7 @@ const checkValidId = require('../helpers/check_valid_id');
 const { ObjectId } = require('mongodb');
 const comments = require('./comments');
 const checkUserInfo = require('../helpers/check_user_info');
-const { checkUpdatedPostInfo } = require('../helpers/check_post_info');
+const checkUpdatedPostInfo = require('../helpers/check_post_info');
 
 const create = async ({ title, content, userToken, classID }) => {
     const posts = await collections.posts();
@@ -85,7 +85,7 @@ const create = async ({ title, content, userToken, classID }) => {
 };
 
 const modifyPost = async ({ id, title, author, content }) => {
-    const posts = await collections.posts;
+    const posts = await collections.posts();
     const changedFields = checkUpdatedPostInfo({ id, title, author, content });
     if (changedFields.error) {
         return {
@@ -93,10 +93,10 @@ const modifyPost = async ({ id, title, author, content }) => {
             statusCode: 400,
         };
     }
-    id = ObjectId(id).valueOf();
+    let convertedid = ObjectId(id);
     const result = await posts.findOneAndUpdate(
         {
-            id,
+            _id: convertedid,
         },
         { $set: changedFields }
     );
@@ -115,11 +115,10 @@ const modifyPost = async ({ id, title, author, content }) => {
 const getPostById = async (id) => {
     if (!checkValidId(id)) {
         return {
-            error: 'Invalid class ID provided.',
+            error: 'Invalid post ID provided.',
             statusCode: 400,
         };
     }
-
     const convertedid = ObjectId(id);
     const posts = await collections.posts();
     const lookup = await posts.findOne({ _id: convertedid });
