@@ -14,8 +14,9 @@
 <p>There are no tags for this class.</p><!-- Feel free to change this -->
 {{/if}}
 {{#if filteredPostsExist}}
+<ul class='post-list'>
 {{#each data}}
-<li>
+<li class="post" id="{{{ids}}}">
         <a href="/post/{{ids}}">{{title}}</a>
         <ul class="comments">
                 {{#each comments}}
@@ -27,8 +28,16 @@
                 <input type="hidden" name="parent-id" id="parent-id" value="{{{ids}}}">
                 <button type="submit">Post</button>
         </form>
+        {{#if ../instructor}}
+        {{#if endorse}}
+        <button class='endorse-button' id="unendorse">Un-endorse Post</button>
+        {{else}}
+        <button class='endorse-button' id="endorse">Endorse Post</button>
+        {{/if}}
+        {{/if}}
 </li>
 {{/each}}
+</ul>
 {{else}}
 <p>There are no posts matching the filter.</p>
 {{/if}}

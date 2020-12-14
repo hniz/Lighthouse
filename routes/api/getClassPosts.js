@@ -45,6 +45,7 @@ Router.get('/', async (req, res) => {
             const { comments } = await getPostComments(post._id.toString());
             postData.push({
                 title: post.title,
+                endorse: post.endorse,
                 ids: post._id.toString(),
                 comments,
             });

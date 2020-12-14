@@ -16,7 +16,7 @@
     {{/if}}
     <ul id="post-list">
         {{#each data}}
-        <li>
+        <li id="{{{ids}}}">
             <a href="/post/{{ids}}">{{title}}</a>
             <ul class="tags">
                 {{#each tags}}
@@ -33,6 +33,13 @@
                 <input type="hidden" name="parent-id" id="parent-id" value="{{{ids}}}">
                 <button type="submit">Post</button>
             </form>
+            {{#if ../instructor}}
+            {{#if endorse}}
+            <button class='endorse-button' id="unendorse">Un-endorse Post</button>
+            {{else}}
+            <button class='endorse-button' id="endorse">Endorse Post</button>
+            {{/if}}
+            {{/if}}
         </li>
         {{/each}}
     </ul>
@@ -42,3 +49,4 @@
 </div>
 {{/if}}
 <script src="/public/js/view_class.js"></script>
+<script src="/public/js/endorse.js"></script>

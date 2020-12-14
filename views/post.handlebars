@@ -1,21 +1,31 @@
 {{#if error}}
 <h1>{{{error}}}</h1>
 {{else}}
-<h1>{{{post.title}}}</h1>
-{{#if isAuthor}}
-<a href="/post/edit/{{postId}}">Edit this post</a>
-{{else}}
-<p>You can't edit this post.</p>
-{{/if}}
-<ul class="comments">
-    {{#each post.comments}}
-    <li>{{{content}}} by {{{author}}} on {{{time_submitted}}}</li>
-    {{/each}}
-</ul>
-<form class="comment-form" action="/api/comment" method="POST">
-    <input type="text" name="comment-content" id="comment-content">
-    <input type="hidden" name="parent-id" id="parent-id" value="{{{postId}}}">
-    <button type="submit">Post</button>
-</form>
+<div id="{{{post._id}}}">
+    <h1>{{{post.title}}}</h1>
+    {{#if isAuthor}}
+    <a href="/post/edit/{{postId}}">Edit this post</a>
+    {{else}}
+    <p>You can't edit this post.</p>
+    {{/if}}
+    <ul class="comments">
+        {{#each post.comments}}
+        <li>{{{content}}} by {{{author}}} on {{{time_submitted}}}</li>
+        {{/each}}
+    </ul>
+    <form class="comment-form" action="/api/comment" method="POST">
+        <input type="text" name="comment-content" id="comment-content">
+        <input type="hidden" name="parent-id" id="parent-id" value="{{{postId}}}">
+        <button type="submit">Post</button>
+    </form>
+    {{#if instructor}}
+    {{#if post.endorse}}
+    <button class='endorse-button' id="unendorse">Un-endorse Post</button>
+    {{else}}
+    <button class='endorse-button' id="endorse">Endorse Post</button>
+    {{/if}}
+    {{/if}}
+</div>
 {{/if}}
 <script src="/public/js/scripts/post.js"></script>
+<script src="/public/js/endorse.js"></script>

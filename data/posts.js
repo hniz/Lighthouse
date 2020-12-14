@@ -84,12 +84,18 @@ const create = async ({ title, content, userToken, classID }) => {
     }
 };
 
-const modifyPost = async ({ id, title, author, content }) => {
+const modifyPost = async ({ id, title, author, content, endorse }) => {
     const posts = await collections.posts();
-    const changedFields = checkUpdatedPostInfo({ id, title, author, content });
+    const changedFields = checkUpdatedPostInfo({
+        id,
+        title,
+        author,
+        content,
+        endorse,
+    });
     if (changedFields.error) {
         return {
-            error: changedFields.errors,
+            error: changedFields.error,
             statusCode: 400,
         };
     }
