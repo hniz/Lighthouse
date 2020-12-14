@@ -3,6 +3,16 @@
 <a href="/class/edit/{{classId}}">Edit this class</a>
 {{/if}}
 {{#if postsExist }}
+{{#if tags}}
+<div id="class-tags">
+        {{#each tags}}
+        <li class="class-tag"><a href="/class/{{{../classId}}}?tag={{{this}}}">{{{this}}}</a></li>
+        {{/each}}
+</div>
+{{else}}
+<p>There are no tags for this class.</p><!-- Feel free to change this -->
+{{/if}}
+{{#if filteredPostsExist}}
 {{#each data}}
 <li>
         <a href="/post/{{ids}}">{{title}}</a>
@@ -18,6 +28,9 @@
         </form>
 </li>
 {{/each}}
+{{else}}
+<p>There are no posts matching the filter.</p>
+{{/if}}
 {{else}}
 <p>Sorry, there are no posts currently available for this class. Make the first one!</p>
 {{/if}}

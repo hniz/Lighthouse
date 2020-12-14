@@ -9,7 +9,10 @@
             contentType: 'application/json',
             data: { id: classid },
         };
-        $.ajax(requestConfig).then((responseMessage) => {
+
+        $.ajax(requestConfig).then(function handlePostResponse(
+            responseMessage
+        ) {
             const posts = $(responseMessage);
             classPosts.html(posts);
             const commentForms = posts.find('.comment-form');
@@ -32,11 +35,31 @@
                         event.target.click();
                     })
                     .fail(() => {
-                        // eslint-disable-next-line no-undef
                         alert('Comment failed to post');
                     });
             });
+            const tagLinks = classPosts.find('#class-tags');
+            tagLinks.on('click', function (tagevent) {
+                tagevent.preventDefault();
+                const href = tagevent.target.href;
+                try {
+                    const tag = href.match(/tag=.*/)[0].slice(4);
+                    const tagRequestConfig = {
+                        method: 'GET',
+                        url: 'api/getClassPosts',
+                        contentType: 'application/json',
+                        data: { id: classid, tag },
+                    };
+                    $.ajax(tagRequestConfig).then((response) => {
+                        handlePostResponse(response);
+                        const clearFilter = $('<button>Clear Filter</button>');
+                        clearFilter.on('click', () => event.target.click());
+                        classPosts.find('#class-tags').append(clearFilter);
+                    });
+                } catch (e) {
+                    console.warn('Malformed tag url: ', e);
+                }
+            });
         });
     });
-    // eslint-disable-next-line no-undef
 })(window.jQuery);
