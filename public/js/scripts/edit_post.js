@@ -63,7 +63,7 @@ jQuery(function ($) {
                     data: JSON.stringify({
                         'post-id': postID,
                         'post-title': postTitle,
-                        'post-content': postContent
+                        'post-content': postContent,
                     }),
                     success: function() {
                         window.location.href = 'http://localhost:3000/dashboard';

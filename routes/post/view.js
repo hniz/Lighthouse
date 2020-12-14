@@ -1,4 +1,5 @@
 const express = require('express');
+const { getClassById } = require('../../data/classes');
 const { getPostComments } = require('../../data/comments');
 const { getPostById } = require('../../data/posts');
 const { getUserByToken } = require('../../data/users');
@@ -13,6 +14,7 @@ Router.get('/:id', async (req, res) => {
             error: postLookup.error,
         });
     }
+
     const user = await getUserByToken(req.session.token);
     if (user.error || !user.user.classes.includes(postLookup.post.class)) {
         return res.render('post', {
@@ -28,12 +30,21 @@ Router.get('/:id', async (req, res) => {
         });
     }
     postLookup.post.comments = comments.comments;
-    if(postLookup.post.author !== user.user._id.toString()){
+    const classLookup = await getClassById(postLookup.post.class);
+    if (classLookup.error) {
+        return res.render('post', {
+            title: 'Error',
+            error: 'An internal error occurred.',
+        });
+    }
+    if (postLookup.post.author !== user.user._id.toString()) {
         return res.render('post', {
             isAuthor: false,
             title: postLookup.post.name,
             post: postLookup.post,
             postId: postLookup.post._id.toString(),
+            instructor:
+                classLookup.class.instructor === user.user._id.toString(),
         });
     } else {
         return res.render('post', {
@@ -41,9 +52,10 @@ Router.get('/:id', async (req, res) => {
             title: postLookup.post.name,
             post: postLookup.post,
             postId: postLookup.post._id.toString(),
+            instructor:
+                classLookup.class.instructor === user.user._id.toString(),
         });
     }
-    
 });
 
 module.exports = Router;

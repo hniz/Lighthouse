@@ -40,6 +40,7 @@ Router.get('/:id', async (req, res) => {
         const { comments } = await getPostComments(post._id.toString());
         postData.push({
             title: post.title,
+            endorse: post.endorse,
             ids: post._id.toString(),
             comments,
         });
@@ -50,6 +51,7 @@ Router.get('/:id', async (req, res) => {
         tags: course.tags,
         postsExist: postData.length > 0,
         data: postData,
+        instructor: course.instructor === user._id.toString(),
     });
 });
 

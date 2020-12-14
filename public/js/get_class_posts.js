@@ -1,11 +1,11 @@
 (function getClassPosts($) {
-    var classPosts = $('.post-list');
+    var classPosts = $('.post-container');
     var classList = $('.class-list');
     classList.find('li').on('click', function (event) {
         const classid = event.target.id;
         var requestConfig = {
             method: 'GET',
-            url: 'api/getClassPosts',
+            url: '/api/getClassPosts',
             contentType: 'application/json',
             data: { id: classid },
         };
@@ -15,6 +15,27 @@
         ) {
             const posts = $(responseMessage);
             classPosts.html(posts);
+            const endorseButton = posts.find('.endorse-button');
+            if (endorseButton.length !== 0) {
+                endorseButton.on('click', (event) => {
+                    event.preventDefault();
+                    const postID = event.target.parentElement.id;
+                    const endorse = event.target.id === 'endorse';
+                    var endorseConfig = {
+                        method: 'POST',
+                        url: `/api/endorse/${postID}?endorse=${endorse}`,
+                        contentType: 'application/json',
+                    };
+                    $.ajax(endorseConfig)
+                        .done(() => {
+                            event.target.id = endorse ? 'unendorse' : 'endorse';
+                            event.target.innerText = endorse ? 'Un-endorse Post' : 'Endorse Post';
+                        })
+                        .fail(() => {
+                            alert('Failed to endorse/unendorse post.');
+                        });
+                });
+            }
             const commentForms = posts.find('.comment-form');
             commentForms.on('submit', function (commentevent) {
                 commentevent.preventDefault();
