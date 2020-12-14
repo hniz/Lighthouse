@@ -60,7 +60,6 @@ Router.post('/', async (req, res) => {
         const fields = {
             id: req.body['post-id'],
             title: req.body['post-title'],
-            author: req.body['post-author'],
             content: req.body['post-content'],
         };
         const result = await modifyPost(fields);
