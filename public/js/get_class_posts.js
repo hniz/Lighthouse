@@ -14,6 +14,7 @@
             responseMessage
         ) {
             const posts = $(responseMessage);
+            console.log(posts);
             classPosts.html(posts);
             const endorseButton = posts.find('.endorse-button');
             if (endorseButton.length !== 0) {
@@ -63,22 +64,46 @@
                 const children = commentevent.target.children;
                 const comment = children.namedItem('comment-content').value;
                 const parentid = children.namedItem('parent-id').value;
-                const commentConfig = {
-                    method: 'POST',
-                    url: 'api/comment',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        'comment-content': comment,
-                        'parent-id': parentid,
-                    }),
-                };
-                $.ajax(commentConfig)
-                    .done(() => {
-                        event.target.click();
-                    })
-                    .fail(() => {
-                        alert('Comment failed to post');
-                    });
+
+                // let errorDiv = document.getElementById('comment-error');
+                // let errorUL = document.getElementById('comment-error-list');
+                let hasErrors = false;
+                let errors = [];
+                let resetFields = [];
+                
+                if (!comment) {
+                    hasErrors = true;
+                    errors.push('No comment body was entered.');
+                    resetFields.push('comment-content');
+                }
+        
+                if (!parentid) {
+                    hasErrors = true;
+                    errors.push('No parent id given.');
+                }
+
+                if (hasErrors) {
+                    console.log(errors);
+                } else {
+                    const commentConfig = {
+                        method: 'POST',
+                        url: 'api/comment',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            'comment-content': comment,
+                            'parent-id': parentid,
+                        }),
+                    };
+                    $.ajax(commentConfig)
+                        .done(() => {
+                            event.target.click();
+                        })
+                        .fail(() => {
+                            alert('Comment failed to post');
+                        });
+                }
+                
+                
             });
             const tagLinks = classPosts.find('#class-tags');
             tagLinks.on('click', function (tagevent) {
