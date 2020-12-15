@@ -37,11 +37,13 @@ Router.get('/', async (req, res) => {
             return;
         }
         const filteredPosts = getClassPostsResult.classPosts.filter(
-            ({ post }) => (tag ? post.tags.includes(tag) : true)
+            ({ post }) => (!!post && (tag ? post.tags.includes(tag) : true))
         );
-
+        console.log('filtered', filteredPosts)
+            
         let postData = [];
         for (const { post } of filteredPosts) {
+            console.log(post);
             const { comments } = await getPostComments(post._id.toString());
             postData.push({
                 title: post.title,
