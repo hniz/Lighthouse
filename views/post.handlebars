@@ -1,7 +1,6 @@
 {{#if error}}
 <h1>{{{error}}}</h1>
 {{else}}
-<<<<<<< HEAD
 <div id="{{{post._id}}}">
     <h1>{{{post.title}}}</h1>
     {{#if isAuthor}}
@@ -35,7 +34,6 @@
     <button class='endorse-button' id="endorse">Endorse Post</button>
     {{/if}}
     {{/if}}
-=======
 <h1>{{{post.title}}}</h1>
 {{#if isAuthor}}
 <a href="/post/edit/{{postId}}">Edit this post</a>
@@ -56,7 +54,6 @@
     <ul id="comment-error-list">
         
     </ul>
->>>>>>> 4f3447a (validated comment form under post route. i106)
 </div>
 {{/if}}
 <script src="/public/js/scripts/post.js"></script>
