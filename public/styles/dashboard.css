@@ -5,16 +5,22 @@
     top: 120px;
     left: 20px;
     height: 80%;
-    overflow: scroll;
+    padding: 5px;
 }
 
 .right {
     position: absolute;
     top: 120px;
-    left: 34%;
+    left: 38%;
     right: 20px;
     height: 80%;
-    overflow: scroll;
+    text-align: center;
+    overflow-y: scroll;
+    padding: 5px;
+}
+
+.post-container {
+    vertical-align: middle;
 }
 
 .post {

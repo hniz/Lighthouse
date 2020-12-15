@@ -9,6 +9,16 @@
     display: flex;
 }
 
+.Welcome {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: white;
+    font-size: 40pt;
+    font-family: coolvetica;
+}
+
 .left {
     margin: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -24,8 +34,9 @@
 
 .graphic {
     padding: 20px;
-    width: 80%;
+    width: 60%;
     margin: auto;
+    padding: 40px;
 }
 
 .right {

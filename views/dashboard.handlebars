@@ -1,15 +1,10 @@
 <link rel="stylesheet" href="/public/styles/dashboard.css">
 
 <!-- Page Content -->
-<div class="left cornsilk">
-    <h1>Welcome, {{{name}}}!</h1>
+<div class="left cornsilk" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <h1 style="text-align: center;">Welcome, {{{name}}}!</h1>
     <h3>Classes</h3>
-    {{#if instructor}}
-    <a href="/class/new">Create a class</a>
-    teacher page
-    {{else}}
-    <a href="/class/join">Join a class</a>
-    {{/if}}
+
     <ul class="class-list">
         {{#each classes}}
         <li id="{{{id}}}">{{{name}}}</li>
@@ -22,9 +17,16 @@
         {{/each}}
     </ul>
 
+    {{#if instructor}}
+    <a href="/class/new">Create a class</a>
+    teacher page
+    {{else}}
+    <a href="/class/join">Join a class</a>
+    {{/if}}
+
 </div>
 
-<div class="right cornsilk">
+<div class="right cornsilk" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
     <div class="post-container">
         <h3>Select a class to view posts</h3>
     </div>
