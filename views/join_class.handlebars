@@ -1,15 +1,34 @@
-<form id="join-class-form" action="/class/join" method="POST">
-    <label for="class-code">Class Code</label>
-    <input type="text" name="class-code" id="class-code">
-    <label for="class-password">Class Password</label>
-    <input type="password" name="class-password" id="class-password">
-    <button type="submit">Join</button>
-</form>
-<div id="join-class-error" hidden>
-    <ul id="join-class-error-list">
+<link rel="stylesheet" href="/public/styles/join_class.css">
 
-    </ul>
+<div class="container cornsilk">
+    <div class="left">
+        <h1>Join a classroom!</h1>
+        <form id="join-class-form" action="/class/join" method="POST">
+            <div>
+                <label for="class-code">Class Code</label>
+                <input type="text" name="class-code" id="class-code">
+            </div>
+            <div>
+                <label for="class-password">Class Password</label>
+                <input type="password" name="class-password" id="class-password">
+            </div>
+
+            <div class="Join">
+                <div class="Join_Text" type="submit">Join</div>
+            </div>
+        </form>
+        <div id="join-class-error" hidden>
+            <ul id="join-class-error-list">
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="graphic">
+        <img src="../public/img/class.svg" alt="Avatar" style="height: 100%;">
+    </div>
 </div>
+
 {{#if error}}
 <h3>{{{error}}}</h3>
 {{/if}}
