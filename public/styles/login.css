@@ -1,6 +1,4 @@
 /* Page Content */
-.title {
-}
 
 .container {
     position: absolute;
@@ -15,22 +13,29 @@
     overflow: hidden;
 }
 
+.right {
+    padding: 20px;
+    margin: 20px;
+    width: 40%;
+}
+
 .login_form {
     display: inline-block;
 }
 
 .line {
-    right: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .graphic {
-    height: 30%;
-    width: 100px;
-    background-color: aqua;
-    margin: auto;
+    padding: 20px;
+    margin: 20px;
+    width: 40%;
+    overflow: hidden;
 }
 
 .Home {
+    background-color: white;
     height: 40px;
     width: 300px;
     margin: auto;
