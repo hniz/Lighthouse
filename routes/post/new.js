@@ -9,12 +9,13 @@ Router.get('/:id', async (req, res) => {
     const classLookup = await getClassById(id);
     const userLookup = await getUserByToken(req.session.token);
     if (userLookup.error || classLookup.error) {
-        const statusCode = classLookup.error ?
-            classLookup.statusCode :
-            userLookup.statusCode;
+        const statusCode = classLookup.error
+            ? classLookup.statusCode
+            : userLookup.statusCode;
         res.status(statusCode).render('new_post', {
             title: 'Error',
             error: classLookup.error || userLookup.error,
+            loggedIn: req.session.token ? true : false,
         });
     } else {
         const classID = classLookup.class._id.toString();
@@ -22,12 +23,14 @@ Router.get('/:id', async (req, res) => {
             res.status(401).render('new_post', {
                 title: 'Error',
                 error: 'You are not registered for this class!',
+                loggedIn: req.session.token ? true : false,
             });
         } else {
             res.status(classLookup.statusCode).render('new_post', {
                 title: `New Post for ${classLookup.class.name}`,
                 class: classLookup.class,
                 classID,
+                loggedIn: req.session.token ? true : false,
             });
         }
     }

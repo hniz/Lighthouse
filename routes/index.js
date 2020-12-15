@@ -20,7 +20,7 @@ const routeConstructor = (app) => {
     app.get('/', (req, res) => {
         res.render('home_page', {
             title: 'Lighthouse',
-            //loggedIn: req.session.token ? true : false,
+            loggedIn: req.session.token ? true : false,
         });
     });
 
