@@ -37,6 +37,8 @@ const create = async ({ title, content, userToken, classID }) => {
                 statusCode: 401,
             };
         }
+        const votes = {};
+        votes[userLookup._id.toString()] = 1;
         const result = await posts.insertOne({
             title,
             author: userLookup._id.toString(),
@@ -46,6 +48,7 @@ const create = async ({ title, content, userToken, classID }) => {
             comments: [],
             tags: [],
             score: 1,
+            votes,
         });
         const postID = result.insertedId.toString();
 

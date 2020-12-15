@@ -38,11 +38,15 @@ const create = async ({ userToken, parent_post, content }) => {
             };
         }
         const author = userLookup._id.toString();
+        const votes = {};
+        votes[userLookup._id.toString()] = 1;
         const insertCommentResult = await comments.insertOne({
             author,
             parent_post,
             time_submitted: String(new Date()),
             content,
+            score: 1,
+            votes,
         });
         const commentID = insertCommentResult.insertedId.toString();
         postLookup.comments.push(commentID);
@@ -113,7 +117,7 @@ const modifyComment = async ({ id, author, parent_post, content, endorse }) => {
     }
 };
 
-const voteComment = async ({commentId, userId, vote}) => {
+const voteComment = async ({ commentId, userId, vote }) => {
     vote = Number(vote);
     if (
         !checkValidId(userId) ||
