@@ -1,14 +1,16 @@
-<link rel="stylesheet" href="/public/styles/logout.css">
+<link rel="stylesheet" href="/public/styles/login.css">
 
 
 <div class="container cornsilk">
-    <h2>Log In</h2>
+
 
     <div class="graphic">
-        <img src="../public/img/login.svg" alt="Avatar" style="width: 100%;">
+        <img src="../public/img/login.svg" alt="Avatar" style="height: 100%;">
+
     </div>
 
-    <div>
+    <div class="right">
+        <h2 class="line">Log In</h2>
         <form class="login_form" id="login-form" action="/login" method="POST">
             <div class="line">
                 <label for="login-email">Email</label>
@@ -25,14 +27,9 @@
             <input hidden type="text" name="redirect-url" id="redirect-url" value="{{{redirect}}}">
             <button type="submit">Log In</button>
         </form>
-    </div>
-
-
-
-
-
-    <div class="Home">
-        <a href="/register" class="Home_Text">Register for Lighthouse!</a>
+        <div class="Home">
+            <a href="/register" class="Home_Text">Register for Lighthouse!</a>
+        </div>
     </div>
 
     {{#if invalid}}
