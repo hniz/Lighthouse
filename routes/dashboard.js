@@ -16,6 +16,7 @@ Router.get('/', async (req, res) => {
         data.id = data._id.toString();
         return data;
     });
+
     res.render('dashboard', {
         title: 'Dashboard',
         name: `${user.fullName.firstName} ${user.fullName.lastName}`,
@@ -23,6 +24,7 @@ Router.get('/', async (req, res) => {
         instructor: !!req.session.instructor,
         loggedIn: req.session.token ? true : false,
     });
+    
 });
 
 module.exports = Router;
