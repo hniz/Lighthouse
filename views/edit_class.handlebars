@@ -8,6 +8,7 @@
         <input type="text" name="class-code" id="class-code" value="{{{class.code}}}">
         <label for="class-password">Class Password</label>
         <input type="password" name="class-password" id="class-password" value="{{{class.password}}}">
+        <button id="show-password-button">Show password</button>
         <input type="hidden" name="class-id" id="class-id" value="{{{class._id}}}">
         <button type="submit">Submit</button>
     </form>
@@ -25,3 +26,4 @@
     <li>{{this}}</li>
     {{/each}}
 </ul>
+<script src="/public/js/show_class_password.js"></script>
