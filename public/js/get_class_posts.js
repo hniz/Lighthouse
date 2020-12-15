@@ -36,6 +36,27 @@
                         });
                 });
             }
+            const endorseCommentButton = $('.endorse-comment-button');
+            if (endorseCommentButton.length !== 0) {
+                endorseCommentButton.on('click', (event) => {
+                    event.preventDefault();
+                    const commentID = event.target.parentElement.id;
+                    const endorse = event.target.id === 'endorse';
+                    var endorseCommentConfig = {
+                        method: 'POST',
+                        url: `/api/endorseComment/${commentID}?endorse=${endorse}`,
+                        contentType: 'application/json',
+                    };
+                    $.ajax(endorseCommentConfig)
+                        .done(() => {
+                            event.target.id = endorse ? 'unendorse' : 'endorse';
+                            event.target.innerText = endorse ? 'Un-endorse' : 'Endorse';
+                        })
+                        .fail(() => {
+                            alert('Failed to endorse/unendorse comment.');
+                        });
+                });
+            }
             const commentForms = posts.find('.comment-form');
             commentForms.on('submit', function (commentevent) {
                 commentevent.preventDefault();

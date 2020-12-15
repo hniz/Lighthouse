@@ -15,28 +15,38 @@
 {{/if}}
 {{#if filteredPostsExist}}
 <ul class='post-list'>
-{{#each data}}
-<li class="post" id="{{{ids}}}">
-        <a href="/post/{{ids}}">{{title}}</a>
-        <ul class="comments">
-                {{#each comments}}
-                <li>{{{content}}} by {{{author}}} on {{{time_submitted}}}</li>
-                {{/each}}
-        </ul>
-        <form class="comment-form" action="/api/comment" method="POST">
-                <input type="text" name="comment-content" id="comment-content">
-                <input type="hidden" name="parent-id" id="parent-id" value="{{{ids}}}">
-                <button type="submit">Post</button>
-        </form>
-        {{#if ../instructor}}
-        {{#if endorse}}
-        <button class='endorse-button' id="unendorse">Un-endorse Post</button>
-        {{else}}
-        <button class='endorse-button' id="endorse">Endorse Post</button>
-        {{/if}}
-        {{/if}}
-</li>
-{{/each}}
+        {{#each data}}
+        <li class="post" id="{{{ids}}}">
+                <a href="/post/{{ids}}">{{title}}</a>
+                <ul class="comments">
+                        {{#each comments}}
+                        <li id="{{{_id}}}">
+                                {{{content}}} by {{{author}}} on {{{time_submitted}}}
+                                {{#if ../../instructor}}
+                                {{#if endorse}}
+                                <button class='endorse-comment-button' id="unendorse">Un-endorse</button>
+                                {{else}}
+                                <button class='endorse-comment-button' id="endorse">Endorse</button>
+                                {{/if}}
+                                {{/if}}
+                        </li>
+
+                        {{/each}}
+                </ul>
+                <form class="comment-form" action="/api/comment" method="POST">
+                        <input type="text" name="comment-content" id="comment-content">
+                        <input type="hidden" name="parent-id" id="parent-id" value="{{{ids}}}">
+                        <button type="submit">Post</button>
+                </form>
+                {{#if ../instructor}}
+                {{#if endorse}}
+                <button class='endorse-button' id="unendorse">Un-endorse Post</button>
+                {{else}}
+                <button class='endorse-button' id="endorse">Endorse Post</button>
+                {{/if}}
+                {{/if}}
+        </li>
+        {{/each}}
 </ul>
 {{else}}
 <p>There are no posts matching the filter.</p>

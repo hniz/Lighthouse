@@ -2,7 +2,7 @@ const collections = require('../config/mongoCollections');
 const checkValidId = require('../helpers/check_valid_id');
 const { ObjectId } = require('mongodb');
 const checkUserInfo = require('../helpers/check_user_info');
-const { checkCommentInfo } = require('../helpers/check_comment_info');
+const checkCommentInfo = require('../helpers/check_comment_info');
 
 const create = async ({ userToken, parent_post, content }) => {
     const comments = await collections.comments();
@@ -79,24 +79,25 @@ const create = async ({ userToken, parent_post, content }) => {
     }
 };
 
-const modifyComment = async ({ id, author, parent_post, content }) => {
-    const comments = await collections.comments;
+const modifyComment = async ({ id, author, parent_post, content, endorse }) => {
+    const comments = await collections.comments();
     const changedFields = checkCommentInfo({
         id,
         author,
         parent_post,
         content,
+        endorse,
     });
     if (changedFields.error) {
         return {
-            error: changedFields.errors,
+            error: changedFields.error,
             statusCode: 400,
         };
     }
-    id = ObjectId(id).valueOf();
+    id = ObjectId(id);
     const result = await comments.findOneAndUpdate(
         {
-            id,
+            _id: id,
         },
         { $set: changedFields }
     );
@@ -147,6 +148,26 @@ const getPostComments = async (postID) => {
         comments: result,
         statusCode: 200,
     };
+};
+
+const getCommentById = async (commentID) => {
+    if (!checkValidId(commentID)) {
+        return {
+            error: 'Invalid comment ID provided.',
+            statusCode: 400,
+        };
+    }
+    const convertedid = ObjectId(commentID);
+    const posts = await collections.comments();
+    const lookup = await posts.findOne({ _id: convertedid });
+    if (!lookup) {
+        return { error: 'No comment with given id', statusCode: 404 };
+    } else {
+        return {
+            comment: lookup,
+            statusCode: 200,
+        };
+    }
 };
 
 const deleteUserComments = async (id, userToDelete) => {
@@ -214,4 +235,5 @@ module.exports = {
     create,
     modifyComment,
     getPostComments,
+    getCommentById,
 };

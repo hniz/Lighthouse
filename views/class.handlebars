@@ -25,7 +25,16 @@
             </ul>
             <ul class="comments">
                 {{#each comments}}
-                <li>{{{content}}} by {{{author}}} on {{{time_submitted}}}</li>
+                <li id="{{{_id}}}">
+                    {{{content}}} by {{{author}}} on {{{time_submitted}}}
+                    {{#if ../../instructor}}
+                                {{#if endorse}}
+                                <button class='endorse-comment-button' id="unendorse">Un-endorse</button>
+                                {{else}}
+                                <button class='endorse-comment-button' id="endorse">Endorse</button>
+                                {{/if}}
+                                {{/if}}
+                                </li>
                 {{/each}}
             </ul>
             <form class="comment-form" action="/api/comment" method="POST">
@@ -50,3 +59,4 @@
 {{/if}}
 <script src="/public/js/view_class.js"></script>
 <script src="/public/js/endorse.js"></script>
+<script src="/public/js/endorse_comment.js"></script>
