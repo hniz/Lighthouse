@@ -5,7 +5,20 @@ jQuery(function ($) {
     let inputPostClassID = document.getElementById('post-class');
     let errorDiv = document.getElementById('new-post-error');
     let errorUL = document.getElementById('new-post-error-list');
+    const similarDiv = $('#similar-posts');
+    let postChecked = false;
+    inputPostName.oninput = () => {
+        postChecked = false;
+        $('#submit-post').text('Post');
 
+        similarDiv.hide();
+    };
+    inputPostDescription.oninput = () => {
+        postChecked = false;
+        $('#submit-post').text('Post');
+
+        similarDiv.hide();
+    };
     if (myForm) {
         myForm.addEventListener('submit', (event) => {
             event.preventDefault();
@@ -42,14 +55,14 @@ jQuery(function ($) {
 
             if (hasErrors) {
                 errorDiv.hidden = false;
-                errors.forEach( (element) => {
+                errors.forEach((element) => {
                     let li = document.createElement('li');
                     li.innerHTML = element;
                     errorUL.appendChild(li);
                 });
 
                 if (resetFields.length > 0) {
-                    resetFields.forEach( (element) => {
+                    resetFields.forEach((element) => {
                         document.getElementById(element).value = '';
                     });
                     document.getElementById(resetFields[0]).focus();
@@ -64,8 +77,9 @@ jQuery(function ($) {
                         'post-description': postDescription,
                         'post-name': postName,
                     }),
-                    success: function() {
-                        window.location.href = 'http://localhost:3000/dashboard'; // figure out where to redirect
+                    success: function () {
+                        window.location.href =
+                            'http://localhost:3000/dashboard'; // figure out where to redirect
                     },
                     error: function (jqXHR, exception) {
                         var msg = '';
@@ -87,8 +101,55 @@ jQuery(function ($) {
                         console.log(msg);
                     },
                 };
+                if (postChecked) {
+                    $.ajax(requestConfig);
+                } else {
+                    var similarityRequestConfig = {
+                        method: 'POST',
+                        url: `/api/similarity/${postClassID}`,
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            'post-description': postDescription,
+                            'post-name': postName,
+                        }),
+                        success: function (data) {
+                            if (data.similar) {
+                                const content = $(`
+                                <h3>We've found a similar post (Similarity: ${Math.round(data.rating*100)}%):</h3>
+                                <a href="/post/${data.similar._id}">${data.similar.title}</a>
+                                <p>${data.similar.content}</p>
+                                `);
+                                similarDiv.html(content);
+                                similarDiv.show();
+                                $('#submit-post').text('Continue and post');
+                            } else {
+                                $.ajax(requestConfig);
+                            }
+                            postChecked = true;
+                        },
+                        error: function (jqXHR, exception) {
+                            var msg = '';
+                            if (jqXHR.status === 0) {
+                                msg = 'Not connect.\n Verify Network.';
+                            } else if (jqXHR.status == 404) {
+                                msg = 'Requested page not found. [404]';
+                            } else if (jqXHR.status == 500) {
+                                msg = 'Internal Server Error [500].';
+                            } else if (exception === 'parsererror') {
+                                msg = 'Requested JSON parse failed.';
+                            } else if (exception === 'timeout') {
+                                msg = 'Time out error.';
+                            } else if (exception === 'abort') {
+                                msg = 'Ajax request aborted.';
+                            } else {
+                                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                            }
+                            console.log(msg);
+                        },
+                    };
 
-                $.ajax(requestConfig);
+                    $.ajax(similarityRequestConfig);
+                }
             }
         });
     }

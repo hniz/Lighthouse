@@ -9,7 +9,8 @@
     <label for="post-description">Post Body</label>
     <input type="text" name="post-description" id="post-description">
     <input type="hidden" name="post-class" id="post-class" value={{{classID}}}>
-    <button type="submit">Post</button>
+    <div hidden id="similar-posts"></div>
+    <button id="submit-post" type="submit">Post</button>
 </form>
 <div id="new-post-error" hidden>
     <ul id="new-post-error-list">
