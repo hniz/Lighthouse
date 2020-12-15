@@ -15,11 +15,13 @@ Router.get('/:id', async (req, res) => {
         res.status(userLookup.statusCode).render('error', {
             title: 'Error',
             error: userLookup.error,
+            loggedIn: req.session.token ? true : false,
         });
     } else if (classLookup.error) {
         res.status(classLookup.statusCode).render('error', {
             title: 'Error',
             error: classLookup.error,
+            loggedIn: req.session.token ? true : false,
         });
     } else if (
         classLookup.class.instructor !== userLookup.user._id.toString()
@@ -27,11 +29,13 @@ Router.get('/:id', async (req, res) => {
         res.status(401).render('error', {
             title: 'Error',
             error: 'You are not authorized to edit this class.',
+            loggedIn: req.session.token ? true : false,
         });
     } else {
         res.render('edit_class', {
             title: `Edit ${classLookup.class.name}`,
             class: classLookup.class,
+            loggedIn: req.session.token ? true : false,
         });
     }
 });

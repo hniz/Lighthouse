@@ -12,6 +12,7 @@ Router.get('/:id', async (req, res) => {
         return res.render('post', {
             title: 'Post not found!',
             error: postLookup.error,
+            loggedIn: req.session.token ? true : false,
         });
     }
 
@@ -20,6 +21,7 @@ Router.get('/:id', async (req, res) => {
         return res.render('post', {
             title: 'Post not found!',
             error: 'You are not authorized to view this post!',
+            loggedIn: req.session.token ? true : false,
         });
     }
     const comments = await getPostComments(postID);
@@ -27,6 +29,7 @@ Router.get('/:id', async (req, res) => {
         return res.render('post', {
             title: 'Post not found!',
             error: comments.error,
+            loggedIn: req.session.token ? true : false,
         });
     }
     postLookup.post.comments = comments.comments;
@@ -35,6 +38,7 @@ Router.get('/:id', async (req, res) => {
         return res.render('post', {
             title: 'Error',
             error: 'An internal error occurred.',
+            loggedIn: req.session.token ? true : false,
         });
     }
     if (postLookup.post.author !== user.user._id.toString()) {
@@ -45,6 +49,7 @@ Router.get('/:id', async (req, res) => {
             postId: postLookup.post._id.toString(),
             instructor:
                 classLookup.class.instructor === user.user._id.toString(),
+            loggedIn: req.session.token ? true : false,
         });
     } else {
         return res.render('post', {
@@ -54,6 +59,7 @@ Router.get('/:id', async (req, res) => {
             postId: postLookup.post._id.toString(),
             instructor:
                 classLookup.class.instructor === user.user._id.toString(),
+            loggedIn: req.session.token ? true : false,
         });
     }
 });

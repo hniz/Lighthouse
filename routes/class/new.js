@@ -25,6 +25,7 @@ Router.get('/', (req, res) => {
     res.status(req.session.instructor ? 200 : 401).render('new_class', {
         title: 'Create new class',
         instructor: req.session.instructor,
+        loggedIn: req.session.token ? true : false,
     });
 });
 
