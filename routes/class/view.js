@@ -52,6 +52,7 @@ Router.get('/:id', async (req, res) => {
         postsExist: postData.length > 0,
         data: postData,
         instructor: course.instructor === user._id.toString(),
+        loggedIn: req.session.token ? true : false,
     });
 });
 

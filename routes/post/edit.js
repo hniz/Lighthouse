@@ -1,8 +1,5 @@
 const e = require('express');
-const {
-    getPostById,
-    modifyPost,
-} = require('../../data/posts');
+const { getPostById, modifyPost } = require('../../data/posts');
 const { getUserByToken } = require('../../data/users');
 const Router = e.Router();
 
@@ -14,23 +11,26 @@ Router.get('/:id', async (req, res) => {
         res.status(postLookup.statusCode).render('error', {
             title: 'Error',
             error: userLookup.error,
+            loggedIn: req.session.token ? true : false,
         });
     } else if (postLookup.error) {
         res.status(postLookup.statusCode).render('error', {
             title: 'Error',
             error: postLookup.error,
+            loggedIn: req.session.token ? true : false,
         });
-    } else if (
-        postLookup.post.author !== userLookup.user._id.toString()
-    ) {
+    } else if (postLookup.post.author !== userLookup.user._id.toString()) {
         res.status(401).render('error', {
             title: 'Error',
-            error: 'You are not the author of this post, and cannot edit this post.',
+            error:
+                'You are not the author of this post, and cannot edit this post.',
+            loggedIn: req.session.token ? true : false,
         });
     } else {
         res.render('edit_post', {
             title: `Edit ${postLookup.post.title}`,
             post: postLookup.post,
+            loggedIn: req.session.token ? true : false,
         });
     }
 });
@@ -49,9 +49,7 @@ Router.post('/', async (req, res) => {
             title: 'Error',
             error: postLookup.error,
         });
-    } else if (
-        postLookup.post.author !== userLookup.user._id.toString()
-    ) {
+    } else if (postLookup.post.author !== userLookup.user._id.toString()) {
         res.status(401).render('error', {
             title: 'Error',
             error: 'You are not authorized to edit this class.',

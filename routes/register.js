@@ -19,6 +19,7 @@ Router.post('/', async (req, res) => {
         return res.status(result.statusCode).render('register', {
             title: 'Register for Lighthouse',
             error: result.error,
+            loggedIn: req.session.token ? true : false,
         });
     }
 });

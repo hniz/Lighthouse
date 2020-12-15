@@ -9,6 +9,7 @@ Router.use('/:id', async (req, res) => {
         res.status(userLookup.statusCode).render('profile', {
             title: 'Error',
             error: userLookup.error,
+            loggedIn: req.session.token ? true : false,
         });
     } else {
         const user = userLookup.user;
@@ -16,6 +17,7 @@ Router.use('/:id', async (req, res) => {
         res.status(userLookup.statusCode).render('profile', {
             title: `${userLookup.fullName}'s Profile`,
             user,
+            loggedIn: req.session.token ? true : false,
         });
     }
 });
