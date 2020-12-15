@@ -17,7 +17,6 @@ Router.get('/', async (req, res) => {
         return data;
     });
 
-    console.log(req.session.token);
     res.render('dashboard', {
         title: 'Dashboard',
         name: `${user.fullName.firstName} ${user.fullName.lastName}`,
@@ -26,7 +25,6 @@ Router.get('/', async (req, res) => {
         loggedIn: req.session.token ? true : false,
     });
 
-    console.log(req.session.token ? true : false);
 });
 
 module.exports = Router;
