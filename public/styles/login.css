@@ -1,15 +1,12 @@
 /* Page Content */
-.container {
+.container2 {
     position: absolute;
-    top: 120px;
-    left: 5%;
-    right: 5%;
-    bottom: 5%;
     margin: auto;
-    padding: 20px;
+    top: 120px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
     display: flex;
-    text-align: center;
-    overflow: hidden;
 }
 
 .right {
@@ -20,10 +17,6 @@
 
 .login_form {
     display: inline-block;
-}
-
-.line {
-    right: 0;
 }
 
 .graphic {

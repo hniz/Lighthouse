@@ -1,16 +1,4 @@
 /* Page Content */
-.container {
-    position: absolute;
-    top: 120px;
-    left: 5%;
-    right: 5%;
-    bottom: 5%;
-    margin: auto;
-    padding: 50px;
-    display: inline-block;
-    text-align: center;
-    overflow: hidden;
-}
 
 .graphic {
     width: 50%;
