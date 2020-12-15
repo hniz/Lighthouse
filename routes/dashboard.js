@@ -16,10 +16,7 @@ Router.get('/', async (req, res) => {
         data.id = data._id.toString();
         return data;
     });
-<<<<<<< HEAD
-=======
 
->>>>>>> 13d3394 (Validated clientside comment forms in post page and dashboard. [Resolves)
     res.render('dashboard', {
         title: 'Dashboard',
         name: `${user.fullName.firstName} ${user.fullName.lastName}`,
@@ -27,10 +24,7 @@ Router.get('/', async (req, res) => {
         instructor: !!req.session.instructor,
         loggedIn: req.session.token ? true : false,
     });
-<<<<<<< HEAD
-=======
-
->>>>>>> 13d3394 (Validated clientside comment forms in post page and dashboard. [Resolves)
+    
 });
 
 module.exports = Router;
