@@ -88,7 +88,7 @@
 
                     while (errorUL.firstChild) {
                         errorUL.removeChild(errorUL.firstChild);
-                    } 
+                    }
                 } else {
                     errorDiv = document.createElement('div');
                     errorDiv.className = 'dashboard-comment-error-div';
