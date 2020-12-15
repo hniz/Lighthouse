@@ -8,6 +8,9 @@
     {{#if isAuthor}}
     <a href="/post/edit/{{postId}}">Edit this post</a>
     {{/if}}
+    <div class="post-body">
+        {{{post.content}}}
+    </div>
     <ul class="comments">
         {{#each post.comments}}
         <li id="{{{_id}}}">

@@ -18,6 +18,7 @@
         {{#each data}}
         <li class="post" id="{{{ids}}}" style="background-color: white;">
                 <a href="/post/{{ids}}">{{title}}</a>
+                <div>{{{body}}}</div>
                 <ul class="comments">
                         {{#each comments}}
                         <li id="{{{_id}}}">

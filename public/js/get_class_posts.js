@@ -9,7 +9,7 @@
             contentType: 'application/json',
             data: { id: classid },
         };
-
+        classPosts.html(`<h3>Loading posts from ${event.target.innerText}...`);
         $.ajax(requestConfig).then(function handlePostResponse(
             responseMessage
         ) {
