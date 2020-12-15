@@ -18,6 +18,7 @@ Router.get('/', async (req, res) => {
     });
 
     console.log(req.session.token);
+
     res.render('dashboard', {
         title: 'Dashboard',
         name: `${user.fullName.firstName} ${user.fullName.lastName}`,
