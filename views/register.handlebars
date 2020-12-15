@@ -1,26 +1,50 @@
-<form id="register-form" action="/register" method="POST">
-    <label for="register-email">Email</label>
-    <input type="text" id="register-email" name="register-email">
-    <label for="register-password">Password</label>
-    <input type="password" id="register-password" name="register-password">
-    <label for="register-first">First Name</label>
-    <input type="text" id="register-first" name="register-first">
-    <label for="register-last">Last Name</label>
-    <input type="text" id="register-last" name="register-last">
-    <label for="register-type">Type of Account</label>
-    <select name="register-type" id="register-type">
-        <option value="SELECT">SELECT</option>
-        <option value="student">Student</option>
-        <option value="instructor">Instructor</option>
-    </select>
-    <button type="submit">Register</button>
-</form>
-<div id="register-error" hidden>
-    <ul id="register-error-list">
+<link rel="stylesheet" href="/public/styles/register.css">
 
-    </ul>
+<div class="container cornsilk">
+    <div class="left">
+        <h1>Register for Lighthouse!</h1>
+        <form id="register-form" action="/register" method="POST">
+            <div>
+                <label for="register-email">Email</label>
+                <input type="text" id="register-email" name="register-email">
+            </div>
+            <div>
+                <label for="register-password">Password</label>
+                <input type="password" id="register-password" name="register-password">
+            </div>
+            <div>
+                <label for="register-first">First Name</label>
+                <input type="text" id="register-first" name="register-first">
+            </div>
+            <div>
+                <label for="register-last">Last Name</label>
+                <input type="text" id="register-last" name="register-last">
+            </div>
+            <div>
+                <label for="register-type">Type of Account</label>
+                <select name="register-type" id="register-type">
+                    <option value="SELECT">SELECT</option>
+                    <option value="student">Student</option>
+                    <option value="instructor">Instructor</option>
+                </select>
+            </div>
+
+            <div>
+                <button type="submit">Register</button>
+            </div>
+
+        </form>
+    </div>
+    <div class="graphic">
+        <img src="../public/img/register.svg" alt="Avatar" style="height: 100%;">
+    </div>
+
+    <div id="register-error" hidden>
+        <ul id="register-error-list">
+        </ul>
+    </div>
+
 </div>
-<a href="/login">Log In</a>
 {{#if error}}
 <h3>{{{error}}}</h3>
 {{/if}}

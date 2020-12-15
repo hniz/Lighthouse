@@ -1,0 +1,26 @@
+/* Page Content */
+.container {
+    position: absolute;
+    top: 120px;
+    left: 5%;
+    right: 5%;
+    bottom: 5%;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    text-align: center;
+    overflow: hidden;
+}
+
+.left {
+    display: inline-block;
+    padding: 20px;
+    margin: 20px;
+    width: 40%;
+}
+
+.graphic {
+    height: 80%;
+    margin: auto;
+    overflow: hidden;
+}
