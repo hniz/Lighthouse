@@ -23,11 +23,18 @@
                         {{#each comments}}
                         <li id="{{{_id}}}">
                                 {{{content}}} by {{{author}}} on {{{time_submitted}}}
+                                <span class="score" id="comment-score">{{{score}}}</span>
                                 {{#if ../../instructor}}
                                 {{#if endorse}}
                                 <button class='endorse-comment-button' id="unendorse">Un-endorse</button>
                                 {{else}}
                                 <button class='endorse-comment-button' id="endorse">Endorse</button>
+                                {{/if}}
+                                {{else}}
+                                {{#if upvoted}}
+                                <button class="vote-comment-button" id="unupvote">-1</button>
+                                {{else}}
+                                <button class="vote-comment-button" id="upvote">+1</button>
                                 {{/if}}
                                 {{/if}}
                         </li>
@@ -39,13 +46,22 @@
                         <input type="hidden" name="parent-id" id="parent-id" value="{{{ids}}}">
                         <button type="submit">Post</button>
                 </form>
-                {{#if ../instructor}}
-                {{#if endorse}}
-                <button class='endorse-button' id="unendorse">Un-endorse Post</button>
-                {{else}}
-                <button class='endorse-button' id="endorse">Endorse Post</button>
-                {{/if}}
-                {{/if}}
+                <div class="feedback" id="{{{ids}}}">
+                        <span class="score" id="post-score">{{{score}}}</span>
+                        {{#if ../instructor}}
+                        {{#if endorse}}
+                        <button class='endorse-button' id="unendorse">Un-endorse Post</button>
+                        {{else}}
+                        <button class='endorse-button' id="endorse">Endorse Post</button>
+                        {{/if}}
+                        {{else}}
+                        {{#if upvoted}}
+                        <button class="vote-button" id="unupvote">-1</button>
+                        {{else}}
+                        <button class="vote-button" id="upvote">+1</button>
+                        {{/if}}
+                        {{/if}}
+                </div>
         </li>
         {{/each}}
 </ul>

@@ -6,6 +6,7 @@ const Router = express.Router();
 
 Router.get('/:id', async (req, res) => {
     const userLookup = await getUserByToken(req.session.token);
+    const tag = req.query.tag;
     if (userLookup.error) {
         return res.status(userLookup.statusCode).render('class', {
             title: 'Error',
@@ -35,13 +36,23 @@ Router.get('/:id', async (req, res) => {
         return;
     }
 
+    const filteredPosts = getClassPostsResult.classPosts.filter(
+        ({ post }) => (!!post && (tag ? post.tags.includes(tag) : true))
+    );
     let postData = [];
-    for (const { post } of getClassPostsResult.classPosts) {
-        const { comments } = await getPostComments(post._id.toString());
+    for (const { post } of filteredPosts) {
+        let { comments } = await getPostComments(post._id.toString());
+        comments = comments.map((comment)=>{
+            comment.upvoted = comment.votes && comment.votes[userLookup.user._id.toString()] === 1;
+            return comment;
+        });
         postData.push({
             title: post.title,
             endorse: post.endorse,
+            body: post.content,
             ids: post._id.toString(),
+            score: post.score,
+            upvoted: post.votes && post.votes[userLookup.user._id.toString()] === 1,
             comments,
         });
     }

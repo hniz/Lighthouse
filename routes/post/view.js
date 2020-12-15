@@ -24,7 +24,7 @@ Router.get('/:id', async (req, res) => {
             loggedIn: req.session.token ? true : false,
         });
     }
-    const comments = await getPostComments(postID);
+    let comments = await getPostComments(postID);
     if (comments.error) {
         return res.render('post', {
             title: 'Post not found!',
@@ -32,7 +32,11 @@ Router.get('/:id', async (req, res) => {
             loggedIn: req.session.token ? true : false,
         });
     }
-    postLookup.post.comments = comments.comments;
+    postLookup.post.comments = comments.comments.map((comment) => {
+        comment.upvoted =
+            comment.votes && comment.votes[user.user._id.toString()] === 1;
+        return comment;
+    });
     const classLookup = await getClassById(postLookup.post.class);
     if (classLookup.error) {
         return res.render('post', {
@@ -50,6 +54,9 @@ Router.get('/:id', async (req, res) => {
             instructor:
                 classLookup.class.instructor === user.user._id.toString(),
             loggedIn: req.session.token ? true : false,
+            upvoted:
+                postLookup.post.votes &&
+                postLookup.post.votes[user.user._id.toString()] === 1,
         });
     } else {
         return res.render('post', {
@@ -60,6 +67,9 @@ Router.get('/:id', async (req, res) => {
             instructor:
                 classLookup.class.instructor === user.user._id.toString(),
             loggedIn: req.session.token ? true : false,
+            upvoted:
+                postLookup.post.votes &&
+                postLookup.post.votes[user.user._id.toString()] === 1,
         });
     }
 });

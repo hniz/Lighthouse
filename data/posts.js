@@ -108,7 +108,63 @@ const modifyPost = async ({ id, title, author, content, endorse }) => {
     );
     if (result.ok !== 1) {
         return {
-            error: 'Error updating fields in comments.',
+            error: 'Error updating fields in posts.',
+            statusCode: 500,
+        };
+    } else {
+        return {
+            statusCode: 200,
+        };
+    }
+};
+
+const votePost = async ({ userId, postId, vote }) => {
+    vote = Number(vote);
+    if (
+        !checkValidId(userId) ||
+        !checkValidId(postId) ||
+        isNaN(vote) ||
+        vote < 0 ||
+        vote > 1
+    ) {
+        return {
+            statusCode: 400,
+            error: 'Invalid data provided.',
+        };
+    }
+    const userCollection = await collections.users();
+    const postCollection = await collections.posts();
+    const convertedUserId = ObjectId(userId);
+    const convertedPostId = ObjectId(postId);
+    const user = userCollection.findOne({
+        _id: convertedUserId,
+    });
+    const post = postCollection.findOne({
+        _id: convertedPostId,
+    });
+    if (!user || !post) {
+        return {
+            statusCode: 404,
+            error: 'Could not find post or user from the given IDs.',
+        };
+    }
+    if (!post.votes) post.votes = {};
+    post.votes[userId] = vote;
+    post.score = Object.values(post.votes).reduce((a, b) => a + b, 0);
+    const result = await postCollection.findOneAndUpdate(
+        {
+            _id: convertedPostId,
+        },
+        {
+            $set: {
+                votes: post.votes,
+                score: post.score,
+            },
+        }
+    );
+    if (result.ok !== 1) {
+        return {
+            error: 'Error updating vote.',
             statusCode: 500,
         };
     } else {
@@ -177,4 +233,5 @@ module.exports = {
     create,
     modifyPost,
     getPostById,
+    votePost,
 };

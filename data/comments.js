@@ -113,6 +113,62 @@ const modifyComment = async ({ id, author, parent_post, content, endorse }) => {
     }
 };
 
+const voteComment = async ({commentId, userId, vote}) => {
+    vote = Number(vote);
+    if (
+        !checkValidId(userId) ||
+        !checkValidId(commentId) ||
+        isNaN(vote) ||
+        vote < 0 ||
+        vote > 1
+    ) {
+        return {
+            statusCode: 400,
+            error: 'Invalid data provided.',
+        };
+    }
+    const userCollection = await collections.users();
+    const commentCollection = await collections.comments();
+    const convertedUserId = ObjectId(userId);
+    const convertedCommentId = ObjectId(commentId);
+    const user = userCollection.findOne({
+        _id: convertedUserId,
+    });
+    const comment = commentCollection.findOne({
+        _id: convertedCommentId,
+    });
+    if (!user || !comment) {
+        return {
+            statusCode: 404,
+            error: 'Could not find post or user from the given IDs.',
+        };
+    }
+    if (!comment.votes) comment.votes = {};
+    comment.votes[userId] = vote;
+    comment.score = Object.values(comment.votes).reduce((a, b) => a + b, 0);
+    const result = await commentCollection.findOneAndUpdate(
+        {
+            _id: convertedCommentId,
+        },
+        {
+            $set: {
+                votes: comment.votes,
+                score: comment.score,
+            },
+        }
+    );
+    if (result.ok !== 1) {
+        return {
+            error: 'Error updating vote.',
+            statusCode: 500,
+        };
+    } else {
+        return {
+            statusCode: 200,
+        };
+    }
+};
+
 const getPostComments = async (postID) => {
     const { getPostById } = require('./posts');
     const comments = await collections.comments();
@@ -142,6 +198,7 @@ const getPostComments = async (postID) => {
         let d = result[i].time_submitted;
         let new_date = d.slice(0, 21);
         result[i].time_submitted = new_date;
+        result[i].score = result[i].score || 0;
     }
 
     return {
@@ -233,6 +290,7 @@ module.exports = {
     deleteUserComments,
     deletePostComments,
     create,
+    voteComment,
     modifyComment,
     getPostComments,
     getCommentById,
