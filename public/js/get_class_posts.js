@@ -14,7 +14,6 @@
             responseMessage
         ) {
             const posts = $(responseMessage);
-            console.log(posts);
             classPosts.html(posts);
             const endorseButton = posts.find('.endorse-button');
             if (endorseButton.length !== 0) {
@@ -61,20 +60,48 @@
             const commentForms = posts.find('.comment-form');
             commentForms.on('submit', function (commentevent) {
                 commentevent.preventDefault();
+                
                 const children = commentevent.target.children;
                 const comment = children.namedItem('comment-content').value;
                 const parentid = children.namedItem('parent-id').value;
 
-                // let errorDiv = document.getElementById('comment-error');
-                // let errorUL = document.getElementById('comment-error-list');
+                const parentPostLI = commentevent.target.parentElement;
+                const currentTarget = parentPostLI.children;
+
                 let hasErrors = false;
                 let errors = [];
-                let resetFields = [];
+                let hasErrorDiv = false;
+                let i = 0;
+                for (i = 0; i < currentTarget.length; i++) {
+                    if (currentTarget[i].className === 'dashboard-comment-error-div') {
+                        hasErrorDiv = true;
+                        break;
+                    }
+                }
+
+                let errorDiv;
+                let errorUL;
+                
+                if (hasErrorDiv) {
+                    errorDiv = currentTarget[i];
+                    errorUL = errorDiv.firstChild;
+
+                    while (errorUL.firstChild) {
+                        errorUL.removeChild(errorUL.firstChild);
+                    } 
+                } else {
+                    errorDiv = document.createElement('div');
+                    errorDiv.className = 'dashboard-comment-error-div';
+
+                    errorUL = document.createElement('ul');
+                    errorUL.className = 'dashboard-comment-error-list';
+                }
+
+                errorDiv.hidden = true;
                 
                 if (!comment) {
                     hasErrors = true;
                     errors.push('No comment body was entered.');
-                    resetFields.push('comment-content');
                 }
         
                 if (!parentid) {
@@ -83,7 +110,17 @@
                 }
 
                 if (hasErrors) {
-                    console.log(errors);
+                    errorDiv.hidden = false;
+                    errors.forEach( (element) => {
+                        let li = document.createElement('li');
+                        li.innerHTML = element;
+                        errorUL.appendChild(li);
+                    });
+
+                    if (!hasErrorDiv) {
+                        errorDiv.appendChild(errorUL);
+                        parentPostLI.appendChild(errorDiv);
+                    }
                 } else {
                     const commentConfig = {
                         method: 'POST',
