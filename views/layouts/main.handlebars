@@ -20,20 +20,25 @@
                     <img src="../public/img/lighthouse_logo.svg" alt="home">
                 </a>
             </div>
+
             <!-- Website Title -->
             <div class="Website_Title">
                 Lighthouse
             </div>
 
             <!-- Login/Logout -->
+            {{#if loggedIn}}
             <div class="Logout cornsilk">
                 <a href="/logout" class="Logout_Text"> Logout </a>
             </div>
+            {{else}}
+            <div class="Login cornsilk">
+                <a href="/login" class="Logout_Text"> Login </a>
+            </div>
+            {{/if}}
         </div>
     </div>
     {{{ body }}}
-
-
 </body>
 
 </html>

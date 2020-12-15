@@ -16,12 +16,17 @@ Router.get('/', async (req, res) => {
         data.id = data._id.toString();
         return data;
     });
+
+    console.log(req.session.token);
     res.render('dashboard', {
         title: 'Dashboard',
         name: `${user.fullName.firstName} ${user.fullName.lastName}`,
         classes,
         instructor: !!req.session.instructor,
+        loggedIn: req.session.token ? true : false,
     });
+
+    console.log(req.session.token ? true : false);
 });
 
 module.exports = Router;

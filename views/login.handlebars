@@ -1,23 +1,48 @@
-<h1>Log In</h1>
-<form id="login-form" action="/login" method="POST">
-    <label for="login-email">Email</label>
-    <input type="text" id="login-email" name="login-email">
-    <label for="login-password">Password</label>
-    <input type="password" id="login-password" name="login-password">
-    <input hidden type="text" name="redirect-url" id="redirect-url" value="{{{redirect}}}">
-    <img src="../public/img/login.svg" alt="Avatar" style="width:100%">
-    <button type="submit">Log In</button>
-</form>
-<div id="login-error" hidden>
-    <ul id="login-error-list">
+<link rel="stylesheet" href="/public/styles/logout.css">
 
-    </ul>
+
+<div class="container cornsilk">
+    <h2>Log In</h2>
+
+    <div class="graphic">
+        <img src="../public/img/login.svg" alt="Avatar" style="width: 100%;">
+    </div>
+
+    <div>
+        <form class="login_form" id="login-form" action="/login" method="POST">
+            <div class="line">
+                <label for="login-email">Email</label>
+                <input type="text" id="login-email" name="login-email">
+            </div>
+            <div class="line">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" name="login-password">
+            </div>
+            <div id="login-error" hidden>
+                <ul id="login-error-list">
+                </ul>
+            </div>
+            <input hidden type="text" name="redirect-url" id="redirect-url" value="{{{redirect}}}">
+            <button type="submit">Log In</button>
+        </form>
+    </div>
+
+
+
+
+
+    <div class="Home">
+        <a href="/register" class="Home_Text">Register for Lighthouse!</a>
+    </div>
+
+    {{#if invalid}}
+    <h3>Invalid email and/or password!</h3>
+    {{/if}}
+    {{#if error}}
+    <h3>Unknown server error. Please try again later.</h3>
+    {{/if}}
+
 </div>
-<a href="/register">Register for Lighthouse!</a>
-{{#if invalid}}
-<h3>Invalid email and/or password!</h3>
-{{/if}}
-{{#if error}}
-<h3>Unknown server error. Please try again later.</h3>
-{{/if}}
+
+<!-- Scripts -->
 <script src="/public/js/scripts/login.js"></script>

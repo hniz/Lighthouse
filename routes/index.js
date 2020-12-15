@@ -16,9 +16,14 @@ const routeConstructor = (app) => {
     app.use('/class', classRoute);
     app.use('/user', profileRoute);
     app.use('/post', postsRoute);
+
     app.get('/', (req, res) => {
-        res.render('home_page', { title: 'Lighthouse' });
+        res.render('home_page', {
+            title: 'Lighthouse',
+            //loggedIn: req.session.token ? true : false,
+        });
     });
+
     app.use('*', (req, res) => {
         res.status(404).render('not_found', { title: 'Page not found!' });
     });
