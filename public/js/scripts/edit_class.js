@@ -87,7 +87,7 @@ jQuery(function ($) {
 
                 $.ajax(editClassConfig)
                     .done(() => {
-                        window.location.href = 'http://localhost:3000/dashboard';
+                        window.location.href = `/class/${classId}`;
                     })
                     .fail((e) => {
                         console.log(e);
