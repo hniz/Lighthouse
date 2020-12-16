@@ -16,12 +16,11 @@
     text-decoration: none;
 }
 
-.vote-comment-button {
-    width: 40px;
-    height: 40px;
+.scroll {
+    overflow-y: scroll;
 }
 
-.vote-button {
+.vote-comment-button {
     width: 40px;
     height: 40px;
 }

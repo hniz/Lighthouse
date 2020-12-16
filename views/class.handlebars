@@ -1,13 +1,15 @@
-<div class="container cornsilk">
+<link rel="stylesheet" href="/public/styles/class.css">
+
+<div class="container cornsilk scroll">
     {{#if error}}
     <h1>{{{error}}}</h1>
     {{else}}
     <h1>{{{courseName}}}</h1>
-    <a href="/post/new/{{classId}}">Create a post</a>
+    <a href="/post/new/{{classId}}" class="View">Create a post</a>
     {{#if instructor}}
-    <a href="/class/edit/{{classId}}">Edit this class</a>
+    <a href="/class/edit/{{classId}}" class="View">Edit this class</a>
     {{else}}
-    <a href="/class/leave/{{classId}}">Leave this class</a>
+    <a href="/class/leave/{{classId}}" class="View">Leave this class</a>
     {{/if}}
     <div id="class-content">
         {{#if postsExist }}
@@ -49,9 +51,11 @@
                         {{/if}}
                         {{else}}
                         {{#if upvoted}}
-                        <button class="vote-comment-button" id="unupvote">-1</button>
+                        <button class="vote-comment-button" id="unupvote">
+                            <img src="../../public/img/full_like.svg" class="like_button"></button>
                         {{else}}
-                        <button class="vote-comment-button" id="upvote">+1</button>
+                        <button class="vote-comment-button" id="upvote"><img
+                                src="../../public/img/empty_like.svg"></button>
                         {{/if}}
                         {{/if}}
                     </li>
@@ -72,9 +76,9 @@
                     {{/if}}
                     {{else}}
                     {{#if upvoted}}
-                    <button class="vote-button" id="unupvote">-1</button>
+                    <button class="vote-button" id="unupvote"><img src="../../public/img/full_like.svg"></button>
                     {{else}}
-                    <button class="vote-button" id="upvote">+1</button>
+                    <button class="vote-button" id="upvote"><img src="../../public/img/empty_like.svg"></button>
                     {{/if}}
                     {{/if}}
                 </div>
