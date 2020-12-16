@@ -2,6 +2,7 @@ const e = require('express');
 const { getClassById } = require('../../data/classes');
 const { create } = require('../../data/posts');
 const { getUserByToken } = require('../../data/users');
+const nl2br = require('nl2br');
 const Router = e.Router();
 
 Router.get('/:id', async (req, res) => {
@@ -40,18 +41,44 @@ Router.post('/', async (req, res) => {
     const id = req.body['post-class'];
     const description = req.body['post-description'];
     const title = req.body['post-name'];
+    const tags = req.body['post-tags'];
+    const classLookup = await getClassById(id);
+   
+    if(classLookup.error){
+        const statusCode = classLookup.error;
+        res.status(statusCode).render('new_post', {
+            title: 'Error',
+            error: classLookup.error,
+            loggedIn: req.session.token ? true : false,
+        });
+    }
+
+    const classTags = classLookup.class.tags;
+    let postTags = [];
+
+    if(!tags.includes('No tag selected')){
+        classTags.forEach((tag) => {
+            if(tags.includes(tag)){
+                postTags.push(tag);
+            }
+        });
+    }
+
     const result = await create({
         title,
-        content: description,
+        content: nl2br(description, false),
         userToken: req.session.token,
         classID: id,
+        tags: postTags,
     });
+
     if (result.error) {
         res.status(result.statusCode).render('new_post', {
             title: 'Error',
             error: result.error,
         });
     } else {
+        console.log('Body', description);
         res.redirect('/dashboard');
     }
 });

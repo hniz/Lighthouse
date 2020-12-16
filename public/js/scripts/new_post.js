@@ -28,10 +28,12 @@ jQuery(function ($) {
             while (errorUL.firstChild) {
                 errorUL.removeChild(errorUL.firstChild);
             }
-
+            
             let postName = inputPostName.value.trim();
             let postDescription = inputPostDescription.value.trim();
             let postClassID = inputPostClassID.value.trim();
+            let postTags = $('#select-tag').find(':selected').text();
+            
             let hasErrors = false;
             let errors = [];
             let resetFields = [];
@@ -53,6 +55,7 @@ jQuery(function ($) {
                 errors.push('No class is associated with the post.');
             }
 
+           
             if (hasErrors) {
                 errorDiv.hidden = false;
                 errors.forEach((element) => {
@@ -76,10 +79,10 @@ jQuery(function ($) {
                         'post-class': postClassID,
                         'post-description': postDescription,
                         'post-name': postName,
+                        'post-tags': postTags,
                     }),
                     success: function () {
-                        window.location.href =
-                            'http://localhost:3000/dashboard'; // figure out where to redirect
+                        window.location.href = `/class/${postClassID}`;
                     },
                     error: function (jqXHR, exception) {
                         var msg = '';

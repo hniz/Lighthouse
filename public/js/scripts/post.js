@@ -60,6 +60,6 @@
                     console.log(e);
                     alert('Comment failed to post');
                 });
-        }        
+        }
     });
 })(window.jQuery);

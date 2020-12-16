@@ -10,8 +10,8 @@ jQuery(function ($) {
             event.preventDefault();
 
             errorDiv.hidden = true;
-            
-            while(errorUL.firstChild) {
+
+            while (errorUL.firstChild) {
                 errorUL.removeChild(errorUL.firstChild);
             }
 
@@ -19,53 +19,50 @@ jQuery(function ($) {
             let classPassword = inputClassPassword.value.trim();
             let hasErrors = false;
             let errors = [];
-            let resetFields = [];
 
             if (!classCode) {
                 hasErrors = true;
                 errors.push('No class code was entered.');
-                resetFields.push('class-code');
             }
-            
+
             if (!classPassword) {
                 hasErrors = true;
                 errors.push('No class password was entered.');
-                resetFields.push('class-password');
             }
 
             if (hasErrors) {
                 errorDiv.hidden = false;
-                errors.forEach( (element) => {
+                errors.forEach((element) => {
                     let li = document.createElement('li');
                     li.innerHTML = element;
                     errorUL.appendChild(li);
                 });
-
-                if (resetFields.length > 0) {
-                    resetFields.forEach( (element) => {
-                        document.getElementById(element).value = '';
-                    });
-                    document.getElementById(resetFields[0]).focus();
-                }
             } else {
                 var requestConfig = {
                     method: 'POST',
-                    url: '/class/join',
+                    url: '/api/joinClass',
                     contentType: 'application/json',
                     data: JSON.stringify({
                         'class-code': classCode,
                         'class-password': classPassword,
                     }),
-                    success: function() {
-                        window.location.href = 'http://localhost:3000/dashboard';
+                    success: function () {
+                        window.location.href =
+                            'http://localhost:3000/dashboard';
                     },
                     error: function (jqXHR, exception) {
                         var msg = '';
                         if (jqXHR.status === 0) {
                             msg = 'Not connect.\n Verify Network.';
                         } else if (jqXHR.status == 404) {
+                            errorDiv.hidden = false;
+                            errorUL.innerHTML =
+                                '<li>Invalid Class Code/Password.</li>';
                             msg = 'Requested page not found. [404]';
                         } else if (jqXHR.status == 500) {
+                            errorDiv.hidden = false;
+                            errorUL.innerHTML =
+                                '<li>Internal server error.</li>';
                             msg = 'Internal Server Error [500].';
                         } else if (exception === 'parsererror') {
                             msg = 'Requested JSON parse failed.';

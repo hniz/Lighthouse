@@ -43,16 +43,19 @@ Router.post('/:classId', async (req, res) => {
         }).map(({post})=>{
             return post.content;
         });
-    const similarities = stringSimilarity.findBestMatch(body, postBodies);
-    if (similarities.bestMatch.rating > 0.5) {
-        const similarPost = classPosts.classPosts[similarities.bestMatchIndex];
-        return res.status(200).json({
-            similar: similarPost.post,
-            rating: similarities.bestMatch.rating,
-        });
-    } else {
-        return res.status(200).json({});
+    if (postBodies.length > 0) {
+        const similarities = stringSimilarity.findBestMatch(body, postBodies);
+        if (similarities.bestMatch.rating > 0.5) {
+            const similarPost = classPosts.classPosts[similarities.bestMatchIndex];
+            return res.status(200).json({
+                similar: similarPost.post,
+                rating: similarities.bestMatch.rating,
+            });
+        }
     }
+    return res.status(200).json({});
+    
+    
 });
 
 module.exports = Router;

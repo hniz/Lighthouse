@@ -1,16 +1,25 @@
+<link rel="stylesheet" href="/public/styles/edit_class.css">
+
+
 <div class="container cornsilk">
-    <form action="/class/edit" method="POST">
+    <form id='edit-class-form' action="/class/edit" method="POST">
         <label for="class-name">Class Name</label>
         <input type="text" name="class-name" id="class-name" value="{{{class.name}}}">
         <label for="class-description">Class Description</label>
-        <input type="text" name="class-description" id="class-description" value="{{{class.description}}}">
+        <textarea name="class-description" id="class-description" cols="30" rows="10">{{{class.description}}}</textarea>
         <label for="class-code">Unique Class Code</label>
         <input type="text" name="class-code" id="class-code" value="{{{class.code}}}">
         <label for="class-password">Class Password</label>
         <input type="password" name="class-password" id="class-password" value="{{{class.password}}}">
+        <button id="show-password-button">Show password</button>
         <input type="hidden" name="class-id" id="class-id" value="{{{class._id}}}">
         <button type="submit">Submit</button>
     </form>
+    <div id='edit-class-error'>
+        <ul id='edit-class-error-list'>
+
+        </ul>
+    </div>
 
     <form action="/class/edit/tags" method="POST">
         <label for="tag-input">Tags</label>
@@ -25,3 +34,5 @@
     <li>{{this}}</li>
     {{/each}}
 </ul>
+<script src="/public/js/show_class_password.js"></script>
+<script src="/public/js/scripts/edit_class.js"></script>

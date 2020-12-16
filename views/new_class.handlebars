@@ -1,11 +1,19 @@
+<link rel="stylesheet" href="/public/styles/new_class.css">
+
+
 {{#if instructor}}
-<form action="/class/new" method="POST">
+<form id="new-class-form" action="/class/new" method="POST">
     <label for="class-name">Class Name</label>
     <input type="text" id="class-name" name="class-name">
     <label for="class-description">Class Description</label>
-    <input type="text" id="class-description" name="class-description">
+    <textarea name="class-description" id="class-description" cols="30" rows="10"></textarea>
     <button type="submit">Create</button>
 </form>
+<div id="new-class-error"> 
+    <ul id="new-class-list-error"></ul>
+</div>
 {{else}}
 <h3>You are not authorized to access this page!</h3>
 {{/if}}
+
+<script src="/public/js/scripts/new_class.js"></script>

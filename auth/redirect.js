@@ -15,7 +15,7 @@ const exclude = (routes, middleware) => {
 const redirectRoutes = (app) => {
     app.use(
         exclude(
-            ['/', '/login', '/logout', '/register'],
+            ['/', '/login', '/logout', '/register', '/api/login'],
             async (req, res, next) => {
                 if (req.session && req.session.token) {
                     return next();

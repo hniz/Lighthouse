@@ -9,7 +9,7 @@
             contentType: 'application/json',
             data: { id: classid },
         };
-
+        classPosts.html(`<h3>Loading posts from ${event.target.innerText}...`);
         $.ajax(requestConfig).then(function handlePostResponse(
             responseMessage
         ) {
@@ -29,10 +29,39 @@
                     $.ajax(endorseConfig)
                         .done(() => {
                             event.target.id = endorse ? 'unendorse' : 'endorse';
-                            event.target.innerText = endorse ? 'Un-endorse Post' : 'Endorse Post';
+                            event.target.innerText = endorse
+                                ? 'Un-endorse Post'
+                                : 'Endorse Post';
                         })
                         .fail(() => {
                             alert('Failed to endorse/unendorse post.');
+                        });
+                });
+            }
+            const voteButton = $('.vote-button');
+            if (voteButton.length !== 0) {
+                voteButton.on('click', (event) => {
+                    event.preventDefault();
+                    const postID = event.target.parentElement.id;
+                    const vote = event.target.id === 'upvote';
+                    var voteConfig = {
+                        method: 'POST',
+                        url: `/api/vote/post/${postID}?vote=${+vote}`,
+                        contentType: 'application/json',
+                    };
+                    $.ajax(voteConfig)
+                        .done(() => {
+                            const score = event.target.parentElement.children.namedItem(
+                                'post-score'
+                            );
+                            const newScore =
+                                Number(score.innerText) + (vote ? 1 : -1);
+                            score.innerText = newScore;
+                            event.target.id = vote ? 'unupvote' : 'upvote';
+                            event.target.innerText = vote ? '-1' : '+1';
+                        })
+                        .fail(() => {
+                            alert('Failed to vote on post.');
                         });
                 });
             }
@@ -50,17 +79,46 @@
                     $.ajax(endorseCommentConfig)
                         .done(() => {
                             event.target.id = endorse ? 'unendorse' : 'endorse';
-                            event.target.innerText = endorse ? 'Un-endorse' : 'Endorse';
+                            event.target.innerText = endorse
+                                ? 'Un-endorse'
+                                : 'Endorse';
                         })
                         .fail(() => {
                             alert('Failed to endorse/unendorse comment.');
                         });
                 });
             }
+            const voteCommentButton = $('.vote-comment-button');
+            if (voteCommentButton.length !== 0) {
+                voteCommentButton.on('click', (event) => {
+                    event.preventDefault();
+                    const commentId = event.target.parentElement.id;
+                    const vote = event.target.id === 'upvote';
+                    var voteConfig = {
+                        method: 'POST',
+                        url: `/api/vote/comment/${commentId}?vote=${+vote}`,
+                        contentType: 'application/json',
+                    };
+                    $.ajax(voteConfig)
+                        .done(() => {
+                            const score = event.target.parentElement.children.namedItem(
+                                'comment-score'
+                            );
+                            const newScore =
+                                Number(score.innerText) + (vote ? 1 : -1);
+                            score.innerText = newScore;
+                            event.target.id = vote ? 'unupvote' : 'upvote';
+                            event.target.innerText = vote ? '-1' : '+1';
+                        })
+                        .fail(() => {
+                            alert('Failed to vote on comment.');
+                        });
+                });
+            }
             const commentForms = posts.find('.comment-form');
             commentForms.on('submit', function (commentevent) {
                 commentevent.preventDefault();
-                
+
                 const children = commentevent.target.children;
                 const comment = children.namedItem('comment-content').value;
                 const parentid = children.namedItem('parent-id').value;
@@ -73,7 +131,10 @@
                 let hasErrorDiv = false;
                 let i = 0;
                 for (i = 0; i < currentTarget.length; i++) {
-                    if (currentTarget[i].className === 'dashboard-comment-error-div') {
+                    if (
+                        currentTarget[i].className ===
+                        'dashboard-comment-error-div'
+                    ) {
                         hasErrorDiv = true;
                         break;
                     }
@@ -81,14 +142,14 @@
 
                 let errorDiv;
                 let errorUL;
-                
+
                 if (hasErrorDiv) {
                     errorDiv = currentTarget[i];
                     errorUL = errorDiv.firstChild;
 
                     while (errorUL.firstChild) {
                         errorUL.removeChild(errorUL.firstChild);
-                    } 
+                    }
                 } else {
                     errorDiv = document.createElement('div');
                     errorDiv.className = 'dashboard-comment-error-div';
@@ -98,12 +159,12 @@
                 }
 
                 errorDiv.hidden = true;
-                
+
                 if (!comment) {
                     hasErrors = true;
                     errors.push('No comment body was entered.');
                 }
-        
+
                 if (!parentid) {
                     hasErrors = true;
                     errors.push('No parent id given.');
@@ -111,7 +172,7 @@
 
                 if (hasErrors) {
                     errorDiv.hidden = false;
-                    errors.forEach( (element) => {
+                    errors.forEach((element) => {
                         let li = document.createElement('li');
                         li.innerHTML = element;
                         errorUL.appendChild(li);
@@ -139,8 +200,6 @@
                             alert('Comment failed to post');
                         });
                 }
-                
-                
             });
             const tagLinks = classPosts.find('#class-tags');
             tagLinks.on('click', function (tagevent) {

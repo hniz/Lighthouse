@@ -5,7 +5,7 @@ const comments = require('./comments');
 const checkUserInfo = require('../helpers/check_user_info');
 const checkUpdatedPostInfo = require('../helpers/check_post_info');
 
-const create = async ({ title, content, userToken, classID }) => {
+const create = async ({ title, content, userToken, classID, tags }) => {
     const posts = await collections.posts();
     const users = await collections.users();
     const classes = await collections.classes();
@@ -13,6 +13,7 @@ const create = async ({ title, content, userToken, classID }) => {
         checkUserInfo.validateString(userToken) &&
         checkUserInfo.validateString(title) &&
         checkUserInfo.validateString(content) &&
+        checkUserInfo.validateTagsArray(tags) &&
         checkValidId(classID)
     ) {
         const userLookup = await users.findOne({
@@ -37,6 +38,8 @@ const create = async ({ title, content, userToken, classID }) => {
                 statusCode: 401,
             };
         }
+        const votes = {};
+        votes[userLookup._id.toString()] = 1;
         const result = await posts.insertOne({
             title,
             author: userLookup._id.toString(),
@@ -44,8 +47,9 @@ const create = async ({ title, content, userToken, classID }) => {
             time_submitted: String(new Date()),
             content,
             comments: [],
-            tags: [],
+            tags,
             score: 1,
+            votes,
         });
         const postID = result.insertedId.toString();
 
@@ -108,7 +112,63 @@ const modifyPost = async ({ id, title, author, content, endorse }) => {
     );
     if (result.ok !== 1) {
         return {
-            error: 'Error updating fields in comments.',
+            error: 'Error updating fields in posts.',
+            statusCode: 500,
+        };
+    } else {
+        return {
+            statusCode: 200,
+        };
+    }
+};
+
+const votePost = async ({ userId, postId, vote }) => {
+    vote = Number(vote);
+    if (
+        !checkValidId(userId) ||
+        !checkValidId(postId) ||
+        isNaN(vote) ||
+        vote < 0 ||
+        vote > 1
+    ) {
+        return {
+            statusCode: 400,
+            error: 'Invalid data provided.',
+        };
+    }
+    const userCollection = await collections.users();
+    const postCollection = await collections.posts();
+    const convertedUserId = ObjectId(userId);
+    const convertedPostId = ObjectId(postId);
+    const user = userCollection.findOne({
+        _id: convertedUserId,
+    });
+    const post = postCollection.findOne({
+        _id: convertedPostId,
+    });
+    if (!user || !post) {
+        return {
+            statusCode: 404,
+            error: 'Could not find post or user from the given IDs.',
+        };
+    }
+    if (!post.votes) post.votes = {};
+    post.votes[userId] = vote;
+    post.score = Object.values(post.votes).reduce((a, b) => a + b, 0);
+    const result = await postCollection.findOneAndUpdate(
+        {
+            _id: convertedPostId,
+        },
+        {
+            $set: {
+                votes: post.votes,
+                score: post.score,
+            },
+        }
+    );
+    if (result.ok !== 1) {
+        return {
+            error: 'Error updating vote.',
             statusCode: 500,
         };
     } else {
@@ -177,4 +237,5 @@ module.exports = {
     create,
     modifyPost,
     getPostById,
+    votePost,
 };
