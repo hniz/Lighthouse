@@ -3,7 +3,6 @@ jQuery(function ($) {
     let inputPostName = document.getElementById('post-name');
     let inputPostDescription = document.getElementById('post-description');
     let inputPostClassID = document.getElementById('post-class');
-    let inputPostTags = document.getElementById('post-tags');
     let errorDiv = document.getElementById('new-post-error');
     let errorUL = document.getElementById('new-post-error-list');
     const similarDiv = $('#similar-posts');
@@ -30,20 +29,10 @@ jQuery(function ($) {
                 errorUL.removeChild(errorUL.firstChild);
             }
             
-            let tagsPresent = false;
             let postName = inputPostName.value.trim();
             let postDescription = inputPostDescription.value.trim();
             let postClassID = inputPostClassID.value.trim();
-            let postTags;
-            try{
-                postTags = inputPostTags.value.split(',');
-                for(let i = 0; i < postTags.length; i++){
-                    postTags[i] = postTags[i].trim();
-                }
-                tagsPresent = true;
-            } catch(e){
-                tagsPresent = false;
-            }
+            let postTags = $('#select-tag').find(':selected').text();
             
             let hasErrors = false;
             let errors = [];
@@ -66,12 +55,7 @@ jQuery(function ($) {
                 errors.push('No class is associated with the post.');
             }
 
-            if(tagsPresent){
-                if(!postTags || postTags.length === 0){
-                    errors.push('Indicated that tags were present, no tags found.');
-                }
-            }
-
+           
             if (hasErrors) {
                 errorDiv.hidden = false;
                 errors.forEach((element) => {
