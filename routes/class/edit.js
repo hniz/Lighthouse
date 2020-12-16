@@ -5,6 +5,7 @@ const {
     addTagToClass,
 } = require('../../data/classes');
 const { getUserByToken } = require('../../data/users');
+const nl2br = require('nl2br');
 const Router = e.Router();
 
 Router.get('/:id', async (req, res) => {
@@ -64,7 +65,7 @@ Router.post('/', async (req, res) => {
     } else {
         const fields = {
             name: req.body['class-name'],
-            description: req.body['class-description'],
+            description: nl2br(req.body['class-description'], false),
             code: req.body['class-code'],
             password: req.body['class-password'],
             id: req.body['class-id'],

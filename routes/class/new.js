@@ -1,5 +1,6 @@
 const e = require('express');
 const { create } = require('../../data/classes');
+const nl2br = require('nl2br');
 const Router = e.Router();
 
 Router.post('/', async (req, res) => {
@@ -8,7 +9,7 @@ Router.post('/', async (req, res) => {
     const description = req.body['class-description'];
     const result = await create({
         name,
-        description,
+        description: nl2br(description, false),
         instructorToken: token,
     });
     if (result.error) {

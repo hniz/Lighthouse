@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="/public/styles/new_post.css">
+
+
 {{#if error}}
 <h1>Sorry, an error occurred</h1>
 <h3>{{{error}}}</h3>
@@ -7,8 +10,7 @@
     <label for="post-name">Post Title</label>
     <input type="text" name="post-name" id="post-name">
     <label for="post-description">Post Body</label>
-    <input type="text" name="post-description" id="post-description">
-
+    <textarea name="post-description" id="post-description" cols="30" rows="10"></textarea>
     <label for="post-tags">Post tags</label>
     <select id="select-tag" multiple>
         <option value="" disabled selected>No tag selected</option>

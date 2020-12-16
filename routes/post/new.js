@@ -1,8 +1,8 @@
 const e = require('express');
 const { getClassById } = require('../../data/classes');
 const { create } = require('../../data/posts');
-const { addTagToClass } = require('../../data/classes');
 const { getUserByToken } = require('../../data/users');
+const nl2br = require('nl2br');
 const Router = e.Router();
 
 Router.get('/:id', async (req, res) => {
@@ -10,7 +10,9 @@ Router.get('/:id', async (req, res) => {
     const classLookup = await getClassById(id);
     const userLookup = await getUserByToken(req.session.token);
     if (userLookup.error || classLookup.error) {
-        const statusCode = classLookup.error ? classLookup.statusCode : userLookup.statusCode;
+        const statusCode = classLookup.error
+            ? classLookup.statusCode
+            : userLookup.statusCode;
         res.status(statusCode).render('new_post', {
             title: 'Error',
             error: classLookup.error || userLookup.error,
@@ -64,7 +66,7 @@ Router.post('/', async (req, res) => {
 
     const result = await create({
         title,
-        content: description,
+        content: nl2br(description, false),
         userToken: req.session.token,
         classID: id,
         tags: postTags,
@@ -76,6 +78,7 @@ Router.post('/', async (req, res) => {
             error: result.error,
         });
     } else {
+        console.log('Body', description);
         res.redirect('/dashboard');
     }
 });

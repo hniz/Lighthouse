@@ -1,6 +1,7 @@
 const e = require('express');
 const { getPostById, modifyPost } = require('../../data/posts');
 const { getUserByToken } = require('../../data/users');
+const nl2br = require('nl2br');
 const Router = e.Router();
 
 Router.get('/:id', async (req, res) => {
@@ -58,7 +59,7 @@ Router.post('/', async (req, res) => {
         const fields = {
             id: req.body['post-id'],
             title: req.body['post-title'],
-            content: req.body['post-content'],
+            content: nl2br(req.body['post-content'], false),
         };
         const result = await modifyPost(fields);
         if (result.error) {
