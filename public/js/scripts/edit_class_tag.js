@@ -54,8 +54,8 @@ jQuery(function ($) {
                     contentType: 'application/json',
                     data: JSON.stringify({
                         'tag-name': tagInput,
-                        'class-id': classTagID
-                    })
+                        'class-id': classTagID,
+                    }),
                 };
 
                 $.ajax(tagConfig)
@@ -63,9 +63,9 @@ jQuery(function ($) {
                         window.location.href = `/class/${classTagID}`;
                     })
                     .fail((e) => {
-                        console.log(e)
-                        alert(`Could not edit the class tags`);
-                    })
+                        console.log(e);
+                        alert('Could not edit the class tags');
+                    });
             }
         });
     }
