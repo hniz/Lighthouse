@@ -43,7 +43,7 @@ Router.post('/:postId', async (req, res) => {
             .status(modifyResult.statusCode)
             .json({ error: modifyResult.error });
     }
-    return res.status(200).send();
+    return res.status(200).json({postId: req.params.postId, endorse});
 });
 
 module.exports = Router;

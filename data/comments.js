@@ -168,6 +168,7 @@ const voteComment = async ({ commentId, userId, vote }) => {
         };
     } else {
         return {
+            score: comment.score,
             statusCode: 200,
         };
     }

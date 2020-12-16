@@ -48,7 +48,7 @@ Router.get('/:id', async (req, res) => {
     if (postLookup.post.author !== user.user._id.toString()) {
         return res.render('post', {
             isAuthor: false,
-            title: postLookup.post.name,
+            title: postLookup.post.title,
             post: postLookup.post,
             postId: postLookup.post._id.toString(),
             instructor:
@@ -61,7 +61,7 @@ Router.get('/:id', async (req, res) => {
     } else {
         return res.render('post', {
             isAuthor: true,
-            title: postLookup.post.name,
+            title: postLookup.post.title,
             post: postLookup.post,
             postId: postLookup.post._id.toString(),
             instructor:
