@@ -10,4 +10,9 @@
     <span>{{{user.posts.length}}}</span> posts
     <span>{{{user.comments.length}}}</span> comments
 </div>
+<p>Enrolled in: </p>
+{{#each userClasses}}
+<p>{{this}}</p>
+{{/each}}
+
 {{/if}}
