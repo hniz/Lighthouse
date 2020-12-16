@@ -1,5 +1,5 @@
 <div class="container cornsilk">
-    <form action="/class/edit" method="POST">
+    <form id='edit-class-form' action="/class/edit" method="POST">
         <label for="class-name">Class Name</label>
         <input type="text" name="class-name" id="class-name" value="{{{class.name}}}">
         <label for="class-description">Class Description</label>
@@ -12,6 +12,11 @@
         <input type="hidden" name="class-id" id="class-id" value="{{{class._id}}}">
         <button type="submit">Submit</button>
     </form>
+    <div id='edit-class-error'>
+        <ul id='edit-class-error-list'>
+
+        </ul>
+    </div>
 
     <form action="/class/edit/tags" method="POST">
         <label for="tag-input">Tags</label>
@@ -27,3 +32,4 @@
     {{/each}}
 </ul>
 <script src="/public/js/show_class_password.js"></script>
+<script src="/public/js/scripts/edit_class.js"></script>
