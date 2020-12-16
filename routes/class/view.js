@@ -61,6 +61,7 @@ Router.get('/:id', async (req, res) => {
     return res.render('class', {
         title: course.name,
         courseName: course.name,
+        courseDesc: course.description,
         tags: course.tags,
         postsExist: postData.length > 0,
         data: postData,
