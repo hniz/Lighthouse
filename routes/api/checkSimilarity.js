@@ -52,7 +52,7 @@ Router.post('/:classId', async (req, res) => {
                 rating: similarities.bestMatch.rating,
             });
         }
-    } 
+    }
     return res.status(200).json({});
     
     

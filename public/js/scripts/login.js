@@ -47,12 +47,11 @@ jQuery(function ($) {
                     errorUL.appendChild(li);
                 });
 
-                myForm.reset();
                 userEmail.focus();
             } else {
                 var requestConfig = {
                     method: 'POST',
-                    url: '/login', // this is what is wrong, it only posts to /login/ but that redirects to /login with a get not a post
+                    url: '/api/login', // this is what is wrong, it only posts to /login/ but that redirects to /login with a get not a post
                     contentType: 'application/json',
                     data: JSON.stringify({
                         'login-email': email,
@@ -66,8 +65,12 @@ jQuery(function ($) {
                         if (jqXHR.status === 0) {
                             msg = 'Not connect.\n Verify Network.';
                         } else if (jqXHR.status == 404) {
+                            errorDiv.hidden = false;
+                            errorUL.innerHTML = '<li>Incorrect username/email.</li>';
                             msg = 'Requested page not found. [404]';
                         } else if (jqXHR.status == 500) {
+                            errorDiv.hidden = false;
+                            errorUL.innerHTML = '<li>Internal server error. Try again later.</li>';
                             msg = 'Internal Server Error [500].';
                         } else if (exception === 'parsererror') {
                             msg = 'Requested JSON parse failed.';

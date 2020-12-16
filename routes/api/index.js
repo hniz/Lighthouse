@@ -6,7 +6,11 @@ const endorseRoute = require('./endorse');
 const endorseCommentRoute = require('./endorseComment');
 const similarityCheckRoute = require('./checkSimilarity');
 const voteRoute = require('./vote');
+const loginRoute = require('./login');
+const joinClassRoute = require('./joinClass');
 
+Router.use('/joinClass', joinClassRoute);
+Router.use('/login', loginRoute);
 Router.use('/comment', commentsRoute);
 Router.use('/getClassPosts', classPostsRoute);
 Router.use('/endorse', endorseRoute);

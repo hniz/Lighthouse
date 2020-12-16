@@ -3,7 +3,11 @@ const bcrypt = require('bcrypt');
 
 const authorize = async (email, password) => {
     const userLookup = await getUserByEmail(email);
-    if (userLookup.error) return userLookup;
+    if (userLookup.error)
+        return {
+            statusCode: 404,
+            error: 'Invalid email or password!',
+        };
     const user = userLookup.user;
     if (await bcrypt.compare(password, user.hashedPassword)) {
         return {
@@ -11,7 +15,7 @@ const authorize = async (email, password) => {
         };
     } else {
         return {
-            statusCode: 401,
+            statusCode: 404,
             error: 'Invalid email or password!',
         };
     }
