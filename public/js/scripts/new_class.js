@@ -54,8 +54,8 @@ jQuery(function ($) {
                     contentType: 'application/json',
                     data: JSON.stringify({
                         'class-name': className,
-                        'class-description': classDescription
-                    })
+                        'class-description': classDescription,
+                    }),
                 };
 
                 $.ajax(classConfig)
@@ -65,8 +65,8 @@ jQuery(function ($) {
                     .fail( (e) => {
                         console.log(e);
                         alert(`Could not create a class for ${className}`);
-                    })
+                    });
             }
-        })
+        });
     }
 });

@@ -15,7 +15,7 @@ Router.get('/:id', async (req, res) => {
     }
     const classLookup = await getClassById(req.params.id);
     if (classLookup.error) {
-        res.status(classLookup.statusCode).render('class', {
+        return res.status(classLookup.statusCode).render('class', {
             title: 'Error',
             error: classLookup.error,
         });
@@ -23,7 +23,7 @@ Router.get('/:id', async (req, res) => {
     const user = userLookup.user;
     const course = classLookup.class;
     if (!user.classes.includes(course._id.toString())) {
-        res.status(401).render('class', {
+        return res.status(401).render('class', {
             title: 'Error',
             error: 'You are not registered for this class!',
         });
@@ -64,6 +64,7 @@ Router.get('/:id', async (req, res) => {
         data: postData,
         instructor: course.instructor === user._id.toString(),
         loggedIn: req.session.token ? true : false,
+        classId: course._id.toString(),
     });
 });
 

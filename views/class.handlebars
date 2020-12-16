@@ -3,6 +3,9 @@
     <h1>{{{error}}}</h1>
     {{else}}
     <h1>{{{courseName}}}</h1>
+    {{#if instructor}}
+        <a href="/class/edit/{{classId}}">Edit this class</a>
+    {{/if}}
     <div id="class-content">
         {{#if postsExist }}
         {{#if tags}}
