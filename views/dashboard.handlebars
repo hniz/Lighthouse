@@ -3,11 +3,19 @@
 <!-- Page Content -->
 <div class="left cornsilk" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
     <h1 style="text-align: center;">Welcome, {{{name}}}!</h1>
-    <h3>Classes</h3>
+    <div class="Join">
+        {{#if instructor}}
+        <a href="/class/new" class="Join_Text">Create New Class</a>
+        {{else}}
+        <a href="/class/join" class="Join_Text">Join New Class</a>
+        {{/if}}
+    </div>
 
+
+    <h2>Enrolled Classes</h2>
     <ul class="class-list">
         {{#each classes}}
-        <li id="{{{id}}}">{{{name}}}</li>
+        <li class="Classes" id="{{{id}}}">{{{name}}}</li>
         {{else}}
         {{#if instructor}}
         <h3><a href="/class/new">Create a class</a></h3>
@@ -17,11 +25,7 @@
         {{/each}}
     </ul>
 
-    {{#if instructor}}
-    <a href="/class/new">Create a class</a>
-    {{else}}
-    <a href="/class/join">Join a class</a>
-    {{/if}}
+
 
 </div>
 

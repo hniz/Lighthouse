@@ -6,6 +6,7 @@
     left: 20px;
     height: 80%;
     padding: 5px;
+    overflow-y: scroll;
 }
 
 .right {
@@ -19,8 +20,50 @@
     padding: 5px;
 }
 
+.Join {
+    background-color: white;
+    height: 40px;
+    width: 300px;
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+}
+
+.Join_Text {
+    font-family: 'coolvetica';
+    top: 10px;
+    font-size: 20pt;
+    color: #459dd8;
+    text-decoration: none;
+}
+.Classes {
+    background-color: white;
+    height: 40px;
+    width: 300px;
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+
+    font-family: 'coolvetica';
+    top: 10px;
+    font-size: 20pt;
+    color: #459dd8;
+    text-decoration: none;
+}
+
+.Classes:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
 .post-container {
     vertical-align: middle;
+    text-decoration: none;
 }
 
 .post {
