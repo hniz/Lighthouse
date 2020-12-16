@@ -6,7 +6,11 @@
     {{else}}
 
 
-    <div id="{{{post._id}}}">
+    {{#if endorse}}
+    <div class="post-endorse">
+    {{else}}
+    <div>
+    {{/if}}
         <h1>{{{post.title}}}</h1>
         {{#if isAuthor}}
         <a href="/post/edit/{{postId}}">Edit this post</a>
@@ -18,7 +22,12 @@
         <p>Comments:</p>
         <ul class="comments">
             {{#each post.comments}}
+            
+            {{#if endorse}}
+            <li class="comment-endorse">
+            {{else}}
             <li>
+            {{/if}}
                 {{{content}}} by {{{author}}} on {{{time_submitted}}}
                 <span class="score" id="comment-score-{{{_id}}}">{{{score}}}</span>
                 {{#if ../instructor}}

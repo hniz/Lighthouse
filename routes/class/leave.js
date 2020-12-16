@@ -19,6 +19,12 @@ Router.get('/:classId', async (req, res) => {
         });
     }
     const user = userLookup.user;
+    if(user.type === 'instructor'){
+        return res.status(401).render('leave_class', {
+            title: 'Error',
+            error: 'You cannot leave classes as an instructor!.',
+        });
+    }
     const course = classLookup.class;
     if (!user.classes.includes(course._id.toString())) {
         return res.status(401).render('leave_class', {
@@ -50,6 +56,12 @@ Router.post('/:classId', async (req, res) => {
     }
     const user = userLookup.user;
     const course = classLookup.class;
+    if(user.type === 'instructor'){
+        return res.status(401).render('leave_class', {
+            title: 'Error',
+            error: 'You cannot leave classes as an instructor!.',
+        });
+    }
     if (!user.classes.includes(course._id.toString())) {
         return res.status(401).render('leave_class', {
             title: 'Error',

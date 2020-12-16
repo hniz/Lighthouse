@@ -18,6 +18,15 @@
                             : `endorse-${commentId}`;
                     event.target.innerText =
                         endorse === 'true' ? 'Un-endorse' : 'Endorse';
+                    if (endorse === 'true') {
+                        event.target.parentElement.classList.add(
+                            'comment-endorse'
+                        );
+                    } else {
+                        event.target.parentElement.classList.remove(
+                            'comment-endorse'
+                        );
+                    }
                 })
                 .fail(() => {
                     alert('Failed to endorse/unendorse comment.');

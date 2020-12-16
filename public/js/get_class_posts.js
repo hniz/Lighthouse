@@ -32,7 +32,18 @@
                                     ? `unendorse-${postId}`
                                     : `endorse-${postId}`;
                             event.target.innerText =
-                                endorse === 'true' ? 'Un-endorse Post' : 'Endorse Post';
+                                endorse === 'true'
+                                    ? 'Un-endorse Post'
+                                    : 'Endorse Post';
+                            if (endorse === 'true') {
+                                event.target.parentElement.parentElement.classList.add(
+                                    'post-endorse'
+                                );
+                            } else {
+                                event.target.parentElement.parentElement.classList.remove(
+                                    'post-endorse'
+                                );
+                            }
                         })
                         .fail(() => {
                             alert('Failed to endorse/unendorse post.');
@@ -91,6 +102,15 @@
                                     : `endorse-${commentId}`;
                             event.target.innerText =
                                 endorse === 'true' ? 'Un-endorse' : 'Endorse';
+                            if (endorse === 'true') {
+                                event.target.parentElement.classList.add(
+                                    'comment-endorse'
+                                );
+                            } else {
+                                event.target.parentElement.classList.remove(
+                                    'comment-endorse'
+                                );
+                            }
                         })
                         .fail(() => {
                             alert('Failed to endorse/unendorse comment.');
@@ -137,7 +157,8 @@
                 console.log(commentevent);
                 const id = commentevent.target.id.split('-')[1];
                 const children = commentevent.target.children;
-                const comment = children.namedItem(`comment-content-${id}`).value;
+                const comment = children.namedItem(`comment-content-${id}`)
+                    .value;
                 const parentid = children.namedItem(`parent-id-${id}`).value;
 
                 const parentPostLI = commentevent.target.parentElement;

@@ -30,7 +30,11 @@
 
         <ul id="post-list">
             {{#each data}}
+            {{#if endorse}}
+            <li class="post-endorse">
+            {{else}}
             <li>
+            {{/if}}
                 <a href="/post/{{ids}}">{{title}}</a>
                 <div class="post-body">
                     {{{body}}}
@@ -42,7 +46,11 @@
                 </ul>
                 <ul class="comments">
                     {{#each comments}}
-                    <li id="{{{_id}}}">
+                    {{#if endorse}}
+                    <li class="comment-endorse">
+                    {{else}}
+                    <li>
+                    {{/if}}
                         {{{content}}} by {{{author}}} on {{{time_submitted}}}
                         <span class="score" id="comment-score-{{{_id}}}">{{{score}}}</span>
 
