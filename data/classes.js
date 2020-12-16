@@ -195,6 +195,76 @@ const addStudentToClass = async ({ studentToken, classCode }) => {
     }
 };
 
+const removeStudentFromClass = async ({ studentToken, classId }) => {
+    const classes = await collections.classes();
+    const users = await collections.users();
+    if (!checkValidId(classId) || !validateString(studentToken)) {
+        return {
+            error: 'Missing or invalid field(s) given.',
+            statusCode: 400,
+        };
+    }
+    const convertedClassId = ObjectId(classId);
+    const classLookup = await classes.findOne({ _id: convertedClassId });
+    const userLookup = await users.findOne({ token: studentToken });
+    if (!classLookup) {
+        return {
+            error: 'No class with the given code.',
+            statusCode: 404,
+        };
+    }
+    if (!userLookup) {
+        return {
+            error: 'No user found.',
+            statusCode: 404,
+        };
+    }
+    if (!userLookup.classes.includes(classLookup._id.toString())) {
+        return {
+            statusCode: 400,
+            error: 'User is not enrolled in class.',
+        };
+    }
+    const oldStudents = classLookup.students;
+    const newStudents = oldStudents.filter(
+        (student) => student !== userLookup._id.toString()
+    );
+    const oldClasses = userLookup.classes;
+    const newClasses = oldClasses.filter(
+        (course) => course !== classLookup._id.toString()
+    );
+    const result = await classes.findOneAndUpdate(
+        {
+            _id: convertedClassId,
+        },
+        {
+            $set: {
+                students: newStudents,
+            },
+        }
+    );
+    const result2 = await users.findOneAndUpdate(
+        {
+            token: studentToken,
+        },
+        {
+            $set: {
+                classes: newClasses,
+            },
+        }
+    );
+    if (result.ok !== 1 || result2.ok !== 1) {
+        return {
+            error: 'Error updating fields',
+            statusCode: 500,
+        };
+    } else {
+        return {
+            statusCode: 200,
+        };
+    }
+};
+
 const modifyClass = async ({
     id,
     name,
@@ -375,4 +445,5 @@ module.exports = {
     addStudentToClass,
     getClassPosts,
     addTagToClass,
+    removeStudentFromClass,
 };
