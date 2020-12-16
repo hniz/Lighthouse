@@ -21,12 +21,17 @@
         </ul>
     </div>
 
-    <form action="/class/edit/tags" method="POST">
+    <form id="edit-class-tag-form" action="/class/edit/tags" method="POST">
         <label for="tag-input">Tags</label>
         <input name="tag-name" id="tag-input" type="text">
-        <input type="hidden" name="class-id" id="class-id" value="{{{class._id}}}">
+        <input type="hidden" name="class-id-tag" id="class-id-tag" value="{{{class._id}}}">
         <button type="submit">Add tag</button>
     </form>
+    <div id='edit-class-tag-error'>
+        <ul id='edit-class-tag-error-list'>
+
+        </ul>
+    </div>
 </div>
 
 <ul>
@@ -36,3 +41,4 @@
 </ul>
 <script src="/public/js/show_class_password.js"></script>
 <script src="/public/js/scripts/edit_class.js"></script>
+<script src="/public/js/scripts//edit_class_tag.js"></script>
