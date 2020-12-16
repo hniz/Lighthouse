@@ -55,11 +55,13 @@
                                         {{#if upvoted}}
                                         <button class="vote-comment-button" id="unupvote-{{{_id}}}"><img
                                                         src="../../public/img/full_like.svg"
-                                                        class='like_button'></button>
+                                                        class='like_button'
+                                                        alt="Remove Upvote Button"></button>
                                         {{else}}
                                         <button class="vote-comment-button" id="upvote-{{{_id}}}"><img
                                                         src="../../public/img/empty_like.svg"
-                                                        class="like_button"></button>
+                                                        class="like_button"
+                                                        alt="Upvote Button"></button>
                                         {{/if}}
                                         {{/if}}
                                 </li>
@@ -83,11 +85,11 @@
                         {{else}}
                         {{#if upvoted}}
                         <button class="vote-button" id="unupvote-{{{ids}}}">
-                                <img src="../../public/img/full_like.svg" class="like_button">
+                                <img src="../../public/img/full_like.svg" class="like_button" alt="Remove Upvote Button">
                         </button>
                         {{else}}
                         <button class="vote-button" id="upvote-{{{ids}}}">
-                                <img src="../../public/img/empty_like.svg" class="like-button">
+                                <img src="../../public/img/empty_like.svg" class="like-button" alt="Upvote Button">
                         </button>
                         {{/if}}
                         {{/if}}

@@ -77,6 +77,9 @@
                             event.target.src = vote
                                 ? '/public/img/full_like.svg'
                                 : '/public/img/empty_like.svg';
+                            event.target.alt = vote
+                                ? 'Remove Upvote Button'
+                                : 'Upvote Button';
                         })
                         .fail(() => {
                             alert('Failed to vote on post.');
@@ -145,6 +148,9 @@
                             event.target.src = vote
                                 ? '/public/img/full_like.svg'
                                 : '/public/img/empty_like.svg';
+                            event.target.alt = vote
+                                ? 'Remove Upvote Button'
+                                : 'Upvote Button';
                         })
                         .fail(() => {
                             alert('Failed to vote on comment.');

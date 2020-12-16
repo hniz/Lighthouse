@@ -16,7 +16,7 @@
             const scoreLabel = $(`#post-score-${postID}`);
 
             $.ajax(voteConfig)
-                .done(({vote, score}) => {
+                .done(({ vote, score }) => {
                     scoreLabel.text(score);
                     event.target.parentElement.id = vote
                         ? `unupvote-${postID}`
@@ -24,6 +24,9 @@
                     event.target.src = vote
                         ? '/public/img/full_like.svg'
                         : '/public/img/empty_like.svg';
+                    event.target.alt = vote
+                        ? 'Remove Upvote Button'
+                        : 'Upvote Button';
                 })
                 .fail(() => {
                     alert('Failed to vote on post.');
@@ -48,7 +51,7 @@
             };
             const scoreLabel = $(`#comment-score-${commentId}`);
             $.ajax(voteConfig)
-                .done(({vote, score}) => {
+                .done(({ vote, score }) => {
                     scoreLabel.text(score);
                     event.target.parentElement.id = vote
                         ? `unupvote-${commentId}`
@@ -56,6 +59,9 @@
                     event.target.src = vote
                         ? '/public/img/full_like.svg'
                         : '/public/img/empty_like.svg';
+                    event.target.alt = vote
+                        ? 'Remove Upvote Button'
+                        : 'Upvote Button';
                 })
                 .fail(() => {
                     alert('Failed to vote on comment.');

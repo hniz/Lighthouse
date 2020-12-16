@@ -33,9 +33,9 @@
             {{#each data}}
             {{#if endorse}}
             <li class="post-endorse">
-            {{else}}
+                {{else}}
             <li>
-            {{/if}}
+                {{/if}}
                 <a href="/post/{{ids}}">{{title}}</a>
                 <div class="post-body">
                     {{body}}
@@ -49,9 +49,9 @@
                     {{#each comments}}
                     {{#if endorse}}
                     <li class="comment-endorse">
-                    {{else}}
+                        {{else}}
                     <li>
-                    {{/if}}
+                        {{/if}}
                         {{content}} by {{author}} on {{time_submitted}}
                         <span class="score" id="comment-score-{{{_id}}}">{{score}}</span>
 
@@ -64,19 +64,19 @@
                         {{else}}
                         {{#if upvoted}}
                         <button class="vote-comment-button" id="unupvote-{{{_id}}}">
-                            <img src="/public/img/full_like.svg" class="like_button"></button>
+                            <img src="/public/img/full_like.svg" class="like_button" alt="Remove Upvote Button"></button>
                         {{else}}
-                        <button class="vote-comment-button" id="upvote-{{{_id}}}"><img
-                                src="/public/img/empty_like.svg"></button>
+                        <button class="vote-comment-button" id="upvote-{{{_id}}}"><img src="/public/img/empty_like.svg"
+                                alt="Upvote Button"></button>
                         {{/if}}
                         {{/if}}
                     </li>
                     {{/each}}
                 </ul>
                 <form class="comment-form" action="/api/comment" method="POST" id="commentform-{{{ids}}}">
-                        <input type="text" name="comment-content" id="comment-content-{{{ids}}}">
-                        <input type="hidden" name="parent-id" id="parent-id-{{{ids}}}" value="{{{ids}}}">
-                        <button type="submit">Post</button>
+                    <input type="text" name="comment-content" id="comment-content-{{{ids}}}">
+                    <input type="hidden" name="parent-id" id="parent-id-{{{ids}}}" value="{{{ids}}}">
+                    <button type="submit">Post</button>
                 </form>
                 <div class="feedback">
                     <span class="score" id="post-score-{{{ids}}}">{{{score}}}</span>
@@ -88,9 +88,11 @@
                     {{/if}}
                     {{else}}
                     {{#if upvoted}}
-                    <button class="vote-button" id="unupvote-{{{ids}}}"><img src="/public/img/full_like.svg"></button>
+                    <button class="vote-button" id="unupvote-{{{ids}}}"><img src="/public/img/full_like.svg"
+                            alt="Remove Upvote Button"></button>
                     {{else}}
-                    <button class="vote-button" id="upvote-{{{ids}}}"><img src="/public/img/empty_like.svg"></button>
+                    <button class="vote-button" id="upvote-{{{ids}}}"><img src="/public/img/empty_like.svg"
+                            alt="Upvote Button"></button>
                     {{/if}}
                     {{/if}}
                 </div>
