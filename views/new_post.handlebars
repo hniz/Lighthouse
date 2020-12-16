@@ -8,13 +8,21 @@
     <input type="text" name="post-name" id="post-name">
     <label for="post-description">Post Body</label>
     <input type="text" name="post-description" id="post-description">
+
     <label for="post-tags">Post tags</label>
-    <input type="text" name="post-tags" id="post-tags">
+    <select id="select-tag" multiple>
+        <option value="" disabled selected>No tag selected</option>
+        {{#each class.tags}}
+        <option value="Tag">{{this}}</option>
+        {{/each}}
+    </select>
+
+
     <input type="hidden" name="post-class" id="post-class" value={{{classID}}}>
+    
     <div hidden id="similar-posts"></div>
     <button id="submit-post" type="submit">Post</button>
 </form>
-<p>To input tags, make sure each tag is seperated by a comma!</p>
 <div id="new-post-error" hidden>
     <ul id="new-post-error-list">
 
