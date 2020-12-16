@@ -5,7 +5,7 @@ const comments = require('./comments');
 const checkUserInfo = require('../helpers/check_user_info');
 const checkUpdatedPostInfo = require('../helpers/check_post_info');
 
-const create = async ({ title, content, userToken, classID }) => {
+const create = async ({ title, content, userToken, classID, tags }) => {
     const posts = await collections.posts();
     const users = await collections.users();
     const classes = await collections.classes();
@@ -13,6 +13,7 @@ const create = async ({ title, content, userToken, classID }) => {
         checkUserInfo.validateString(userToken) &&
         checkUserInfo.validateString(title) &&
         checkUserInfo.validateString(content) &&
+        checkUserInfo.validateTagsArray(tags) &&
         checkValidId(classID)
     ) {
         const userLookup = await users.findOne({
@@ -46,7 +47,7 @@ const create = async ({ title, content, userToken, classID }) => {
             time_submitted: String(new Date()),
             content,
             comments: [],
-            tags: [],
+            tags,
             score: 1,
             votes,
         });

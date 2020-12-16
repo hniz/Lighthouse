@@ -10,8 +10,10 @@
     {{/if}}
     <div class="post-body">
         {{{post.content}}}
+        <p>Tags: {{{post.tags}}}</p>
     </div>
     <ul class="comments">
+        <p>Comments:</p>
         {{#each post.comments}}
         <li id="{{{_id}}}">
             {{{content}}} by {{{author}}} on {{{time_submitted}}}

@@ -16,6 +16,18 @@ const validateString = (string) => {
     return true;
 };
 
+const validateTagsArray = (tags) => {
+    if(!Array.isArray(tags)){
+        return false;
+    }
+    tags.forEach((member) => {
+        if(typeof member !== 'string' || member.trim().length ===0  ){
+            return false;
+        }
+    });
+    return true;
+};
+
 const validateType = (type) => {
     if (
         !type ||
@@ -82,4 +94,5 @@ module.exports = {
     validateEmail,
     validateString,
     validateType,
+    validateTagsArray,
 };

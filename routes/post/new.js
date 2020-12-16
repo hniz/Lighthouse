@@ -38,11 +38,13 @@ Router.post('/', async (req, res) => {
     const id = req.body['post-class'];
     const description = req.body['post-description'];
     const title = req.body['post-name'];
+    const tags = req.body['post-tags'];
     const result = await create({
         title,
         content: description,
         userToken: req.session.token,
         classID: id,
+        tags,
     });
     if (result.error) {
         res.status(result.statusCode).render('new_post', {
