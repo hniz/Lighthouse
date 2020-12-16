@@ -17,11 +17,11 @@ const validateString = (string) => {
 };
 
 const validateTagsArray = (tags) => {
-    if(!Array.isArray(tags)){
+    if (!Array.isArray(tags)) {
         return false;
     }
     tags.forEach((member) => {
-        if(typeof member !== 'string' || member.trim().length ===0  ){
+        if (typeof member !== 'string' || member.trim().length === 0) {
             return false;
         }
     });
@@ -54,25 +54,39 @@ const checkUpdatedUserInfo = ({
     password,
     type,
     token,
+    description,
 }) => {
     const changedFields = {};
     let errors = [];
-    if (firstName) {
-        if (validateString(firstName)) changedFields.firstName = firstName;
-        else {
-            errors.push('first name');
+    if (firstName || lastName) {
+        changedFields.fullName = {};
+        if (firstName) {
+            if (validateString(firstName)) {
+                changedFields.fullName.firstName = firstName;
+            } else {
+                errors.push('first name');
+            }
+        }
+        if (lastName) {
+            if (validateString(lastName)) {
+                changedFields.fullName.lastName = lastName;
+            } else {
+                errors.push('last name');
+            }
         }
     }
-    if (lastName) {
-        if (validateString(lastName)) changedFields.lastName = lastName;
-        else {
-            errors.push('last name');
-        }
-    }
+
     if (password) {
         if (validateString(password)) changedFields.password = password;
         else {
             errors.push('password');
+        }
+    }
+    if (description) {
+        if (validateString(description))
+            changedFields.description = description;
+        else {
+            errors.push('description');
         }
     }
     if (type) {

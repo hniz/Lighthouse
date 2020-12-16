@@ -45,33 +45,18 @@ Router.get('/:id', async (req, res) => {
             loggedIn: req.session.token ? true : false,
         });
     }
-    if (postLookup.post.author !== user.user._id.toString()) {
-        return res.render('post', {
-            isAuthor: false,
-            title: postLookup.post.name,
-            post: postLookup.post,
-            postId: postLookup.post._id.toString(),
-            instructor:
-                classLookup.class.instructor === user.user._id.toString(),
-            loggedIn: req.session.token ? true : false,
-            upvoted:
-                postLookup.post.votes &&
-                postLookup.post.votes[user.user._id.toString()] === 1,
-        });
-    } else {
-        return res.render('post', {
-            isAuthor: true,
-            title: postLookup.post.name,
-            post: postLookup.post,
-            postId: postLookup.post._id.toString(),
-            instructor:
-                classLookup.class.instructor === user.user._id.toString(),
-            loggedIn: req.session.token ? true : false,
-            upvoted:
-                postLookup.post.votes &&
-                postLookup.post.votes[user.user._id.toString()] === 1,
-        });
-    }
+    return res.render('post', {
+        isAuthor: postLookup.post.author === user.user._id.toString(),
+        title: postLookup.post.title,
+        post: postLookup.post,
+        postId: postLookup.post._id.toString(),
+        endorse: postLookup.post.endorse,
+        instructor: classLookup.class.instructor === user.user._id.toString(),
+        loggedIn: req.session.token ? true : false,
+        upvoted:
+            postLookup.post.votes &&
+            postLookup.post.votes[user.user._id.toString()] === 1,
+    });
 });
 
 module.exports = Router;

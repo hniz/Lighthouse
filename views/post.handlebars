@@ -6,74 +6,83 @@
     {{else}}
 
 
-    <div id="{{{post._id}}}">
-        <h1>{{{post.title}}}</h1>
-        {{#if isAuthor}}
-        <a href="/post/edit/{{postId}}">Edit this post</a>
-        {{/if}}
-        <div class="post-body">
-            {{{post.content}}}
-            <p>Tags: {{{post.tags}}}</p>
-        </div>
-        <ul class="comments">
+    {{#if endorse}}
+    <div class="post-endorse">
+        {{else}}
+        <div>
+            {{/if}}
+            <h1>{{{post.title}}}</h1>
+            {{#if isAuthor}}
+            <a href="/post/edit/{{postId}}">Edit this post</a>
+            {{/if}}
+            <div class="post-body">
+                {{{post.content}}}
+                <p>Tags: {{{post.tags}}}</p>
+            </div>
             <p>Comments:</p>
-            {{#each post.comments}}
-            <li id="{{{_id}}}">
-                {{{content}}} by {{{author}}} on {{{time_submitted}}}
-                <span class="score" id="comment-score">{{{score}}}</span>
-                {{#if ../instructor}}
+            <ul class="comments">
+                {{#each post.comments}}
+
                 {{#if endorse}}
-                <button class='endorse-comment-button' id="unendorse">Un-endorse</button>
+                <li class="comment-endorse">
+                    {{else}}
+                <li>
+                    {{/if}}
+                    {{{content}}} by {{{author}}} on {{{time_submitted}}}
+                    <span class="score" id="comment-score-{{{_id}}}">{{{score}}}</span>
+                    {{#if ../instructor}}
+                    {{#if endorse}}
+                    <button class='endorse-comment-button' id="unendorse-{{{_id}}}">Un-endorse</button>
+                    {{else}}
+                    <button class='endorse-comment-button' id="endorse-{{{_id}}}">Endorse</button>
+                    {{/if}}
+                    {{else}}
+                    {{#if upvoted}}
+                    <button class="vote-comment-button" id="unupvote-{{{_id}}}"><img src="/public/img/full_like.svg"
+                            class="like_button" alt="Remove Upvote Button"></button>
+                    {{else}}
+                    <button class="vote-comment-button" id="upvote-{{{_id}}}"><img src="/public/img/empty_like.svg"
+                            class="like_button" alt="Upvote Button"></button>
+                    {{/if}}
+                    {{/if}}
+                </li>
+                {{/each}}
+            </ul>
+            <form class="comment-form" action="/api/comment" method="POST">
+                <input type="text" name="comment-content" id="comment-content">
+                <input type="hidden" name="parent-id" id="parent-id" value="{{{postId}}}">
+                <button type="submit">Post</button>
+            </form>
+            <div id="comment-error" hidden>
+                <ul id="comment-error-list">
+
+                </ul>
+            </div>
+            <div class="feedback">
+                <span class="score" id="post-score-{{{post._id}}}">{{{post.score}}}</span>
+                {{#if instructor}}
+                {{#if post.endorse}}
+                <button class='endorse-button' id="unendorse-{{{post._id}}}">Un-endorse Post</button>
                 {{else}}
-                <button class='endorse-comment-button' id="endorse">Endorse</button>
+                <button class='endorse-button' id="endorse-{{{post._id}}}">Endorse Post</button>
                 {{/if}}
                 {{else}}
                 {{#if upvoted}}
-                <button class="vote-comment-button" id="unupvote"><img src="/public/img/full_like.svg"
-                        class="like_button"></button>
+                <button class="vote-button" id="unupvote-{{{post._id}}}">
+                    <img src="/public/img/full_like.svg" class="like_button" alt="Remove Upvote Button">
+                </button>
                 {{else}}
-                <button class="vote-comment-button" id="upvote"><img src="/public/img/empty_like.svg"
-                        class="like_button"></button>
+                <button class="vote-button" id="upvote-{{{post._id}}}">
+                    <img src="/public/img/empty_like.svg" class="like_button" alt="Upvote Button">
+                </button>
                 {{/if}}
                 {{/if}}
-            </li>
-            {{/each}}
-        </ul>
-        <form class="comment-form" action="/api/comment" method="POST">
-            <input type="text" name="comment-content" id="comment-content">
-            <input type="hidden" name="parent-id" id="parent-id" value="{{{postId}}}">
-            <button type="submit">Post</button>
-        </form>
-        <div id="comment-error" hidden>
-            <ul id="comment-error-list">
+            </div>
 
-            </ul>
         </div>
-        <div class="feedback" id="{{{post._id}}}">
-            <span class="score" id="post-score">{{{post.score}}}</span>
-            {{#if instructor}}
-            {{#if post.endorse}}
-            <button class='endorse-button' id="unendorse">Un-endorse Post</button>
-            {{else}}
-            <button class='endorse-button' id="endorse">Endorse Post</button>
-            {{/if}}
-            {{else}}
-            {{#if upvoted}}
-            <button class="vote-button" id="unupvote">
-                <img src="/public/img/full_like.svg" class="like_button">
-            </button>
-            {{else}}
-            <button class="vote-button" id="upvote">
-                <img src="/public/img/empty_like.svg" class="like_button">
-            </button>
-            {{/if}}
-            {{/if}}
-        </div>
-
     </div>
-</div>
-{{/if}}
-<script src="/public/js/scripts/post.js"></script>
-<script src="/public/js/endorse.js"></script>
-<script src="/public/js/endorse_comment.js"></script>
-<script src="/public/js/vote.js"></script>
+    {{/if}}
+    <script src="/public/js/scripts/post.js"></script>
+    <script src="/public/js/endorse.js"></script>
+    <script src="/public/js/endorse_comment.js"></script>
+    <script src="/public/js/vote.js"></script>

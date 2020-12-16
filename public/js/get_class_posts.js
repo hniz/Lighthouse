@@ -14,101 +14,143 @@
             responseMessage
         ) {
             const posts = $(responseMessage);
-            classPosts.html(posts);
             const endorseButton = posts.find('.endorse-button');
             if (endorseButton.length !== 0) {
                 endorseButton.on('click', (event) => {
                     event.preventDefault();
-                    const postID = event.target.parentElement.id;
-                    const endorse = event.target.id === 'endorse';
+                    const postID = event.target.id.split('-')[1];
+                    const endorse = event.target.id.startsWith('endorse');
                     var endorseConfig = {
                         method: 'POST',
                         url: `/api/endorse/${postID}?endorse=${endorse}`,
                         contentType: 'application/json',
                     };
                     $.ajax(endorseConfig)
-                        .done(() => {
-                            event.target.id = endorse ? 'unendorse' : 'endorse';
-                            event.target.innerText = endorse
-                                ? 'Un-endorse Post'
-                                : 'Endorse Post';
+                        .done(({ endorse, postId }) => {
+                            event.target.id =
+                                endorse === 'true'
+                                    ? `unendorse-${postId}`
+                                    : `endorse-${postId}`;
+                            event.target.innerText =
+                                endorse === 'true'
+                                    ? 'Un-endorse Post'
+                                    : 'Endorse Post';
+                            if (endorse === 'true') {
+                                event.target.parentElement.parentElement.classList.add(
+                                    'post-endorse'
+                                );
+                            } else {
+                                event.target.parentElement.parentElement.classList.remove(
+                                    'post-endorse'
+                                );
+                            }
                         })
                         .fail(() => {
                             alert('Failed to endorse/unendorse post.');
                         });
                 });
             }
-            const voteButton = $('.vote-button');
+            const voteButton = posts.find('.vote-button');
             if (voteButton.length !== 0) {
                 voteButton.on('click', (event) => {
                     event.preventDefault();
-                    const postID = event.target.parentElement.id;
-                    const vote = event.target.id === 'upvote';
+                    let postID = event.target.parentElement.id.split('-')[1];
+                    if (!postID) {
+                        postID = event.target.parentElement.id.split('-')[0];
+                    }
+                    const vote = event.target.parentElement.id.startsWith(
+                        'upvote'
+                    );
                     var voteConfig = {
                         method: 'POST',
                         url: `/api/vote/post/${postID}?vote=${+vote}`,
                         contentType: 'application/json',
                     };
+                    const scoreLabel = $(`#post-score-${postID}`);
+
                     $.ajax(voteConfig)
-                        .done(() => {
-                            const score = event.target.parentElement.children.namedItem(
-                                'post-score'
-                            );
-                            const newScore =
-                                Number(score.innerText) + (vote ? 1 : -1);
-                            score.innerText = newScore;
-                            event.target.id = vote ? 'unupvote' : 'upvote';
-                            event.target.innerText = vote ? '-1' : '+1';
+                        .done(({ vote, score }) => {
+                            scoreLabel.text(score);
+                            event.target.parentElement.id = vote
+                                ? `unupvote-${postID}`
+                                : `upvote-${postID}`;
+                            event.target.src = vote
+                                ? '/public/img/full_like.svg'
+                                : '/public/img/empty_like.svg';
+                            event.target.alt = vote
+                                ? 'Remove Upvote Button'
+                                : 'Upvote Button';
                         })
                         .fail(() => {
                             alert('Failed to vote on post.');
                         });
                 });
             }
-            const endorseCommentButton = $('.endorse-comment-button');
+            const endorseCommentButton = posts.find('.endorse-comment-button');
             if (endorseCommentButton.length !== 0) {
                 endorseCommentButton.on('click', (event) => {
                     event.preventDefault();
-                    const commentID = event.target.parentElement.id;
-                    const endorse = event.target.id === 'endorse';
-                    var endorseCommentConfig = {
+                    const commentID = event.target.id.split('-')[1];
+                    const endorse = event.target.id.startsWith('endorse');
+                    var endorseConfig = {
                         method: 'POST',
                         url: `/api/endorseComment/${commentID}?endorse=${endorse}`,
                         contentType: 'application/json',
                     };
-                    $.ajax(endorseCommentConfig)
-                        .done(() => {
-                            event.target.id = endorse ? 'unendorse' : 'endorse';
-                            event.target.innerText = endorse
-                                ? 'Un-endorse'
-                                : 'Endorse';
+                    $.ajax(endorseConfig)
+                        .done(({ endorse, commentId }) => {
+                            event.target.id =
+                                endorse === 'true'
+                                    ? `unendorse-${commentId}`
+                                    : `endorse-${commentId}`;
+                            event.target.innerText =
+                                endorse === 'true' ? 'Un-endorse' : 'Endorse';
+                            if (endorse === 'true') {
+                                event.target.parentElement.classList.add(
+                                    'comment-endorse'
+                                );
+                            } else {
+                                event.target.parentElement.classList.remove(
+                                    'comment-endorse'
+                                );
+                            }
                         })
                         .fail(() => {
                             alert('Failed to endorse/unendorse comment.');
                         });
                 });
             }
-            const voteCommentButton = $('.vote-comment-button');
+            const voteCommentButton = posts.find('.vote-comment-button');
             if (voteCommentButton.length !== 0) {
                 voteCommentButton.on('click', (event) => {
                     event.preventDefault();
-                    const commentId = event.target.parentElement.id;
-                    const vote = event.target.id === 'upvote';
+                    console.log(event.target.parentElement.id);
+                    let commentId = event.target.parentElement.id.split('-')[1];
+                    if (!commentId) {
+                        commentId = event.target.parentElement.id.split('-')[0];
+                    }
+                    console.log(commentId);
+                    const vote = event.target.parentElement.id.startsWith(
+                        'upvote'
+                    );
                     var voteConfig = {
                         method: 'POST',
                         url: `/api/vote/comment/${commentId}?vote=${+vote}`,
                         contentType: 'application/json',
                     };
+                    const scoreLabel = $(`#comment-score-${commentId}`);
                     $.ajax(voteConfig)
-                        .done(() => {
-                            const score = event.target.parentElement.children.namedItem(
-                                'comment-score'
-                            );
-                            const newScore =
-                                Number(score.innerText) + (vote ? 1 : -1);
-                            score.innerText = newScore;
-                            event.target.id = vote ? 'unupvote' : 'upvote';
-                            event.target.innerText = vote ? '-1' : '+1';
+                        .done(({ vote, score }) => {
+                            scoreLabel.text(score);
+                            event.target.parentElement.id = vote
+                                ? `unupvote-${commentId}`
+                                : `upvote-${commentId}`;
+                            event.target.src = vote
+                                ? '/public/img/full_like.svg'
+                                : '/public/img/empty_like.svg';
+                            event.target.alt = vote
+                                ? 'Remove Upvote Button'
+                                : 'Upvote Button';
                         })
                         .fail(() => {
                             alert('Failed to vote on comment.');
@@ -118,10 +160,12 @@
             const commentForms = posts.find('.comment-form');
             commentForms.on('submit', function (commentevent) {
                 commentevent.preventDefault();
-
+                console.log(commentevent);
+                const id = commentevent.target.id.split('-')[1];
                 const children = commentevent.target.children;
-                const comment = children.namedItem('comment-content').value;
-                const parentid = children.namedItem('parent-id').value;
+                const comment = children.namedItem(`comment-content-${id}`)
+                    .value;
+                const parentid = children.namedItem(`parent-id-${id}`).value;
 
                 const parentPostLI = commentevent.target.parentElement;
                 const currentTarget = parentPostLI.children;
@@ -223,6 +267,7 @@
                     console.warn('Malformed tag url: ', e);
                 }
             });
+            classPosts.html(posts);
         });
     });
 })(window.jQuery);

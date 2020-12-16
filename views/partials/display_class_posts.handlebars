@@ -9,20 +9,26 @@
 {{#if tags}}
 <div id="class-tags">
         <h2>Tags</h2>
-
-        {{#each tags}}
-        <li class="class-tag"><a href="/class/{{{../classId}}}?tag={{{this}}}">{{{this}}}</a></li>
-        {{/each}}
+        <ul>
+                {{#each tags}}
+                <li class="class-tag"><a href="/class/{{{../classId}}}?tag={{{this}}}">{{{this}}}</a></li>
+                {{/each}}
+        </ul>
 </div>
 {{else}}
 <p>There are no tags for this class.</p><!-- Feel free to change this -->
 {{/if}}
 {{#if filteredPostsExist}}
+<h2>Posts</h2>
+
 <ul class='post-list'>
-        <h2>Posts</h2>
 
         {{#each data}}
+        {{#if endorse}}
+        <li class="post post-endorse" id="{{{ids}}}" style="background-color: white; overflow: hidden;">
+                {{else}}
         <li class="post" id="{{{ids}}}" style="background-color: white; overflow: hidden;">
+                {{/if}}
                 <div class="View2">
                         <a href="/post/{{ids}}" class="post-title">{{title}}</a>
 
@@ -31,24 +37,29 @@
                 <div class="comments">
                         <ul>
                                 {{#each comments}}
-                                <li id="{{{_id}}}">
+                                {{#if endorse}}
+                                <li class="comment-endorse">
+                                        {{else}}
+                                <li>
+                                        {{/if}}
                                         {{{content}}} by {{{author}}} on {{{time_submitted}}}
-                                        <span class="score" id="comment-score">{{{score}}}</span>
+                                        <span class="score" id="comment-score-{{{_id}}}">{{{score}}}</span>
                                         {{#if ../../instructor}}
                                         {{#if endorse}}
-                                        <button class='endorse-comment-button' id="unendorse">Un-endorse</button>
+                                        <button class='endorse-comment-button'
+                                                id="unendorse-{{{_id}}}">Un-endorse</button>
                                         {{else}}
-                                        <button class='endorse-comment-button' id="endorse">Endorse</button>
+                                        <button class='endorse-comment-button' id="endorse-{{{_id}}}">Endorse</button>
                                         {{/if}}
                                         {{else}}
                                         {{#if upvoted}}
-                                        <button class="vote-comment-button" id="unupvote"><img
-                                                        src="../../public/img/full_like.svg"
-                                                        class='like_button'></button>
+                                        <button class="vote-comment-button" id="unupvote-{{{_id}}}"><img
+                                                        src="../../public/img/full_like.svg" class='like_button'
+                                                        alt="Remove Upvote Button"></button>
                                         {{else}}
-                                        <button class="vote-comment-button" id="upvote"><img
-                                                        src="../../public/img/empty_like.svg"
-                                                        class="like_button"></button>
+                                        <button class="vote-comment-button" id="upvote-{{{_id}}}"><img
+                                                        src="../../public/img/empty_like.svg" class="like_button"
+                                                        alt="Upvote Button"></button>
                                         {{/if}}
                                         {{/if}}
                                 </li>
@@ -56,27 +67,28 @@
                                 {{/each}}
                         </ul>
                 </div>
-                <form class="comment-form" action="/api/comment" method="POST">
-                        <input type="text" name="comment-content" id="comment-content">
-                        <input type="hidden" name="parent-id" id="parent-id" value="{{{ids}}}">
+                <form class="comment-form" action="/api/comment" method="POST" id="commentform-{{{ids}}}">
+                        <input type="text" name="comment-content" id="comment-content-{{{ids}}}">
+                        <input type="hidden" name="parent-id" id="parent-id-{{{ids}}}" value="{{{ids}}}">
                         <button type="submit">Post</button>
                 </form>
-                <div class="feedback" id="{{{ids}}}">
-                        <span class="score" id="post-score">{{{score}}}</span>
+                <div class="feedback">
+                        <span class="score" id="post-score-{{{ids}}}">{{{score}}}</span>
                         {{#if ../instructor}}
                         {{#if endorse}}
-                        <button class='endorse-button' id="unendorse">Un-endorse Post</button>
+                        <button class='endorse-button' id="unendorse-{{{ids}}}">Un-endorse Post</button>
                         {{else}}
-                        <button class='endorse-button' id="endorse">Endorse Post</button>
+                        <button class='endorse-button' id="endorse-{{{ids}}}">Endorse Post</button>
                         {{/if}}
                         {{else}}
                         {{#if upvoted}}
-                        <button class="vote-button" id="unupvote">
-                                <img src="../../public/img/full_like.svg" class="like_button">
+                        <button class="vote-button" id="unupvote-{{{ids}}}">
+                                <img src="../../public/img/full_like.svg" class="like_button"
+                                        alt="Remove Upvote Button">
                         </button>
                         {{else}}
-                        <button class="vote-button" id="upvote">
-                                <img src="../../public/img/empty_like.svg" class="like-button">
+                        <button class="vote-button" id="upvote-{{{ids}}}">
+                                <img src="../../public/img/empty_like.svg" class="like-button" alt="Upvote Button">
                         </button>
                         {{/if}}
                         {{/if}}

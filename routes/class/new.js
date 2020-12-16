@@ -16,6 +16,7 @@ Router.post('/', async (req, res) => {
         res.status(result.statusCode).render('new_class', {
             title: 'Create new class',
             instructor: req.session.instructor,
+            loggedIn: req.session.token ? true : false,
         });
     } else {
         res.redirect('/dashboard');

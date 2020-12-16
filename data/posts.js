@@ -173,6 +173,7 @@ const votePost = async ({ userId, postId, vote }) => {
         };
     } else {
         return {
+            score: post.score,
             statusCode: 200,
         };
     }

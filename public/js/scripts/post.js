@@ -1,7 +1,6 @@
 (function ($) {
     $('.comment-form').on('submit', (commentevent) => {
         commentevent.preventDefault();
-        commentevent.preventDefault();
         const children = commentevent.target.children;
         const comment = children.namedItem('comment-content').value;
         const parentid = children.namedItem('parent-id').value;

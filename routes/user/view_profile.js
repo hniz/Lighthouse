@@ -6,6 +6,15 @@ const Router = e.Router();
 const displayProfile = async (req, res) => {
     const userId = req.params.id;
     const userLookup = await getUserById(userId);
+    const userToken = await getUserByToken(req.session.token);
+
+    if (userToken.error) {
+        res.status(userToken.statusCode).render('profile', {
+            title: 'Error',
+            error: userToken.error,
+            loggedIn: req.session.token ? true : false,
+        });
+    }
     
     if (userLookup.error) {
         res.status(userLookup.statusCode).render('profile', {
@@ -22,11 +31,13 @@ const displayProfile = async (req, res) => {
         }
         const user = userLookup.user;
         user.fullName = user.fullName.firstName + ' ' + user.fullName.lastName;
+        
         res.status(userLookup.statusCode).render('profile', {
             title: `${user.fullName}'s Profile`,
             user,
             userClasses: classes,
             loggedIn: req.session.token ? true : false,
+            editable: userToken.user._id.toString() === userId,
         });
     }
 };

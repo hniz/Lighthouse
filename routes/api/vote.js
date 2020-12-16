@@ -32,7 +32,7 @@ Router.post('/post/:postId', async (req, res) => {
     if(voteResult.error){
         return res.status(voteResult.statusCode).json({error: voteResult.error});
     }
-    return res.status(200).send();
+    return res.status(200).json({postId: req.params.postId, vote: +vote, score: voteResult.score});
 });
 
 Router.post('/comment/:commentId', async (req, res) => {
@@ -61,7 +61,7 @@ Router.post('/comment/:commentId', async (req, res) => {
     if(voteResult.error){
         return res.status(voteResult.statusCode).json({error: voteResult.error});
     }
-    return res.status(200).send();
+    return res.status(200).json({commentId: req.params.commentId, vote: +vote, score: voteResult.score});
 });
 
 module.exports = Router;

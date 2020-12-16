@@ -98,6 +98,7 @@ const modifyUser = async ({
     password,
     type,
     token,
+    description,
 }) => {
     const users = await collections.users();
     const changedFields = checkUpdatedUserInfo({
@@ -106,7 +107,23 @@ const modifyUser = async ({
         password,
         type,
         token,
+        description,
     });
+    const user = await users.findOne({ email });
+    if (!user) {
+        return {
+            error: 'User not found.',
+            statusCode: 404,
+        };
+    }
+    if (changedFields.fullName) {
+        if(!changedFields.fullName.firstName){
+            changedFields.fullName.firstName = user.fullName.firstName;
+        }
+        if(!changedFields.fullName.lastName){
+            changedFields.fullName.lastName = user.fullName.lastName;
+        }
+    }
     if (changedFields.error) {
         return {
             error: changedFields.error,

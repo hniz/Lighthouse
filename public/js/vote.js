@@ -3,22 +3,30 @@
     if (voteButton.length !== 0) {
         voteButton.on('click', (event) => {
             event.preventDefault();
-            const postID = event.target.parentElement.id;
-            const vote = event.target.id === 'upvote';
+            let postID = event.target.parentElement.id.split('-')[1];
+            if (!postID) {
+                postID = event.target.parentElement.id.split('-')[0];
+            }
+            const vote = event.target.parentElement.id.startsWith('upvote');
             var voteConfig = {
                 method: 'POST',
                 url: `/api/vote/post/${postID}?vote=${+vote}`,
                 contentType: 'application/json',
             };
+            const scoreLabel = $(`#post-score-${postID}`);
+
             $.ajax(voteConfig)
-                .done(() => {
-                    const score = event.target.parentElement.children.namedItem(
-                        'post-score'
-                    );
-                    const newScore = Number(score.innerText) + (vote ? 1 : -1);
-                    score.innerText = newScore;
-                    event.target.id = vote ? 'unupvote' : 'upvote';
-                    event.target.innerText = vote ? '-1' : '+1';
+                .done(({ vote, score }) => {
+                    scoreLabel.text(score);
+                    event.target.parentElement.id = vote
+                        ? `unupvote-${postID}`
+                        : `upvote-${postID}`;
+                    event.target.src = vote
+                        ? '/public/img/full_like.svg'
+                        : '/public/img/empty_like.svg';
+                    event.target.alt = vote
+                        ? 'Remove Upvote Button'
+                        : 'Upvote Button';
                 })
                 .fail(() => {
                     alert('Failed to vote on post.');
@@ -29,22 +37,31 @@
     if (voteCommentButton.length !== 0) {
         voteCommentButton.on('click', (event) => {
             event.preventDefault();
-            const commentId = event.target.parentElement.id;
-            const vote = event.target.id === 'upvote';
+            console.log(event.target.parentElement.id);
+            let commentId = event.target.parentElement.id.split('-')[1];
+            if (!commentId) {
+                commentId = event.target.parentElement.id.split('-')[0];
+            }
+            console.log(commentId);
+            const vote = event.target.parentElement.id.startsWith('upvote');
             var voteConfig = {
                 method: 'POST',
                 url: `/api/vote/comment/${commentId}?vote=${+vote}`,
                 contentType: 'application/json',
             };
+            const scoreLabel = $(`#comment-score-${commentId}`);
             $.ajax(voteConfig)
-                .done(() => {
-                    const score = event.target.parentElement.children.namedItem(
-                        'comment-score'
-                    );
-                    const newScore = Number(score.innerText) + (vote ? 1 : -1);
-                    score.innerText = newScore;
-                    event.target.id = vote ? 'unupvote' : 'upvote';
-                    event.target.innerText = vote ? '-1' : '+1';
+                .done(({ vote, score }) => {
+                    scoreLabel.text(score);
+                    event.target.parentElement.id = vote
+                        ? `unupvote-${commentId}`
+                        : `upvote-${commentId}`;
+                    event.target.src = vote
+                        ? '/public/img/full_like.svg'
+                        : '/public/img/empty_like.svg';
+                    event.target.alt = vote
+                        ? 'Remove Upvote Button'
+                        : 'Upvote Button';
                 })
                 .fail(() => {
                     alert('Failed to vote on comment.');

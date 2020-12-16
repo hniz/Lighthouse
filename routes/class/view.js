@@ -10,6 +10,7 @@ Router.get('/:id', async (req, res) => {
         return res.status(userLookup.statusCode).render('class', {
             title: 'Error',
             error: userLookup.error,
+            loggedIn: req.session.token ? true : false,
         });
     }
     const classLookup = await getClassById(req.params.id);
@@ -17,6 +18,7 @@ Router.get('/:id', async (req, res) => {
         return res.status(classLookup.statusCode).render('class', {
             title: 'Error',
             error: classLookup.error,
+            loggedIn: req.session.token ? true : false,
         });
     }
     const user = userLookup.user;
@@ -25,14 +27,16 @@ Router.get('/:id', async (req, res) => {
         return res.status(401).render('class', {
             title: 'Error',
             error: 'You are not registered for this class!',
+            loggedIn: req.session.token ? true : false,
         });
     }
     const getClassPostsResult = await getClassPosts(req.params.id);
     if (getClassPostsResult.error) {
-        res.status(500).send(
-            '<p> Sorry, there was an error fetching the class posts.</p>'
-        );
-        return;
+        return res.status(500).render('class', {
+            title: 'Error',
+            error: 'There was an error fetching the class posts.',
+            loggedIn: req.session.token ? true : false,
+        });
     }
 
     const filteredPosts = getClassPostsResult.classPosts.filter(
@@ -61,6 +65,7 @@ Router.get('/:id', async (req, res) => {
     return res.render('class', {
         title: course.name,
         courseName: course.name,
+        courseDesc: course.description,
         tags: course.tags,
         postsExist: postData.length > 0,
         data: postData,

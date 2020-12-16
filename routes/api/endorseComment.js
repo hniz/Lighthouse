@@ -53,7 +53,7 @@ Router.post('/:commentId', async (req, res) => {
             .status(modifyResult.statusCode)
             .json({ error: modifyResult.error });
     }
-    return res.status(200).send();
+    return res.status(200).json({endorse, commentId: req.params.commentId});
 });
 
 module.exports = Router;
