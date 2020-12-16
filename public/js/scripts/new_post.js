@@ -98,8 +98,7 @@ jQuery(function ($) {
                         'post-tags': postTags,
                     }),
                     success: function () {
-                        window.location.href =
-                            'http://localhost:3000/dashboard'; // figure out where to redirect
+                        window.location.href = `/class/${postClassID}`;
                     },
                     error: function (jqXHR, exception) {
                         var msg = '';
