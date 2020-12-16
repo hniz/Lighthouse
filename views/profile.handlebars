@@ -1,13 +1,17 @@
-{{#if error}}
-<h1>We're sorry, an error occurred.</h1>
-<h3>{{{error}}}</h3>
-{{else}}
-<h1>{{{user.fullName}}}</h1>
-<h3>{{{user.type}}}</h3>
-<h3>Participation</h3>
-<div>
-    <span>{{{user.classes.length}}}</span> classes
-    <span>{{{user.posts.length}}}</span> posts
-    <span>{{{user.comments.length}}}</span> comments
+<div class="container cornsilk">
+
+
+    {{#if error}}
+    <h1>We're sorry, an error occurred.</h1>
+    <h3>{{{error}}}</h3>
+    {{else}}
+    <h1>{{{user.fullName}}}</h1>
+    <h3>{{{user.type}}}</h3>
+    <h3>Participation</h3>
+    <div>
+        <span>{{{user.classes.length}}}</span> classes
+        <span>{{{user.posts.length}}}</span> posts
+        <span>{{{user.comments.length}}}</span> comments
+    </div>
+    {{/if}}
 </div>
-{{/if}}
