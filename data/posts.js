@@ -4,6 +4,7 @@ const { ObjectId } = require('mongodb');
 const comments = require('./comments');
 const checkUserInfo = require('../helpers/check_user_info');
 const checkUpdatedPostInfo = require('../helpers/check_post_info');
+const { getClassById } = require('./classes');
 
 const create = async ({ title, content, userToken, classID, tags }) => {
     const posts = await collections.posts();
@@ -84,6 +85,64 @@ const create = async ({ title, content, userToken, classID, tags }) => {
         return {
             error: 'Missing or invalid field(s) given',
             statusCode: 400,
+        };
+    }
+};
+
+const addTagToPost = async({ tag, postID }) => {
+    const posts = await collections.posts();
+    if(!checkValidId(postID)){
+        return {
+            error: 'Invalid post ID provided.',
+            statusCode: 400,
+        };
+    }
+    const convertedid = ObjectId(postID);
+    const lookup = await posts.findOne({ _id: convertedid });
+    if(!lookup){
+        return { error: 'No post with given id', statusCode: 404};
+    }
+    const classID = lookup.class;
+    const classLookup = await getClassById(classID);
+    if(classLookup.error){
+        return {
+            error: classLookup.error,
+            statusCode: classLookup.statusCode,
+        };
+    }
+    const classTags = classLookup.class.tags;
+
+    if(classTags.includes(tag)){
+        if(!lookup.tags || lookup.tags.length === 0){
+            lookup.tags = [tag];
+        } else if(lookup.tags.includes(tag)){
+            return {
+                error: 'Tag already exists.',
+                statusCode: 400,
+            };
+        } else {
+            lookup.tags.push(tag);
+        }
+    } else {
+        return {
+            error: 'Tag does not exist within the class tags',
+            statusCode: 400,
+        };
+    }
+
+    const result = await posts.findOneAndUpdate(
+        {
+            _id: convertedid,
+        },
+        {
+            $set: {
+                tags: lookup.tags,
+            },
+        }
+    );
+    if(result.ok !== 1){
+        return {
+            statusCode: 200,
         };
     }
 };
@@ -238,4 +297,5 @@ module.exports = {
     modifyPost,
     getPostById,
     votePost,
+    addTagToPost,
 };
