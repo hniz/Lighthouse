@@ -89,9 +89,12 @@ const create = async ({ title, content, userToken, classID, tags }) => {
     }
 };
 
-const addTagToPost = async({ tag, postID }) => {
+const addTagToPost = async(tag, postID) => {
+    console.log('-------');
     const posts = await collections.posts();
     if(!checkValidId(postID)){
+        console.log('invalid post id???');
+        console.log(postID);
         return {
             error: 'Invalid post ID provided.',
             statusCode: 400,
@@ -118,17 +121,20 @@ const addTagToPost = async({ tag, postID }) => {
         } else if(lookup.tags.includes(tag)){
             return {
                 error: 'Tag already exists.',
-                statusCode: 400,
             };
         } else {
             lookup.tags.push(tag);
         }
+        console.log("in the db");
+        console.log(lookup.tags);
     } else {
+        console.log('running into an error here');
         return {
             error: 'Tag does not exist within the class tags',
             statusCode: 400,
         };
     }
+    
 
     const result = await posts.findOneAndUpdate(
         {
@@ -140,9 +146,14 @@ const addTagToPost = async({ tag, postID }) => {
             },
         }
     );
-    if(result.ok !== 1){
+    console.log(result);
+    if(result.ok === 1){
         return {
             statusCode: 200,
+        };
+    } else{
+        return {
+            statusCode: 500,
         };
     }
 };

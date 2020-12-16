@@ -11,6 +11,7 @@ jQuery(function ($) {
             event.preventDefault();
 
             errorDiv.hidden = true;
+            
 
             while (errorUL.firstChild) {
                 errorUL.removeChild(errorUL.firstChild);
@@ -19,6 +20,10 @@ jQuery(function ($) {
             let postTitle = inputPostTitle.value.trim();
             let postContent = inputPostContent.value.trim();
             let postID = inputPostID.value.trim();
+            let postTag = $('#select-tag').find(':selected').text();
+            console.log(postTag);
+
+
             let hasErrors = false;
             let errors = [];
             let resetFields = [];
@@ -56,6 +61,7 @@ jQuery(function ($) {
                     document.getElementById(resetFields[0]).focus();
                 }
             } else {
+                console.log(postTag);
                 var requestConfig = {
                     method: 'POST',
                     url: '/post/edit',
@@ -64,6 +70,7 @@ jQuery(function ($) {
                         'post-id': postID,
                         'post-title': postTitle,
                         'post-content': postContent,
+                        'post-tag': postTag,
                     }),
                     success: function() {
                         window.location.href = 'http://localhost:3000/dashboard';
