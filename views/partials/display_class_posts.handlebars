@@ -23,32 +23,39 @@
 
         {{#each data}}
         <li class="post" id="{{{ids}}}" style="background-color: white;">
-                <a href="/post/{{ids}}">{{title}}</a>
-                <div>{{{body}}}</div>
-                <ul class="comments">
-                        {{#each comments}}
-                        <li id="{{{_id}}}">
-                                {{{content}}} by {{{author}}} on {{{time_submitted}}}
-                                <span class="score" id="comment-score">{{{score}}}</span>
-                                {{#if ../../instructor}}
-                                {{#if endorse}}
-                                <button class='endorse-comment-button' id="unendorse">Un-endorse</button>
-                                {{else}}
-                                <button class='endorse-comment-button' id="endorse">Endorse</button>
-                                {{/if}}
-                                {{else}}
-                                {{#if upvoted}}
-                                <button class="vote-comment-button" id="unupvote"><img
-                                                src="../../public/img/full_like.svg" class='like_button'></button>
-                                {{else}}
-                                <button class="vote-comment-button" id="upvote"><img
-                                                src="../../public/img/empty_like.svg" class="like_button"></button>
-                                {{/if}}
-                                {{/if}}
-                        </li>
+                <div class="View2">
+                        <a href="/post/{{ids}}" class="post-title">{{title}}</a>
 
-                        {{/each}}
-                </ul>
+                </div>
+                <div class="desc">{{{body}}}</div>
+                <div class="comments">
+                        <ul>
+                                {{#each comments}}
+                                <li id="{{{_id}}}">
+                                        {{{content}}} by {{{author}}} on {{{time_submitted}}}
+                                        <span class="score" id="comment-score">{{{score}}}</span>
+                                        {{#if ../../instructor}}
+                                        {{#if endorse}}
+                                        <button class='endorse-comment-button' id="unendorse">Un-endorse</button>
+                                        {{else}}
+                                        <button class='endorse-comment-button' id="endorse">Endorse</button>
+                                        {{/if}}
+                                        {{else}}
+                                        {{#if upvoted}}
+                                        <button class="vote-comment-button" id="unupvote"><img
+                                                        src="../../public/img/full_like.svg"
+                                                        class='like_button'></button>
+                                        {{else}}
+                                        <button class="vote-comment-button" id="upvote"><img
+                                                        src="../../public/img/empty_like.svg"
+                                                        class="like_button"></button>
+                                        {{/if}}
+                                        {{/if}}
+                                </li>
+
+                                {{/each}}
+                        </ul>
+                </div>
                 <form class="comment-form" action="/api/comment" method="POST">
                         <input type="text" name="comment-content" id="comment-content">
                         <input type="hidden" name="parent-id" id="parent-id" value="{{{ids}}}">
