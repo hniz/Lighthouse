@@ -88,10 +88,14 @@ const getClassPosts = async (id) => {
     const fetchedClass = await classes.findOne({ _id: convertedid });
     const allPostsStringId = fetchedClass.posts;
 
-    const classPosts = await Promise.all(
+    const postCollection= await collections.posts();
+
+
+    const classPosts = (await Promise.all(
         allPostsStringId.map((post) => {
-            return posts.getPostById(post);
+            return postCollection.findOne({_id: ObjectId(post)});
         })
+    )).map((post) => ({ post })
     );
     return {
         classPosts: classPosts,

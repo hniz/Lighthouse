@@ -17,16 +17,17 @@ jQuery(function ($) {
 
             let tagInput = inputTagInput.value.trim();
             let postTagID = inputPostTagID.value;
+            let postTag = $('tag-input').find(':selected').text();
 
             let hasErrors = false;
             let errors = [];
             let resetFields = [];
 
-            if (!tagInput) {
-                hasErrors = true;
-                errors.push('No tags were entered.');
-                resetFields.push('tag-input');
-            }
+            // if (!tagInput) {
+            //     hasErrors = true;
+            //     errors.push('No tags were entered.');
+            //     resetFields.push('tag-input');
+            // }
             
             if (!postTagID) {
                 hasErrors = true;
@@ -48,19 +49,21 @@ jQuery(function ($) {
                     document.getElementById(resetFields[0]).focus();
                 }
             } else {
+                console.log(postTag);
                 var tagConfig = {
                     method: 'POST',
                     url: '/post/edit/tags',
                     contentType: 'application/json',
                     data: JSON.stringify({
                         'tag-name': tagInput,
-                        'class-id': postTagID,
+                        'post-id': postTagID,
+                        'post-tag': postTag,
                     }),
                 };
 
                 $.ajax(tagConfig)
                     .done(() => {
-                        window.location.href = `/post/${postTagID}`;
+                        window.location.href = `/post/edit/${postTagID}`;
                     })
                     .fail((e) => {
                         console.log(e);
