@@ -14,15 +14,32 @@
 
     </ul>
 </div>
-<script src="/public/js/scripts/edit_post.js"></script>
-{{!-- <form action="/class/edit/tags" method="POST">
+
+
+
+<form id="edit-post-tag-form" action="/post/edit/tags" method="POST">
+
     <label for="tag-input">Tags</label>
-    <input name="tag-name" id="tag-input" type="text">
-    <input type="hidden" name="class-id" id="class-id" value="{{{class._id}}}">
-    <button type="submit">Add tag</button>
-</form>
+    <select id="tag-input" multiple>
+        <option value="" disabled selected>No tag selected</option>
+        {{#each class.tags}}
+        <option value="Tag">{{this}}</option>
+        {{/each}}
+         <input type="hidden" name="post-id-tag" id="post-id-tag" value="{{{post._id}}}">
+    </select>
+        <button type="submit">Add tag</button>
+    </form>
+    <div id='edit-post-tag-error'>
+        <ul id='edit-post-tag-error-list'>
+
+        </ul>
+    </div>
+</div>
+
 <ul>
-    {{#each class.tags}}
+    {{#each post.tags}}
     <li>{{this}}</li>
     {{/each}}
-</ul> --}}
+</ul>
+<script src="/public/js/scripts/edit_post.js"></script>
+<script src="/public/js/scripts/edit_post_tags.js"></script>
