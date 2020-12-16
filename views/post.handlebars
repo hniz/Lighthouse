@@ -54,9 +54,13 @@
         {{/if}}
         {{else}}
         {{#if upvoted}}
-        <button class="vote-button" id="unupvote">-1</button>
+        <button class="vote-button" id="unupvote">
+            <img src="../../public/img/full_like.svg">
+        </button>
         {{else}}
-        <button class="vote-button" id="upvote">+1</button>
+        <button class="vote-button" id="upvote">
+            <img src="../../public/img/empty_like.svg">
+        </button>
         {{/if}}
         {{/if}}
     </div>

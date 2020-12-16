@@ -1,5 +1,7 @@
-<a href="/class/{{classId}}">View class page</a>
-<a href="/post/new/{{classId}}">Create a post</a>
+<link rel="stylesheet" href="/public/styles/dashboard-right.css">
+
+<a href="/class/{{classId}}" class='View'>View Class Page</a>
+<a href="/post/new/{{classId}}" class='View'>Create New Post</a>
 {{#if instructor}}
 <a href="/class/edit/{{classId}}">Edit this class</a>
 {{/if}}
@@ -60,9 +62,13 @@
                         {{/if}}
                         {{else}}
                         {{#if upvoted}}
-                        <button class="vote-button" id="unupvote">-1</button>
+                        <button class="vote-button" id="unupvote">
+                                <img src="../../public/img/full_like.svg">
+                        </button>
                         {{else}}
-                        <button class="vote-button" id="upvote">+1</button>
+                        <button class="vote-button" id="upvote">
+                                <img src="../../public/img/empty_like.svg">
+                        </button>
                         {{/if}}
                         {{/if}}
                 </div>
