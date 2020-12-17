@@ -1,5 +1,5 @@
 const e = require('express');
-const { getPostById, modifyPost, addTagToPost } = require('../../data/posts');
+const { getPostById, modifyPost, addTagToPost, deleteTagFromPost } = require('../../data/posts');
 const { getUserByToken } = require('../../data/users');
 const nl2br = require('nl2br');
 const { getClassById } = require('../../data/classes');
@@ -46,7 +46,8 @@ Router.get('/:id', async (req, res) => {
             title: `Edit ${postLookup.post.title}`,
             post: postLookup.post,
             loggedIn: req.session.token ? true : false,
-            tags: availableTags,
+            availableTags: availableTags,
+            currTags: postTags,
         });
     }
 });
@@ -56,6 +57,8 @@ Router.post('/', async (req, res) => {
     const userLookup = await getUserByToken(req.session.token);
     const postLookup = await getPostById(id);
     const tags = req.body['post-tag'];
+    const delTags = req.body['delete-tag'];
+
     if (userLookup.error) {
         res.status(userLookup.statusCode).render('error', {
             title: 'Error',
@@ -95,11 +98,20 @@ Router.post('/', async (req, res) => {
 
             const classTags = classLookup.class.tags;
             let postTags = [];
+            let deleteTags = [];
         
             if(!tags.includes('No tag selected')){
                 classTags.forEach((tag) => {
                     if(tags.includes(tag)){
                         postTags.push(tag);
+                    }
+                });
+            }
+
+            if(!delTags.includes('No tag selected')){
+                classTags.forEach((tag) => {
+                    if(delTags.includes(tag)){
+                        deleteTags.push(tag);
                     }
                 });
             }
@@ -113,6 +125,16 @@ Router.post('/', async (req, res) => {
                     });
                 }
             }
+
+            let result = await deleteTagFromPost(deleteTags, id);
+            if(result.error !== undefined){
+                res.status(result.statusCode).render('error', {
+                    title: 'Error',
+                    error: result.error,
+                });
+            }
+
+
             let postsUrl = req.baseUrl.slice(0, 5);
             res.redirect(`${postsUrl}/${fields.id}`);
         }

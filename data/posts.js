@@ -152,6 +152,44 @@ const addTagToPost = async(tag, postID) => {
     }
 };
 
+const deleteTagFromPost = async(deleteTags, postID) => {
+    const posts = await collections.posts();
+    if(!checkValidId(postID)){
+        return {
+            error: 'Invalid post ID provided.',
+            statusCode: 400,
+        };
+    }
+    const convertedid = ObjectId(postID);
+    const lookup = await posts.findOne({ _id: convertedid });
+    if(!lookup){
+        return { error: 'No post with given id', statusCode: 404};
+    }
+
+    let currPostTags = lookup.tags;
+    let updatedPostTags = currPostTags.filter(x => deleteTags.indexOf(x) === -1);
+
+    const result = await posts.findOneAndUpdate(
+        {
+            _id: convertedid,
+        },
+        {
+            $set: {
+                tags: updatedPostTags,
+            },
+        }
+    );
+    if(result.ok === 1){
+        return {
+            statusCode: 200,
+        };
+    } else{
+        return {
+            statusCode: 500,
+        };
+    }
+};
+
 const modifyPost = async ({ id, title, author, content, endorse }) => {
     const posts = await collections.posts();
     const changedFields = checkUpdatedPostInfo({
@@ -304,4 +342,5 @@ module.exports = {
     getPostById,
     votePost,
     addTagToPost,
+    deleteTagFromPost,
 };
