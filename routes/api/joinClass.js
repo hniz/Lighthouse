@@ -1,13 +1,22 @@
 const { getClassByCode, addStudentToClass } = require('../../data/classes');
 const Router = require('express').Router();
 const xss = require('xss');
+const { getUserByToken } = require('../../data/users');
 
 Router.post('/', async (req, res) => {
     const code = xss(req.body['class-code']);
     const classLookup = await getClassByCode(code);
+    const userLookup = await getUserByToken(req.session.token);
     if (classLookup.error) {
         res.status(classLookup.statusCode).json({ error: classLookup.error });
         return;
+    }
+    if (userLookup.error) {
+        res.status(userLookup.statusCode).json({ error: userLookup.error });
+        return;
+    }
+    if (userLookup.user.type === 'instructor') {
+        res.status(401).json({ error: 'Instructors cannot join classes.' });
     }
     const password = xss(req.body['class-password']);
     if (classLookup.class.password === password) {
@@ -17,7 +26,6 @@ Router.post('/', async (req, res) => {
         });
         if (result.error) {
             res.status(result.statusCode).json({ error: result.error });
-
         } else {
             res.status(200).send();
         }

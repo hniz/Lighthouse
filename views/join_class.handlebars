@@ -2,6 +2,9 @@
 
 <div class="container cornsilk">
     <div class="left">
+        {{#if instructor}}
+        <h1>Sorry, instructors cannot join classes as students!</h1>
+        {{else}}
         <h1>Join a classroom!</h1>
         <form id="join-class-form" action="/class/join" method="POST">
             <div>
@@ -21,6 +24,7 @@
             <ul id="join-class-error-list">
             </ul>
         </div>
+        {{/if}}
     </div>
 
     <div class="graphic">
