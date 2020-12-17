@@ -42,7 +42,9 @@ Router.post('/:classId', async (req, res) => {
         .filter((lookup) => {
             return !lookup.error;
         }).map(({post})=>{
-            return post.content;
+            if(post !== null && post.content !== null){
+                return post.content;
+            }
         });
     if (postBodies.length > 0) {
         const similarities = stringSimilarity.findBestMatch(body, postBodies);
