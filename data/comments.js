@@ -135,10 +135,10 @@ const voteComment = async ({ commentId, userId, vote }) => {
     const commentCollection = await collections.comments();
     const convertedUserId = ObjectId(userId);
     const convertedCommentId = ObjectId(commentId);
-    const user = userCollection.findOne({
+    const user = await userCollection.findOne({
         _id: convertedUserId,
     });
-    const comment = commentCollection.findOne({
+    const comment = await commentCollection.findOne({
         _id: convertedCommentId,
     });
     if (!user || !comment) {
