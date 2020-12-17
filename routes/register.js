@@ -12,15 +12,12 @@ Router.post('/', async (req, res) => {
     const lastName = req.body['register-last'];
     const password = req.body['register-password'];
     const type = req.body['register-type'];
-    const result = await create({ email, firstName, lastName, password, type });
-    if (!result.error) {
-        return res.redirect('/');
+    const lowercaseEmail = email && email.toLowerCase();
+    const result = await create({ email: lowercaseEmail, firstName, lastName, password, type });
+    if (result.error) {
+        return res.status(result.statusCode).json({error: result.error});
     } else {
-        return res.status(result.statusCode).render('register', {
-            title: 'Register for Lighthouse',
-            error: result.error,
-            loggedIn: req.session.token ? true : false,
-        });
+        return res.status(200).send();
     }
 });
 

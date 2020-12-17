@@ -71,14 +71,14 @@ jQuery(function ($) {
 
             if (hasErrors) {
                 errorDiv.hidden = false;
-                errors.forEach( (element) => {
+                errors.forEach((element) => {
                     let li = document.createElement('li');
                     li.innerHTML = element;
                     errorUL.appendChild(li);
                 });
 
                 if (resetFields.length > 0) {
-                    resetFields.forEach( (element) => {
+                    resetFields.forEach((element) => {
                         document.getElementById(element).value = '';
                     });
                     document.getElementById(resetFields[0]).focus();
@@ -95,11 +95,14 @@ jQuery(function ($) {
                         'register-last': lastName,
                         'register-type': type,
                     }),
-                    success: function() {
+                    success: function () {
                         window.location.href = 'http://localhost:3000/login';
                     },
                     error: function (jqXHR, exception) {
                         var msg = '';
+                        errorDiv.hidden = false;
+                        errorDiv.innerHTML = `<li>${jqXHR.responseJSON.error}</li>`;
+
                         if (jqXHR.status === 0) {
                             msg = 'Not connect.\n Verify Network.';
                         } else if (jqXHR.status == 404) {
