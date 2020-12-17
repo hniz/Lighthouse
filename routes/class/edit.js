@@ -105,7 +105,11 @@ Router.post('/tags', async (req, res) => {
             error: 'You are not authorized to edit this class.',
         });
     } else {
-        const result = await addTagToClass({ tag, classID: id });
+        let allTags = tag.split(',');
+        for(let i = 0; i < allTags.length; i++){
+            allTags[i] = allTags[i].trim();
+        }
+        const result = await addTagToClass({ tag: allTags, classID: id });
         if (result.error) {
             res.status(result.statusCode).render('error', {
                 title: 'Error',
