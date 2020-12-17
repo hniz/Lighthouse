@@ -176,7 +176,7 @@
                 const id = commentevent.target.id.split('-')[1];
                 const children = commentevent.target.children;
                 const comment = children.namedItem(`comment-content-${id}`)
-                    .value;
+                    .value.trim();
                 const parentid = children.namedItem(`parent-id-${id}`).value;
 
                 const parentPostLI = commentevent.target.parentElement;
@@ -243,6 +243,9 @@
                         errorDiv.appendChild(errorUL);
                         currentTarget[formIndex].insertAdjacentElement('afterend', errorDiv);
                     }
+
+                    children.namedItem(`comment-content-${id}`).value = '';
+                    children.namedItem(`comment-content-${id}`).focus();
                 } else {
                     const commentConfig = {
                         method: 'POST',

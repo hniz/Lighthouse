@@ -69,6 +69,9 @@
                 errorDiv.appendChild(errorUL);
                 currentTarget[formIndex].insertAdjacentElement('afterend', errorDiv);
             }
+
+            children.namedItem(`comment-content-${id}`).value = '';
+            children.namedItem(`comment-content-${id}`).focus();
         } else {
             const commentConfig = {
                 method: 'POST',
