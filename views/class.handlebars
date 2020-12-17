@@ -48,9 +48,9 @@
                 <ul class="comments">
                     {{#each comments}}
                     {{#if endorse}}
-                    <li class="comment-endorse">
+                    <li class="comment-endorse" id="comment-{{{_id}}}">
                         {{else}}
-                    <li>
+                    <li id="comment-{{{_id}}}">
                         {{/if}}
                         {{content}} by {{author}} on {{time_submitted}}
                         <span class="score" id="comment-score-{{{_id}}}">{{score}}</span>
@@ -63,8 +63,8 @@
                         {{/if}}
                         {{else}}
                         {{#if upvoted}}
-                        <button class="vote-comment-button" id="unupvote-{{{_id}}}">
-                            <img src="/public/img/full_like.svg" class="like_button" alt="Remove Upvote Button"></button>
+                        <button class="vote-comment-button" id="unupvote-{{{_id}}}"><img src="/public/img/full_like.svg"
+                                class="like_button" alt="Remove Upvote Button"></button>
                         {{else}}
                         <button class="vote-comment-button" id="upvote-{{{_id}}}"><img src="/public/img/empty_like.svg"
                                 alt="Upvote Button"></button>
@@ -78,7 +78,7 @@
                     <input type="hidden" name="parent-id" id="parent-id-{{{ids}}}" value="{{{ids}}}">
                     <button type="submit">Post</button>
                 </form>
-                <div class="feedback">
+                <div class="feedback" id="feedback-{{{ids}}}">
                     <span class="score" id="post-score-{{{ids}}}">{{{score}}}</span>
                     {{#if ../instructor}}
                     {{#if endorse}}

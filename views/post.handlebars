@@ -24,9 +24,9 @@
                 {{#each post.comments}}
 
                 {{#if endorse}}
-                <li class="comment-endorse">
+                <li class="comment-endorse" id="comment-{{_id}}">
                     {{else}}
-                <li>
+                <li id="comment-{{_id}}">
                     {{/if}}
                     {{{content}}} by {{{author}}} on {{{time_submitted}}}
                     <span class="score" id="comment-score-{{{_id}}}">{{{score}}}</span>
@@ -58,7 +58,7 @@
 
                 </ul>
             </div>
-            <div class="feedback">
+            <div class="feedback" id="feedback-{{post._id}}">
                 <span class="score" id="post-score-{{{post._id}}}">{{{post.score}}}</span>
                 {{#if instructor}}
                 {{#if post.endorse}}
@@ -68,13 +68,11 @@
                 {{/if}}
                 {{else}}
                 {{#if upvoted}}
-                <button class="vote-button" id="unupvote-{{{post._id}}}">
-                    <img src="/public/img/full_like.svg" class="like_button" alt="Remove Upvote Button">
-                </button>
+                <button class="vote-button" id="unupvote-{{{post._id}}}"><img src="/public/img/full_like.svg"
+                        class="like_button" alt="Remove Upvote Button"></button>
                 {{else}}
-                <button class="vote-button" id="upvote-{{{post._id}}}">
-                    <img src="/public/img/empty_like.svg" class="like_button" alt="Upvote Button">
-                </button>
+                <button class="vote-button" id="upvote-{{{post._id}}}"><img src="/public/img/empty_like.svg"
+                        class="like_button" alt="Upvote Button"></button>
                 {{/if}}
                 {{/if}}
             </div>

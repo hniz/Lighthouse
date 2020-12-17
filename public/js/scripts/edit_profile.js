@@ -58,14 +58,14 @@ jQuery(function ($) {
                 }
             } else {
                 var profileConfig = {
-                    method: 'POST', 
+                    method: 'POST',
                     url: '/api/edit_profile',
                     contentType: 'application/json',
                     data: JSON.stringify({
                         'first-name': firstName,
                         'last-name': lastName,
-                        'description': description
-                    })
+                        'description': description,
+                    }),
                 };
 
                 $.ajax(profileConfig)

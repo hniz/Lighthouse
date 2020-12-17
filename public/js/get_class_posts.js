@@ -52,38 +52,47 @@
             }
             const voteButton = posts.find('.vote-button');
             if (voteButton.length !== 0) {
-                voteButton.on('click', (event) => {
-                    event.preventDefault();
-                    let postID = event.target.parentElement.id.split('-')[1];
-                    if (!postID) {
-                        postID = event.target.parentElement.id.split('-')[0];
-                    }
-                    const vote = event.target.parentElement.id.startsWith(
-                        'upvote'
-                    );
-                    var voteConfig = {
-                        method: 'POST',
-                        url: `/api/vote/post/${postID}?vote=${+vote}`,
-                        contentType: 'application/json',
-                    };
-                    const scoreLabel = $(`#post-score-${postID}`);
+                voteButton.each(function (ind, element) {
+                    element.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        let target = event.target;
+                        if (target.tagName === 'BUTTON') {
+                            target = target.firstChild;
+                        }
+                        console.log(target);
 
-                    $.ajax(voteConfig)
-                        .done(({ vote, score }) => {
-                            scoreLabel.text(score);
-                            event.target.parentElement.id = vote
-                                ? `unupvote-${postID}`
-                                : `upvote-${postID}`;
-                            event.target.src = vote
-                                ? '/public/img/full_like.svg'
-                                : '/public/img/empty_like.svg';
-                            event.target.alt = vote
-                                ? 'Remove Upvote Button'
-                                : 'Upvote Button';
-                        })
-                        .fail(() => {
-                            alert('Failed to vote on post.');
-                        });
+                        let postID = target.parentElement.parentElement.id.split(
+                            '-'
+                        )[1];
+                        
+                        const vote = target.parentElement.id.startsWith(
+                            'upvote'
+                        );
+                        var voteConfig = {
+                            method: 'POST',
+                            url: `/api/vote/post/${postID}?vote=${+vote}`,
+                            contentType: 'application/json',
+                        };
+                        const scoreLabel = $(`#post-score-${postID}`);
+
+                        $.ajax(voteConfig)
+                            .done(({ vote, score }) => {
+                                scoreLabel.text(score);
+                                
+                                target.parentElement.id = vote
+                                    ? `unupvote-${postID}`
+                                    : `upvote-${postID}`;
+                                target.src = vote
+                                    ? '/public/img/full_like.svg'
+                                    : '/public/img/empty_like.svg';
+                                target.alt = vote
+                                    ? 'Remove Upvote Button'
+                                    : 'Upvote Button';
+                            })
+                            .fail(() => {
+                                alert('Failed to vote on post.');
+                            });
+                    });
                 });
             }
             const endorseCommentButton = posts.find('.endorse-comment-button');
@@ -122,39 +131,45 @@
             }
             const voteCommentButton = posts.find('.vote-comment-button');
             if (voteCommentButton.length !== 0) {
-                voteCommentButton.on('click', (event) => {
-                    event.preventDefault();
-                    console.log(event.target.parentElement.id);
-                    let commentId = event.target.parentElement.id.split('-')[1];
-                    if (!commentId) {
-                        commentId = event.target.parentElement.id.split('-')[0];
-                    }
-                    console.log(commentId);
-                    const vote = event.target.parentElement.id.startsWith(
-                        'upvote'
-                    );
-                    var voteConfig = {
-                        method: 'POST',
-                        url: `/api/vote/comment/${commentId}?vote=${+vote}`,
-                        contentType: 'application/json',
-                    };
-                    const scoreLabel = $(`#comment-score-${commentId}`);
-                    $.ajax(voteConfig)
-                        .done(({ vote, score }) => {
-                            scoreLabel.text(score);
-                            event.target.parentElement.id = vote
-                                ? `unupvote-${commentId}`
-                                : `upvote-${commentId}`;
-                            event.target.src = vote
-                                ? '/public/img/full_like.svg'
-                                : '/public/img/empty_like.svg';
-                            event.target.alt = vote
-                                ? 'Remove Upvote Button'
-                                : 'Upvote Button';
-                        })
-                        .fail(() => {
-                            alert('Failed to vote on comment.');
-                        });
+                voteCommentButton.each(function (ind, element) {
+                    element.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        let target = event.target;
+                        if (target.tagName === 'BUTTON') {
+                            target = target.firstChild;
+                        }
+                        let commentId = target.parentElement.parentElement.id.split(
+                            '-'
+                        )[1];
+                        
+                        const vote = target.parentElement.id.startsWith(
+                            'upvote'
+                        );
+                        var voteConfig = {
+                            method: 'POST',
+                            url: `/api/vote/comment/${commentId}?vote=${+vote}`,
+                            contentType: 'application/json',
+                        };
+                        const scoreLabel = $(`#comment-score-${commentId}`);
+                        $.ajax(voteConfig)
+                            .done(({ vote, score }) => {
+                                scoreLabel.text(score);
+
+                                console.log(target);
+                                target.parentElement.id = vote
+                                    ? `unupvote-${commentId}`
+                                    : `upvote-${commentId}`;
+                                target.src = vote
+                                    ? '/public/img/full_like.svg'
+                                    : '/public/img/empty_like.svg';
+                                target.alt = vote
+                                    ? 'Remove Upvote Button'
+                                    : 'Upvote Button';
+                            })
+                            .fail(() => {
+                                alert('Failed to vote on comment.');
+                            });
+                    });
                 });
             }
             const commentForms = posts.find('.comment-form');

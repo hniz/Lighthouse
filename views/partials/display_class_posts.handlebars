@@ -26,9 +26,9 @@
         {{#each data}}
         {{#if endorse}}
         <li class="post post-endorse" id="{{{ids}}}" style="background-color: white; overflow: hidden;">
-        {{else}}
+                {{else}}
         <li class="post" id="{{{ids}}}" style="background-color: white; overflow: hidden;">
-        {{/if}}
+                {{/if}}
                 <div class="View2">
                         <a href="/post/{{ids}}" class="post-title">{{title}}</a>
 
@@ -38,10 +38,10 @@
                         <ul>
                                 {{#each comments}}
                                 {{#if endorse}}
-                                <li class="comment-endorse">
-                                {{else}}
-                                <li>
-                                {{/if}}
+                                <li class="comment-endorse" id="comment-{{{_id}}}">
+                                        {{else}}
+                                <li id="comment-{{{_id}}}">
+                                        {{/if}}
                                         {{{content}}} by {{{author}}} on {{{time_submitted}}}
                                         <span class="score" id="comment-score-{{{_id}}}">{{{score}}}</span>
                                         {{#if ../../instructor}}
@@ -54,13 +54,11 @@
                                         {{else}}
                                         {{#if upvoted}}
                                         <button class="vote-comment-button" id="unupvote-{{{_id}}}"><img
-                                                        src="../../public/img/full_like.svg"
-                                                        class='like_button'
+                                                        src="../../public/img/full_like.svg" class='like_button'
                                                         alt="Remove Upvote Button"></button>
                                         {{else}}
                                         <button class="vote-comment-button" id="upvote-{{{_id}}}"><img
-                                                        src="../../public/img/empty_like.svg"
-                                                        class="like_button"
+                                                        src="../../public/img/empty_like.svg" class="like_button"
                                                         alt="Upvote Button"></button>
                                         {{/if}}
                                         {{/if}}
@@ -74,7 +72,7 @@
                         <input type="hidden" name="parent-id" id="parent-id-{{{ids}}}" value="{{{ids}}}">
                         <button type="submit">Post</button>
                 </form>
-                <div class="feedback">
+                <div class="feedback" id="feedback-{{{ids}}}">
                         <span class="score" id="post-score-{{{ids}}}">{{{score}}}</span>
                         {{#if ../instructor}}
                         {{#if endorse}}
@@ -84,13 +82,11 @@
                         {{/if}}
                         {{else}}
                         {{#if upvoted}}
-                        <button class="vote-button" id="unupvote-{{{ids}}}">
-                                <img src="../../public/img/full_like.svg" class="like_button" alt="Remove Upvote Button">
-                        </button>
+                        <button class="vote-button" id="unupvote-{{{ids}}}"><img src="../../public/img/full_like.svg"
+                                        class="like_button" alt="Remove Upvote Button"></button>
                         {{else}}
-                        <button class="vote-button" id="upvote-{{{ids}}}">
-                                <img src="../../public/img/empty_like.svg" class="like-button" alt="Upvote Button">
-                        </button>
+                        <button class="vote-button" id="upvote-{{{ids}}}"><img src="../../public/img/empty_like.svg"
+                                        class="like-button" alt="Upvote Button"></button>
                         {{/if}}
                         {{/if}}
                 </div>
