@@ -342,6 +342,24 @@ const deletePost = async (id) => {
         { _id: ObjectId(author) },
         { $pull: { posts: id } }
     );
+
+    const classes = await collections.classes();
+    const postClass = await classes.findOne({
+        _id: ObjectId(classes.author),
+    });
+
+    if(!postClass){
+        return{
+            error: 'No class with the given ID',
+            statusCode: 404,
+        };
+    }
+
+    postClass.updateOne(
+        {_id: ObjectId(classes.author)},
+        { $pull: { posts: id} }
+    );
+
     return {
         statusCode: 204,
     };
