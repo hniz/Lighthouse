@@ -13,7 +13,7 @@ and then
 ```npm start```
 in the project root directory.
 
-The server will then be like on http://localhost:3000 
+The server will then be on http://localhost:3000 
 
 # Class Credentials 
 The database comes populated with several student and instructor accounts. If you'd like to access a specific account, here are the account credentials that we used: 
