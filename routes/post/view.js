@@ -34,10 +34,12 @@ Router.get('/:id', async (req, res) => {
         });
     }
     postLookup.post.comments = comments.comments.map((comment) => {
-        comment.upvoted =
-            comment.votes && comment.votes[user.user._id.toString()] === 1;
-        return comment;
-    });
+        if(comment !== null){
+            comment.upvoted =
+                comment.votes && comment.votes[user.user._id.toString()] === 1;
+            return comment;
+        } 
+   });
     const classLookup = await getClassById(postLookup.post.class);
     if (classLookup.error) {
         return res.render('post', {

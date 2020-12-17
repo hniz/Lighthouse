@@ -194,17 +194,19 @@ const getPostComments = async (postID) => {
     }
     const { getUserById } = require('./users');
     for (let i = 0; i < result.length; i++) {
-        let author = await getUserById(result[i].author);
-        if (author.error) return author;
-        result[i].author =
-            author.user.fullName.firstName +
-            '  ' +
-            author.user.fullName.lastName;
-        let d = result[i].time_submitted;
-        let new_date = d.slice(0, 21);
-        result[i].time_submitted = new_date;
-        result[i].score = result[i].score || 0;
-    }
+        if(result[i] !== null){
+            let author = await getUserById(result[i].author);
+            if (author.error) return author;
+            result[i].author =
+                author.user.fullName.firstName +
+                '  ' +
+                author.user.fullName.lastName;
+            let d = result[i].time_submitted;
+            let new_date = d.slice(0, 21);
+            result[i].time_submitted = new_date;
+            result[i].score = result[i].score || 0;
+        }
+   }
 
     return {
         comments: result,
@@ -272,7 +274,7 @@ const deletePostComments = async (id, postToDelete) => {
         };
     }
 
-    id = ObjectId(id).valueOf();
+    id = ObjectId(id);
 
     const posts = await collections.posts();
     const deleteInfo = await comments.deleteOne({ _id: id });
@@ -283,7 +285,7 @@ const deletePostComments = async (id, postToDelete) => {
         };
     }
     posts.updateOne(
-        { _id: ObjectId(postToDelete).valueOf() },
+        { _id: ObjectId(postToDelete) },
         { $pull: { comments: id.toString() } }
     );
     return {
