@@ -52,7 +52,6 @@
 
 .vote-comment-button {
     width: 40px;
-    height: 40px;
 }
 
 .feedback {
@@ -61,7 +60,7 @@
 }
 
 .like_button {
-    width: 20px;
+    width: 40px;
 }
 
 .vote-button {
