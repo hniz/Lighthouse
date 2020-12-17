@@ -76,9 +76,7 @@
                             {{else}}
                         <li id="comment-{{{_id}}}">
                             {{/if}}
-                            {{content}} by <a href="/user/{{{authorId}}}">{{{author}}}</a> on {{time_submitted}}
-
-
+                            {{content}}<br>by <a href="/user/{{{authorId}}}">{{{author}}}</a> on {{time_submitted}}
                             {{#if ../../instructor}}
                             {{#if endorse}}
                             <button class='endorse-comment-button' id="unendorse-{{{_id}}}">Un-endorse</button>
