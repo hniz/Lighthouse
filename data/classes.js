@@ -345,16 +345,16 @@ const addTagToClass = async ({ tag, classID }) => {
     if (!lookup) {
         return { error: 'No class with given id', statusCode: 404 };
     }
+
     if (!lookup.tags) {
-        lookup.tags = [tag];
-    } else if (lookup.tags.includes(tag)) {
-        return {
-            error: 'Tag already exists.',
-            statusCode: 400,
-        };
-    } else {
-        lookup.tags.push(tag);
+        lookup.tags = tag;
     }
+    tag.forEach((member) => {
+        if(!lookup.tags.includes(member)){
+            lookup.tags.push(member);
+        }
+    });
+
     const result = await classes.findOneAndUpdate(
         {
             _id: convertedid,
