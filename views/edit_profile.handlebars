@@ -1,14 +1,18 @@
-<form id="edit-profile-form" action="/api/edit_profile" class="edit-profile" method="POST">
-    <label for="first-name-input">First Name</label>
-    <input type="text" id="first-name-input" name="first-name" value="{{{user.fullName.firstName}}}">
-    <label for="last-name-input">Last Name</label>
-    <input type="text" id="last-name-input" name="last-name" value="{{{user.fullName.lastName}}}">
-    <label for="description-input">Profile Description</label>
-    <textarea name="description" id="description-input" cols="30" rows="10">{{{user.description}}}</textarea>
-    <button type="submit">Submit</button>
-</form>
-<div id='edit-profile-error'>
+<div class="container cornsilk">
+
+    <form id="edit-profile-form" action="/api/edit_profile" class="edit-profile" method="POST">
+        <label for="first-name-input">First Name</label>
+        <input type="text" id="first-name-input" name="first-name" value="{{{user.fullName.firstName}}}">
+        <label for="last-name-input">Last Name</label>
+        <input type="text" id="last-name-input" name="last-name" value="{{{user.fullName.lastName}}}">
+        <label for="description-input">Profile Description</label>
+        <textarea name="description" id="description-input" cols="30" rows="10">{{{user.description}}}</textarea>
+        <button type="submit">Submit</button>
+    </form>
+    <div id='edit-profile-error'>
         <ul id='edit-profile-error-list'>
         </ul>
     </div>
+
+</div>
 <script src="/public/js/scripts/edit_profile.js"></script>
