@@ -47,6 +47,24 @@
                         {{/each}}
                     </ul>
                     {{/if}}
+                    <div class="feedback" id="feedback-{{{ids}}}">
+                        {{#if ../instructor}}
+                        {{#if endorse}}
+                        <button class='endorse-button' id="unendorse-{{{ids}}}">Un-endorse Post</button>
+                        {{else}}
+                        <button class='endorse-button' id="endorse-{{{ids}}}">Endorse Post</button>
+                        {{/if}}
+                        {{else}}
+                        {{#if upvoted}}
+                        <div class="vote-button" id="unupvote-{{{ids}}}"><img src="/public/img/full_like.svg"
+                                class="like_button" alt="Remove Upvote Button"></div>
+                        {{else}}
+                        <div class="vote-button" id="upvote-{{{ids}}}"><img src="/public/img/empty_like.svg"
+                                class="like-button" alt="Upvote Button"></div>
+                        {{/if}}
+                        {{/if}}
+                        <span class="score" id="post-score-{{{ids}}}">{{{score}}}</span>
+                    </div>
                     <div class="post-body">
                         {{{body}}}
                     </div>
