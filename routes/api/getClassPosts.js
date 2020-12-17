@@ -31,7 +31,6 @@ Router.get('/', async (req, res) => {
         }
         const getClassPostsResult = await classes.getClassPosts(req.query.id);
         if (getClassPostsResult.error) {
-            console.log("is it you?");
             res.status(500).send(
                 '<p> Sorry, there was an error fetching the class posts.</p>'
             );
@@ -43,9 +42,6 @@ Router.get('/', async (req, res) => {
             
         let postData = [];
         for (const { post } of filteredPosts) {
-            console.log('-----------------------');
-            console.log(postData);
-            console.log(" ");
             let { comments } = await getPostComments(post._id.toString());
             if(comments !== null){
                 comments = comments.map((comment)=>{

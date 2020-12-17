@@ -342,7 +342,6 @@ const deletePost = async (id, userToDelete) => {
         { _id: ObjectId(userToDelete).valueOf() },
         { $pull: { posts: id } }
     );
-    console.log("db function executed perfectly.");
     return {
         statusCode: 204,
     };
