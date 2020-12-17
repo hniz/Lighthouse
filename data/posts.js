@@ -312,14 +312,26 @@ const deletePost = async (id, userToDelete) => {
         };
     }
 
-    id = ObjectId(id).valueOf();
-    const commentsArray = posts.comments;
+    let convertedid = ObjectId(id);
+
+    const postLookup = await posts.findOne({
+        _id: convertedid,
+    });
+
+    if (!postLookup) {
+        return {
+            statusCode: 404,
+            error: 'Could not find post or user from the given IDs.',
+        };
+    }
+
+    let commentsArray = postLookup.comments;
     commentsArray.forEach((comment) => {
         comments.deletePostComments(comment, posts._id);
     });
 
     const users = await collections.users();
-    const deleteInfo = await posts.deleteOne({ _id: id });
+    const deleteInfo = await posts.deleteOne({ _id: convertedid });
     if (deleteInfo.deletedCount === 0) {
         return {
             error: 'Failed to delete post',
@@ -328,8 +340,9 @@ const deletePost = async (id, userToDelete) => {
     }
     users.updateOne(
         { _id: ObjectId(userToDelete).valueOf() },
-        { $pull: { posts: id.toString() } }
+        { $pull: { posts: id } }
     );
+    console.log("db function executed perfectly.");
     return {
         statusCode: 204,
     };
