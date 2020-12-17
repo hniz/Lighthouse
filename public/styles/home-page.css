@@ -59,6 +59,10 @@
 
 .prof {
     height: 100%;
+    margin-left: 0;
+    width: 30%;
+    display: flex;
+    align-items: flex-start;
 }
 
 /* On mouse-over, add a deeper shadow */
