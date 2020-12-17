@@ -6,10 +6,10 @@
     <input type="text" name="post-title" id="post-title" value="{{{post.title}}}">
     <label for="post-content">Post Content</label>
     <textarea name="post-content" id="post-content" cols="30" rows="10">{{{post.content}}}</textarea>
-        <label for="tag-input">Tags</label>
+        <label for="tag-input">Add Tags</label>
     <select id="select-tag" multiple>
         <option value="" disabled selected>No tag selected</option>
-        {{#each class.tags}}
+        {{#each tags}}
         <option value="Tag">{{this}}</option>
         {{/each}}
     </select>

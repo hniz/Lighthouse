@@ -78,7 +78,6 @@ Router.post('/', async (req, res) => {
             error: result.error,
         });
     } else {
-        console.log('Body', description);
         res.redirect('/dashboard');
     }
 });
