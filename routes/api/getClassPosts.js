@@ -31,6 +31,7 @@ Router.get('/', async (req, res) => {
         }
         const getClassPostsResult = await classes.getClassPosts(req.query.id);
         if (getClassPostsResult.error) {
+            console.log("is it you?");
             res.status(500).send(
                 '<p> Sorry, there was an error fetching the class posts.</p>'
             );
@@ -42,6 +43,9 @@ Router.get('/', async (req, res) => {
             
         let postData = [];
         for (const { post } of filteredPosts) {
+            console.log('-----------------------');
+            console.log(postData);
+            console.log(" ");
             let { comments } = await getPostComments(post._id.toString());
             comments = comments.map((comment)=>{
                 comment.upvoted = comment.votes && comment.votes[userLookup.user._id.toString()] === 1;
@@ -70,7 +74,7 @@ Router.get('/', async (req, res) => {
     } catch (e) {
         console.log(e);
         res.status(500).send(
-            '<p> Sorry, there was an error fetching the class posts.</p>'
+            '<p> Sorry, there was an error fetching the class posts. Please try again.</p>'
         );
     }
 });

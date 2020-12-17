@@ -193,6 +193,7 @@ const getPostComments = async (postID) => {
         };
     }
     const { getUserById } = require('./users');
+    console.log(result);''
     for (let i = 0; i < result.length; i++) {
         let author = await getUserById(result[i].author);
         if (author.error) return author;
@@ -272,7 +273,7 @@ const deletePostComments = async (id, postToDelete) => {
         };
     }
 
-    id = ObjectId(id).valueOf();
+    id = ObjectId(id);
 
     const posts = await collections.posts();
     const deleteInfo = await comments.deleteOne({ _id: id });
@@ -283,7 +284,7 @@ const deletePostComments = async (id, postToDelete) => {
         };
     }
     posts.updateOne(
-        { _id: ObjectId(postToDelete).valueOf() },
+        { _id: ObjectId(postToDelete) },
         { $pull: { comments: id.toString() } }
     );
     return {
