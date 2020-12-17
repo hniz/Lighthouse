@@ -60,7 +60,7 @@ Router.get('/', async (req, res) => {
                     comments,
                 });
             }
-       }
+        }
         res.render('partials/display_class_posts', {
             postsExist: true,
             filteredPostsExist: filteredPosts.length > 0,

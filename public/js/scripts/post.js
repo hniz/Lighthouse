@@ -2,7 +2,7 @@
     $('.comment-form').on('submit', (commentevent) => {
         commentevent.preventDefault();
         const children = commentevent.target.children;
-        const comment = children.namedItem('comment-content').value;
+        const comment = children.namedItem('comment-content').value.trim();
         const parentid = children.namedItem('parent-id').value;
         let errorDiv = document.getElementById('comment-error');
         let errorUL = document.getElementById('comment-error-list');
