@@ -21,8 +21,7 @@ jQuery(function ($) {
             let postContent = inputPostContent.value.trim();
             let postID = inputPostID.value.trim();
             let postTag = $('#select-tag').find(':selected').text();
-            console.log(postTag);
-
+            let deleteTag = $('#delete-tag').find(':selected').text();
 
             let hasErrors = false;
             let errors = [];
@@ -71,6 +70,7 @@ jQuery(function ($) {
                         'post-title': postTitle,
                         'post-content': postContent,
                         'post-tag': postTag,
+                        'delete-tag': deleteTag,
                     }),
                     success: function() {
                         window.location.href = 'http://localhost:3000/dashboard';
