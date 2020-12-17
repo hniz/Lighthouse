@@ -292,7 +292,8 @@ const modifyClass = async ({
         return { error: 'No class with given id', statusCode: 404 };
     }
     const uniqueClassLookup = await classes.findOne({ code });
-    if (code && uniqueClassLookup) {
+    console.log(uniqueClassLookup);
+    if (code && uniqueClassLookup && uniqueClassLookup._id.toString() !== id) {
         return {
             error: 'Class code is not unique.',
             statusCode: 400,

@@ -35,25 +35,21 @@
             <ul id="post-list" class="post_list">
                 {{#each data}}
                 {{#if endorse}}
-                <li class="post-endorse">
+                <li class="post-endorse" id="{{ids}}">
                     {{else}}
-                <li class="post">
+                <li class="post" id="{{ids}}">
                     {{/if}}
                     <a href="/post/{{ids}}" class="desc">{{title}}</a>
-                    <div class="post-body">
-                        {{body}}
-                    </div>
                     {{#if tags}}
                     <ul class="tags">
                         {{#each tags}}
-                        <li id="{{{this}}}">{{{this}}}</li>
+                        <li class="tag" id="{{../ids}}-{{{this}}}">{{{this}}}</li>
                         {{/each}}
                     </ul>
-                    {{else}}
-                    <div class="tags">
-                        <h3>There are no tags for this class.</h3>
-                    </div>
                     {{/if}}
+                    <div class="post-body">
+                        {{body}}
+                    </div>
                     <ul class="comments">
                         {{#each comments}}
                         {{#if endorse}}
@@ -93,6 +89,7 @@
                 </li>
                 {{/each}}
             </ul>
+            <p id="no-posts-filter" hidden>There are no posts matching the selected filter.</p>
             {{else}}
             <p>Sorry, there are no posts currently available for this class. Make the first one!</p>
             {{/if}}
