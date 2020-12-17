@@ -33,9 +33,11 @@ Router.get('/:id', async (req, res) => {
             loggedIn: req.session.token ? true : false,
         });
     } else {
+        console.log(classLookup);
         res.render('edit_class', {
             title: `Edit ${classLookup.class.name}`,
             class: classLookup.class,
+            tags: classLookup.class.tags ? classLookup.class.tags.join(' | ') : undefined,
             loggedIn: req.session.token ? true : false,
         });
     }

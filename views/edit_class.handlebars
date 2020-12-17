@@ -22,6 +22,7 @@
 
     <form id="edit-class-tag-form" action="/class/edit/tags" method="POST">
         <label for="tag-input">Tags: Use commas to add multiple tags</label>
+        <p>Tags: {{#if tags}}{{tags}}{{else}}None{{/if}}</p>
         <input name="tag-name" id="tag-input" type="text">
         <input type="hidden" name="class-id-tag" id="class-id-tag" value="{{{class._id}}}">
         <button type="submit">Add tag</button>
