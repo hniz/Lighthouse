@@ -197,6 +197,7 @@ const getPostComments = async (postID) => {
         if(result[i] !== null){
             let author = await getUserById(result[i].author);
             if (author.error) return author;
+            result[i].authorId = result[i].author;
             result[i].author =
                 author.user.fullName.firstName +
                 '  ' +

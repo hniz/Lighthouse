@@ -38,7 +38,7 @@ Router.get('/:id', async (req, res) => {
             comment.upvoted =
                 comment.votes && comment.votes[user.user._id.toString()] === 1;
             return comment;
-        } 
+        }
    });
     const classLookup = await getClassById(postLookup.post.class);
     if (classLookup.error) {
@@ -54,6 +54,7 @@ Router.get('/:id', async (req, res) => {
         title: postLookup.post.title,
         post: postLookup.post,
         postId: postLookup.post._id.toString(),
+        userId: user.user._id.toString(),
         endorse: postLookup.post.endorse,
         instructor: classLookup.class.instructor === user.user._id.toString(),
         loggedIn: req.session.token ? true : false,
