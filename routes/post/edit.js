@@ -3,6 +3,7 @@ const { getPostById, modifyPost, addTagToPost, deleteTagFromPost } = require('..
 const { getUserByToken } = require('../../data/users');
 const { getClassById } = require('../../data/classes');
 const Router = e.Router();
+const xss = require('xss');
 
 Router.get('/:id', async (req, res) => {
     const id = req.params.id;
@@ -52,11 +53,11 @@ Router.get('/:id', async (req, res) => {
 });
 
 Router.post('/', async (req, res) => {
-    const id = req.body['post-id'];
+    const id = xss(req.body['post-id']);
     const userLookup = await getUserByToken(req.session.token);
     const postLookup = await getPostById(id);
-    const tags = req.body['post-tag'];
-    const delTags = req.body['delete-tag'];
+    const tags = xss(req.body['post-tag']);
+    const delTags = xss(req.body['delete-tag']);
 
     if (userLookup.error) {
         res.status(userLookup.statusCode).render('error', {
@@ -75,9 +76,9 @@ Router.post('/', async (req, res) => {
         });
     } else {
         const fields = {
-            id: req.body['post-id'],
-            title: req.body['post-title'],
-            content: req.body['post-content'],
+            id: xss(req.body['post-id']),
+            title: xss(req.body['post-title']),
+            content: xss(req.body['post-content']),
         };
         const result = await modifyPost(fields);
         if (result.error) {

@@ -18,7 +18,6 @@
                             : `endorse-${postId}`;
                     event.target.innerText =
                         endorse === 'true' ? 'Un-endorse Post' : 'Endorse Post';
-                    console.log(event);
                     if (endorse === 'true') {
                         event.target.parentElement.parentElement.classList.add(
                             'post-endorse'

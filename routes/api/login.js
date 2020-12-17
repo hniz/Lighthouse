@@ -1,11 +1,11 @@
 const { authorize, generateToken } = require('../../auth');
 const { modifyUser } = require('../../data/users');
-
 const Router = require('express').Router();
+const xss = require('xss');
 
 Router.post('/', async (req, res) => {
-    const email = req.body['login-email'];
-    const password = req.body['login-password'];
+    const email = xss(req.body['login-email']);
+    const password = xss(req.body['login-password']);
     const lowercaseEmail = email && email.toLowerCase();
 
     const authorizationResult = await authorize(lowercaseEmail, password);
@@ -18,7 +18,7 @@ Router.post('/', async (req, res) => {
             return res.status(result.statusCode).json({error: result.error});
         } else {
             req.session.token = token;
-            const redirectUrl = req.body['redirect-url'];
+            const redirectUrl = xss(req.body['redirect-url']);
             if (redirectUrl) return res.redirect(redirectUrl);
             else return res.redirect('/dashboard');
         }

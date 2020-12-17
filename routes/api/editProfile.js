@@ -1,6 +1,7 @@
 const express = require('express');
 const { getUserByToken, modifyUser } = require('../../data/users');
 const Router = express.Router();
+const xss = require('xss');
 
 Router.post('/', async (req, res) => {
     const userLookup = await getUserByToken(req.session.token);
@@ -9,9 +10,9 @@ Router.post('/', async (req, res) => {
             .status(userLookup.statusCode)
             .json({ error: userLookup.error });
     }
-    const firstName = req.body['first-name'];
-    const lastName = req.body['last-name'];
-    const description = req.body.description;
+    const firstName = xss(req.body['first-name']);
+    const lastName = xss(req.body['last-name']);
+    const description = xss(req.body.description);
     const result = await modifyUser({
         email: userLookup.user.email,
         firstName,
