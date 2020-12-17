@@ -147,7 +147,6 @@ const voteComment = async ({ commentId, userId, vote }) => {
             error: 'Could not find post or user from the given IDs.',
         };
     }
-    if (!comment.votes) comment.votes = {};
     comment.votes[userId] = vote;
     comment.score = Object.values(comment.votes).reduce((a, b) => a + b, 0);
     const result = await commentCollection.findOneAndUpdate(

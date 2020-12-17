@@ -2,7 +2,6 @@ const e = require('express');
 const { getClassById } = require('../../data/classes');
 const { create } = require('../../data/posts');
 const { getUserByToken } = require('../../data/users');
-const nl2br = require('nl2br');
 const Router = e.Router();
 const xss = require('xss');
 
@@ -44,8 +43,8 @@ Router.post('/', async (req, res) => {
     const title = xss(req.body['post-name']);
     const tags = xss(req.body['post-tags']);
     const classLookup = await getClassById(id);
-   
-    if(classLookup.error){
+
+    if (classLookup.error) {
         const statusCode = classLookup.error;
         res.status(statusCode).render('new_post', {
             title: 'Error',
@@ -57,9 +56,9 @@ Router.post('/', async (req, res) => {
     const classTags = classLookup.class.tags;
     let postTags = [];
 
-    if(!tags.includes('No tag selected')){
+    if (!tags.includes('No tag selected')) {
         classTags.forEach((tag) => {
-            if(tags.includes(tag)){
+            if (tags.includes(tag)) {
                 postTags.push(tag);
             }
         });
@@ -67,7 +66,7 @@ Router.post('/', async (req, res) => {
 
     const result = await create({
         title,
-        content: nl2br(description, false),
+        content: description,
         userToken: req.session.token,
         classID: id,
         tags: postTags,

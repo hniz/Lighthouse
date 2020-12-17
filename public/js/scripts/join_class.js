@@ -52,17 +52,14 @@ jQuery(function ($) {
                     },
                     error: function (jqXHR, exception) {
                         var msg = '';
+                        const error = jqXHR.responseJSON.error;
+                        errorDiv.hidden = false;
+                        errorUL.innerHTML = `<li>${error}</li>`;
                         if (jqXHR.status === 0) {
                             msg = 'Not connect.\n Verify Network.';
                         } else if (jqXHR.status == 404) {
-                            errorDiv.hidden = false;
-                            errorUL.innerHTML =
-                                '<li>Invalid Class Code/Password.</li>';
                             msg = 'Requested page not found. [404]';
                         } else if (jqXHR.status == 500) {
-                            errorDiv.hidden = false;
-                            errorUL.innerHTML =
-                                '<li>Internal server error.</li>';
                             msg = 'Internal Server Error [500].';
                         } else if (exception === 'parsererror') {
                             msg = 'Requested JSON parse failed.';

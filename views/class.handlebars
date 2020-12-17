@@ -43,11 +43,17 @@
                     <div class="post-body">
                         {{body}}
                     </div>
+                    {{#if tags}}
                     <ul class="tags">
                         {{#each tags}}
-                        <ul id="{{{this}}}">{{{this}}}</ul>
+                        <li id="{{{this}}}">{{{this}}}</li>
                         {{/each}}
                     </ul>
+                    {{else}}
+                    <div class="tags">
+                        <h3>There are no tags for this class.</h3>
+                    </div>
+                    {{/if}}
                     <ul class="comments">
                         {{#each comments}}
                         {{#if endorse}}

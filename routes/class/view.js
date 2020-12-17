@@ -5,7 +5,6 @@ const { getUserByToken } = require('../../data/users');
 const Router = express.Router();
 const nl2br = require('nl2br');
 
-
 Router.get('/:id', async (req, res) => {
     const userLookup = await getUserByToken(req.session.token);
     if (userLookup.error) {
@@ -67,8 +66,8 @@ Router.get('/:id', async (req, res) => {
     return res.render('class', {
         title: course.name,
         courseName: course.name,
-        courseDesc: nl2br(course.description, false),
-        tags: course.tags,
+        courseDesc: course.description ? nl2br(course.description, false) : '',
+        tags: course.tags ? course.tags : undefined,
         postsExist: postData.length > 0,
         data: postData,
         instructor: course.instructor === user._id.toString(),

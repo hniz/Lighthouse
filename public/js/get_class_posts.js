@@ -265,7 +265,7 @@
                         });
                 }
             });
-            const tagLinks = classPosts.find('#class-tags');
+            const tagLinks = posts.find('.tags');
             tagLinks.on('click', function (tagevent) {
                 tagevent.preventDefault();
                 const href = tagevent.target.href;

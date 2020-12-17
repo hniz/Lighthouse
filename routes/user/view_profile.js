@@ -4,7 +4,6 @@ const { getClassById } = require('../../data/classes');
 const Router = e.Router();
 const nl2br = require('nl2br');
 
-
 const displayProfile = async (req, res) => {
     const userId = req.params.id;
     const userLookup = await getUserById(userId);
@@ -17,7 +16,7 @@ const displayProfile = async (req, res) => {
             loggedIn: req.session.token ? true : false,
         });
     }
-    
+
     if (userLookup.error) {
         res.status(userLookup.statusCode).render('profile', {
             title: 'Error',
@@ -27,13 +26,15 @@ const displayProfile = async (req, res) => {
     } else {
         const usersClasses = userLookup.user.classes;
         let classes = [];
-        for(let i = 0; i < usersClasses.length; i++) {
+        for (let i = 0; i < usersClasses.length; i++) {
             const getClass = await getClassById(usersClasses[i]);
             classes.push(getClass.class.name);
         }
         const user = userLookup.user;
         user.fullName = user.fullName.firstName + ' ' + user.fullName.lastName;
-        user.description = nl2br(user.description, false);
+        user.description = user.description
+            ? nl2br(user.description, false)
+            : '';
         res.status(userLookup.statusCode).render('profile', {
             title: `${user.fullName}'s Profile`,
             user,
