@@ -242,10 +242,10 @@ const votePost = async ({ userId, postId, vote }) => {
     const postCollection = await collections.posts();
     const convertedUserId = ObjectId(userId);
     const convertedPostId = ObjectId(postId);
-    const user = userCollection.findOne({
+    const user = await userCollection.findOne({
         _id: convertedUserId,
     });
-    const post = postCollection.findOne({
+    const post = await postCollection.findOne({
         _id: convertedPostId,
     });
     if (!user || !post) {
