@@ -302,7 +302,6 @@ const getPostById = async (id) => {
 };
 
 const deletePost = async (id, userToDelete) => {
-    //Assuming that the deletion of a post means the deletion of comments associated
     const posts = await collections.posts();
 
     if (!checkValidId(id)) {
