@@ -13,9 +13,8 @@
     overflow-y: scroll;
 }
 
-.View {
+.Top_Buttons {
     background-color: white;
-    height: 40px;
     width: 300px;
     margin: auto;
     margin-top: 20px;
@@ -33,7 +32,6 @@
 
 .post-title {
     background-color: white;
-    height: 40px;
     text-align: center;
     margin: auto;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -48,7 +46,6 @@
 }
 
 .View2 {
-    height: 60px;
     width: 100%;
     display: flex;
     margin: auto;
@@ -89,7 +86,6 @@
 }
 .desc {
     background-color: white;
-    height: 40px;
     width: 100%;
     margin: auto;
     margin-top: 5px;
