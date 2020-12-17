@@ -14,7 +14,7 @@
             {{/if}}
             <h1>{{{post.title}}}</h1>
             <div class="feedback" id="feedback-{{post._id}}">
-                <span class="score" id="post-score-{{{post._id}}}">{{{post.score}}}</span>
+
                 {{#if instructor}}
                 {{#if post.endorse}}
                 <button class='endorse-button' id="unendorse-{{{post._id}}}">Un-endorse Post</button>
@@ -30,6 +30,7 @@
                         class="like_button" alt="Upvote Button"></div>
                 {{/if}}
                 {{/if}}
+                <span class="score" id="post-score-{{{post._id}}}">{{{post.score}}}</span>
             </div>
 
             <a href='/user/{{authorId}}'>By {{author}}</a> 
@@ -38,12 +39,12 @@
                 <a href="/post/edit/{{postId}}" style="text-decoration: none; color: white;">Edit this post</a>
             </button>
             {{else if instructor}}
-           <button>
+            <button>
                 <a href="/post/edit/{{postId}}" style="text-decoration: none; color: white;">Edit this post</a>
             </button>
-           {{else}}
-           <p>Take the time to comment or upvote!</p>
-            
+            {{else}}
+            <p>Take the time to comment or upvote!</p>
+
             {{/if}}
             <div class="post-body">
                 {{{post.content}}}
@@ -59,7 +60,7 @@
                 <li id="comment-{{_id}}">
                     {{/if}}
                     {{{content}}} by <a href="/user/{{{authorId}}}">{{{author}}}</a> on {{{time_submitted}}}
-                    <span class="score" id="comment-score-{{{_id}}}">{{{score}}}</span>
+
                     {{#if ../instructor}}
                     {{#if endorse}}
                     <button class='endorse-comment-button' id="unendorse-{{{_id}}}">Un-endorse</button>
@@ -68,10 +69,12 @@
                     {{/if}}
                     {{else}}
                     {{#if upvoted}}
-                    <div class="vote-comment-button" id="unupvote-{{{_id}}}"><img src="/public/img/full_like.svg"
+                    <div class="vote-comment-button" id="unupvote-{{{_id}}}"><span class="score"
+                            id="comment-score-{{{_id}}}">{{{score}}}</span><img src="/public/img/full_like.svg"
                             class="like_button" alt="Remove Upvote Button"></div>
                     {{else}}
-                    <div class="vote-comment-button" id="upvote-{{{_id}}}"><img src="/public/img/empty_like.svg"
+                    <div class="vote-comment-button" id="upvote-{{{_id}}}"><span class="score"
+                            id="comment-score-{{{_id}}}">{{{score}}}</span><img src="/public/img/empty_like.svg"
                             class="like_button" alt="Upvote Button"></div>
                     {{/if}}
                     {{/if}}

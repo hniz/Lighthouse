@@ -63,6 +63,7 @@
                                 class="like-button" alt="Upvote Button"></div>
                         {{/if}}
                         {{/if}}
+                        <br>
                         <span class="score" id="post-score-{{{ids}}}">{{{score}}}</span>
                     </div>
                     <div class="post-body">
@@ -76,7 +77,7 @@
                         <li id="comment-{{{_id}}}">
                             {{/if}}
                             {{content}} by <a href="/user/{{{authorId}}}">{{{author}}}</a> on {{time_submitted}}
-                            <span class="score" id="comment-score-{{{_id}}}">{{score}}</span>
+
 
                             {{#if ../../instructor}}
                             {{#if endorse}}
@@ -86,11 +87,13 @@
                             {{/if}}
                             {{else}}
                             {{#if upvoted}}
-                            <div class="vote-comment-button" id="unupvote-{{{_id}}}"><img
-                                    src="/public/img/full_like.svg" class="like_button" alt="Remove Upvote Button">
+                            <div class="vote-comment-button" id="unupvote-{{{_id}}}"><span class="score"
+                                    id="comment-score-{{{_id}}}">{{score}}</span><img src="/public/img/full_like.svg"
+                                    class="like_button" alt="Remove Upvote Button">
                             </div>
                             {{else}}
-                            <div class="vote-comment-button" id="upvote-{{{_id}}}"><img src="/public/img/empty_like.svg"
+                            <div class="vote-comment-button" id="upvote-{{{_id}}}"><span class="score"
+                                    id="comment-score-{{{_id}}}">{{score}}</span><img src="/public/img/empty_like.svg"
                                     alt="Upvote Button"></div>
                             {{/if}}
                             {{/if}}
