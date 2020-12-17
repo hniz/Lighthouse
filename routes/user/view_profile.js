@@ -35,6 +35,7 @@ const displayProfile = async (req, res) => {
         user.description = user.description
             ? nl2br(user.description, false)
             : '';
+        user.type = user.type[0].toUpperCase() + user.type.slice(1);
         res.status(userLookup.statusCode).render('profile', {
             title: `${user.fullName}'s Profile`,
             user,
