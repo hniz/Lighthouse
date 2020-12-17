@@ -23,7 +23,6 @@ const create = async ({ name, description, instructorToken }) => {
         const instructorLookup = await users.findOne({
             token: instructorToken,
         });
-        const classLookup = await classes.findOne({ name }); //Need name to be the unique identifier
         if (!instructorLookup || instructorLookup.type !== 'instructor') {
             if (!instructorLookup)
                 return {
@@ -36,43 +35,36 @@ const create = async ({ name, description, instructorToken }) => {
                     statusCode: 401,
                 };
         }
-        if (!classLookup) {
-            let code = `${name}-${Math.floor(Math.random() * 10000)}`;
-            while (await classes.findOne({ code })) {
-                code = `${name}-${Math.floor(Math.random() * 10000)}`;
-            }
-            const password = `${Math.floor(Math.random() * 10000000)}`;
-            const course = await classes.insertOne({
-                name,
-                description,
-                posts: [],
-                students: [],
-                tags: [],
-                instructor: instructorLookup._id.toString(),
-                code,
-                password,
-            });
-            const classID = course.insertedId.toString();
-            instructorLookup.classes.push(classID);
-            await users.findOneAndUpdate(
-                {
-                    email: instructorLookup.email,
-                },
-                {
-                    $set: {
-                        classes: instructorLookup.classes,
-                    },
-                }
-            );
-            return {
-                statusCode: 201,
-            };
-        } else {
-            return {
-                error: 'Class already exists',
-                statusCode: 400,
-            };
+        let code = `${name}-${Math.floor(Math.random() * 10000)}`;
+        while (await classes.findOne({ code })) {
+            code = `${name}-${Math.floor(Math.random() * 10000)}`;
         }
+        const password = `${Math.floor(Math.random() * 10000000)}`;
+        const course = await classes.insertOne({
+            name,
+            description,
+            posts: [],
+            students: [],
+            tags: [],
+            instructor: instructorLookup._id.toString(),
+            code,
+            password,
+        });
+        const classID = course.insertedId.toString();
+        instructorLookup.classes.push(classID);
+        await users.findOneAndUpdate(
+            {
+                email: instructorLookup.email,
+            },
+            {
+                $set: {
+                    classes: instructorLookup.classes,
+                },
+            }
+        );
+        return {
+            statusCode: 201,
+        };
     }
 };
 
@@ -88,15 +80,15 @@ const getClassPosts = async (id) => {
     const fetchedClass = await classes.findOne({ _id: convertedid });
     const allPostsStringId = fetchedClass.posts;
 
-    const postCollection= await collections.posts();
+    const postCollection = await collections.posts();
 
-
-    const classPosts = (await Promise.all(
-        allPostsStringId.map((post) => {
-            return postCollection.findOne({_id: ObjectId(post)});
-        })
-    )).map((post) => ({ post })
-    );
+    const classPosts = (
+        await Promise.all(
+            allPostsStringId.map((post) => {
+                return postCollection.findOne({ _id: ObjectId(post) });
+            })
+        )
+    ).map((post) => ({ post }));
     return {
         classPosts: classPosts,
         statusCode: 200,
@@ -349,7 +341,7 @@ const addTagToClass = async ({ tag, classID }) => {
         lookup.tags = tag;
     }
     tag.forEach((member) => {
-        if(!lookup.tags.includes(member)){
+        if (!lookup.tags.includes(member)) {
             lookup.tags.push(member);
         }
     });
