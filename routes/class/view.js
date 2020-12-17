@@ -56,6 +56,7 @@ Router.get('/:id', async (req, res) => {
             title: post.title,
             endorse: post.endorse,
             body: post.content,
+            tags: post.tags,
             ids: post._id.toString(),
             score: post.score,
             upvoted:
