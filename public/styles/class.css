@@ -1,6 +1,5 @@
 .View {
     background-color: white;
-    height: 40px;
     width: 300px;
     margin: auto;
     margin-top: 20px;
@@ -21,7 +20,6 @@
 }
 
 .desc {
-    height: 40px;
     width: 100%;
     margin: auto;
     margin-top: 5px;
