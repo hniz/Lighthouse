@@ -76,8 +76,20 @@
 .post {
     display: inline-block;
     padding: 20px;
+    background-color: white;
 }
 
+.post-endorse {
+    border: yellow;
+    border-style: solid;
+    border-width: 5px;
+}
+
+.comment-endorse {
+    border: yellow;
+    border-style: solid;
+    border-width: 5px;
+}
 .tags {
     font-family: 'coolvetica';
     font-size: 16pt;
@@ -86,7 +98,7 @@
 }
 .desc {
     background-color: white;
-    width: 100%;
+    width: 90%;
     margin: auto;
     margin-top: 5px;
     text-align: center;
