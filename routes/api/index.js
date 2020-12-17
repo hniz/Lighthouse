@@ -10,6 +10,7 @@ const loginRoute = require('./login');
 const joinClassRoute = require('./joinClass');
 const editProfileRoute = require('./editProfile');
 const deletePostRoute = require('./deletePost');
+const deleteProfileRoute = require('./deleteProfile');
 
 Router.use('/joinClass', joinClassRoute);
 Router.use('/login', loginRoute);
@@ -21,5 +22,6 @@ Router.use('/similarity', similarityCheckRoute);
 Router.use('/vote', voteRoute);
 Router.use('/edit_profile', editProfileRoute);
 Router.use('/deletePost', deletePostRoute);
+Router.use('/delete_profile', deleteProfileRoute);
 
 module.exports = Router;

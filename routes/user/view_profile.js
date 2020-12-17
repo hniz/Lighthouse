@@ -37,6 +37,7 @@ const displayProfile = async (req, res) => {
         res.status(userLookup.statusCode).render('profile', {
             title: `${user.fullName}'s Profile`,
             user,
+            isStudent: user.type === 'instructor' ? false : true,
             userClasses: classes,
             loggedIn: req.session.token ? true : false,
             editable: userToken.user._id.toString() === userId,

@@ -148,7 +148,7 @@ const modifyUser = async ({
     }
 };
 
-const deleteUser = async ({ email }) => {
+const deleteUser = async ( email ) => {
     //Notes: Should we get password confirmation to delete a user?
     const users = await collections.users();
     const userLookup = await users.findOne({ email });
