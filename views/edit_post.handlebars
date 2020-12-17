@@ -1,36 +1,40 @@
 <link rel="stylesheet" href="/public/styles/edit_post.css">
-<button class="delete-post" type="submit">Delete this post</button>
+
+<div class="container2">
+
+    <button class="delete-post" type="submit">Delete this post</button>
 
 
-<form id="edit-post-form" action="/post/edit" method="POST">
-    <label for="post-title">Post Title</label>
-    <input type="text" name="post-title" id="post-title" value="{{{post.title}}}">
-    <label for="post-content">Post Content</label>
-    <textarea name="post-content" id="post-content" cols="30" rows="10">{{{post.content}}}</textarea>
+    <form id="edit-post-form" action="/post/edit" method="POST">
+        <label for="post-title">Post Title</label>
+        <input type="text" name="post-title" id="post-title" value="{{{post.title}}}">
+        <label for="post-content">Post Content</label>
+        <textarea name="post-content" id="post-content" cols="30" rows="10">{{{post.content}}}</textarea>
         <label for="tag-input">Add Tags</label>
-    <select id="select-tag" multiple>
-        <option value="" disabled selected>No tag selected</option>
-        {{#each availableTags}}
-        <option value="Tag">{{this}}</option>
-        {{/each}}
+        <select id="select-tag" multiple>
+            <option value="" disabled selected>No tag selected</option>
+            {{#each availableTags}}
+            <option value="Tag">{{this}}</option>
+            {{/each}}
 
-   </select>
-     <label for="delete-tag-input">Delete Tags</label>
-    <select id="delete-tag" multiple>
-        <option value="" disabled selected>No tag selected</option>
-        {{#each currTags}}
-        <option value="Tag">{{this}}</option>
-        {{/each}}
         </select>
-    
-    
-    <input type="hidden" name="post-id" id="post-id" value="{{{post._id}}}"> 
-    <button type="submit">Submit</button>
-</form>
-<div id="edit-post-error" hidden>
-    <ul id="edit-post-error-list">
+        <label for="delete-tag-input">Delete Tags</label>
+        <select id="delete-tag" multiple>
+            <option value="" disabled selected>No tag selected</option>
+            {{#each currTags}}
+            <option value="Tag">{{this}}</option>
+            {{/each}}
+        </select>
 
-    </ul>
+
+        <input type="hidden" name="post-id" id="post-id" value="{{{post._id}}}">
+        <button type="submit">Submit</button>
+    </form>
+    <div id="edit-post-error" hidden>
+        <ul id="edit-post-error-list">
+
+        </ul>
+    </div>
 </div>
 
 <ul>

@@ -1,11 +1,17 @@
-{{#if error}}
-<h1>We're sorry, an error occurred.</h1>
-<h2>{{{error}}}</h2>
-{{else}}
-<form action="/class/leave/{{{classId}}}" method="POST">
-    <p>Are you sure you want to leave {{{className}}}?</p>
-    <p>You can rejoin the class at any time with the class code and password.</p>
-    <a href="/class/{{{classId}}}">Return to Class Page</a>
-    <button type="submit">Leave Class</button>
-</form>
-{{/if}}
+<div class="container cornsilk">
+
+
+    {{#if error}}
+    <h1>We're sorry, an error occurred.</h1>
+    <h2>{{{error}}}</h2>
+    {{else}}
+
+    <form action="/class/leave/{{{classId}}}" method="POST">
+        <p>Are you sure you want to leave {{{className}}}?</p>
+        <p>You can rejoin the class at any time with the class code and password.</p>
+        <a href="/class/{{{classId}}}">Return to Class Page</a>
+        <button type="submit">Leave Class</button>
+    </form>
+    {{/if}}
+
+</div>

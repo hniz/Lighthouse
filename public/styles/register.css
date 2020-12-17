@@ -10,6 +10,7 @@
     display: flex;
     text-align: center;
     overflow: hidden;
+    overflow-y: scroll;
 }
 
 .left {

@@ -28,6 +28,7 @@
     height: 40px;
     width: 300px;
     margin: auto;
+    padding: 0;
     margin-top: 20px;
     text-align: center;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -39,15 +40,15 @@
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
-.Join_Text {
+.Join_Text2 {
     font-family: 'coolvetica';
-    top: 10px;
     font-size: 20pt;
+
     color: #459dd8;
     text-decoration: none;
 }
 
-.Join_Text:hover {
+.Join_Text2:hover {
     color: black;
 }
 

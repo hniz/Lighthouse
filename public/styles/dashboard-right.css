@@ -1,3 +1,17 @@
+.pcontainer {
+    position: absolute;
+    background-color: #fffcf0;
+    top: 120px;
+    left: 5%;
+    right: 5%;
+    bottom: 5%;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    text-align: center;
+    overflow: hidden;
+    overflow-y: scroll;
+}
 .View {
     background-color: white;
     height: 40px;

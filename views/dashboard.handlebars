@@ -17,11 +17,7 @@
         {{#each classes}}
         <li class="Classes" id="{{{id}}}">{{{name}}}</li>
         {{else}}
-        {{#if instructor}}
-        <h3><a href="/class/new">Create a class</a></h3>
-        {{else}}
-        <h3><a href="/class/join">Join a class</a></h3>
-        {{/if}}
+        <h3 style="text-align: center;">No enrolled classes!</h3>
         {{/each}}
     </ul>
 

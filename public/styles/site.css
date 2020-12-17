@@ -36,6 +36,27 @@ body {
     font-size: 12pt;
 }
 
+form {
+    font-size: 14pt;
+    font-family: 'Courier New', Courier, monospace;
+}
+input {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 14pt;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 14pt;
+    margin: 8px 0;
+    box-sizing: border-box;
+    background-color: #1c2541;
+    color: white;
+}
 /* Navigation Bar */
 .Navigation_Bar {
     top: 0;
@@ -176,6 +197,21 @@ body {
     display: inline-block;
     text-align: center;
     overflow: hidden;
+}
+
+.container2 {
+    position: absolute;
+    background-color: #fffcf0;
+    top: 120px;
+    left: 5%;
+    right: 5%;
+    bottom: 5%;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    text-align: center;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 
 ul {
