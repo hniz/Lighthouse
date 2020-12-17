@@ -347,6 +347,34 @@ const deletePost = async (id) => {
     };
 };
 
+const getPostAuthor = async(id) => {
+    if (!checkValidId(id)) {
+        return {
+            error: 'Invalid post ID provided.',
+            statusCode: 400,
+        };
+    }
+    const convertedid = ObjectId(id);
+    const posts = await collections.posts();
+    const lookup = await posts.findOne({ _id: convertedid });
+    if (!lookup) {
+        return { error: 'No post with given id', statusCode: 404 };
+    }
+    const users = await collections.users();
+    let author = await users.findOne({ _id: ObjectId(lookup.author) });
+    if(!author){
+        return { error: 'Invalid author of post', statusCode: 404};
+    } else {
+        return{
+            firstName: author.fullName.firstName,
+            lastName: author.fullName.lastName,
+            userId: author._id.toString(),
+            statusCode: 200,
+        };
+    }
+};
+
+
 module.exports = {
     deletePost,
     create,
@@ -355,4 +383,5 @@ module.exports = {
     votePost,
     addTagToPost,
     deleteTagFromPost,
+    getPostAuthor,
 };

@@ -21,12 +21,12 @@
     </div>
 
     <form id="edit-class-tag-form" action="/class/edit/tags" method="POST">
-        <label for="tag-input">Tags</label>
+        <label for="tag-input">Tags: Use commas to add multiple tags</label>
         <input name="tag-name" id="tag-input" type="text">
         <input type="hidden" name="class-id-tag" id="class-id-tag" value="{{{class._id}}}">
         <button type="submit">Add tag</button>
     </form>
-    <p>You can add multiple tags. Just make sure to add a comma between each tag.</p>
+
     <div id='edit-class-tag-error'>
         <ul id='edit-class-tag-error-list'>
 

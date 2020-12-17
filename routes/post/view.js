@@ -2,7 +2,7 @@ const express = require('express');
 const nl2br = require('nl2br');
 const { getClassById } = require('../../data/classes');
 const { getPostComments } = require('../../data/comments');
-const { getPostById } = require('../../data/posts');
+const { getPostById, getPostAuthor } = require('../../data/posts');
 const { getUserByToken } = require('../../data/users');
 const Router = express.Router();
 
@@ -49,9 +49,15 @@ Router.get('/:id', async (req, res) => {
         });
     }
     postLookup.post.content = nl2br(postLookup.post.content, false);
+
+    let postAuthor = await getPostAuthor(postLookup.post._id.toString());
+    let postAuthorCode = postAuthor.userId;
+    postAuthor = postAuthor.firstName + ' ' + postAuthor.lastName;
     return res.render('post', {
         isAuthor: postLookup.post.author === user.user._id.toString(),
         title: postLookup.post.title,
+        author: postAuthor,
+        authorId: postAuthorCode,
         post: postLookup.post,
         postId: postLookup.post._id.toString(),
         userId: user.user._id.toString(),
