@@ -193,6 +193,7 @@ const getPostComments = async (postID) => {
         };
     }
     const { getUserById } = require('./users');
+    console.log(result);''
     for (let i = 0; i < result.length; i++) {
         if(result[i] !== null){
             let author = await getUserById(result[i].author);

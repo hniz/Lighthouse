@@ -60,7 +60,6 @@ jQuery(function ($) {
                     document.getElementById(resetFields[0]).focus();
                 }
             } else {
-                console.log(postTag);
                 var requestConfig = {
                     method: 'POST',
                     url: '/post/edit',
