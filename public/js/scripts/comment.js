@@ -2,7 +2,6 @@
     const commentForms = $('.comment-form');
     commentForms.on('submit', function (commentevent) {
         commentevent.preventDefault();
-        console.log(commentevent);
         const id = commentevent.target.id.split('-')[1];
         const children = commentevent.target.children;
         const comment = children.namedItem(`comment-content-${id}`).value;
@@ -15,10 +14,16 @@
         let errors = [];
         let hasErrorDiv = false;
         let i = 0;
+        let formIndex = 0;
+        let errorDivIndex = 0;
         for (i = 0; i < currentTarget.length; i++) {
             if (currentTarget[i].className === 'dashboard-comment-error-div') {
                 hasErrorDiv = true;
-                break;
+                errorDivIndex = i;
+            }
+
+            if (currentTarget[i].className === 'comment-form') {
+                formIndex = i;
             }
         }
 
@@ -26,7 +31,7 @@
         let errorUL;
 
         if (hasErrorDiv) {
-            errorDiv = currentTarget[i];
+            errorDiv = currentTarget[errorDivIndex];
             errorUL = errorDiv.firstChild;
 
             while (errorUL.firstChild) {
@@ -62,7 +67,7 @@
 
             if (!hasErrorDiv) {
                 errorDiv.appendChild(errorUL);
-                parentPostLI.appendChild(errorDiv);
+                currentTarget[formIndex].insertAdjacentElement('afterend', errorDiv);
             }
         } else {
             const commentConfig = {
