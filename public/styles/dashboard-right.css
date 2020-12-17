@@ -115,8 +115,9 @@
     border-radius: 5px; /* 5px rounded corners */
 }
 .vote-comment-button {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
+    display: flex;
 }
 
 .feedback {
