@@ -197,6 +197,7 @@ button {
     display: inline-block;
     text-align: center;
     overflow: hidden;
+    overflow-y: scroll;
 }
 
 .container2 {
