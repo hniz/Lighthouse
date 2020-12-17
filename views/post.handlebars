@@ -49,6 +49,7 @@
                 {{/each}}
             </ul>
             <form class="comment-form" action="/api/comment" method="POST">
+                <label for="comment-content">Type a comment:</label>
                 <input type="text" name="comment-content" id="comment-content">
                 <input type="hidden" name="parent-id" id="parent-id" value="{{{postId}}}">
                 <button type="submit">Post</button>

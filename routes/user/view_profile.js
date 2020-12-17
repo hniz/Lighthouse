@@ -2,6 +2,8 @@ const e = require('express');
 const { getUserById, getUserByToken } = require('../../data/users');
 const { getClassById } = require('../../data/classes');
 const Router = e.Router();
+const nl2br = require('nl2br');
+
 
 const displayProfile = async (req, res) => {
     const userId = req.params.id;
@@ -31,7 +33,7 @@ const displayProfile = async (req, res) => {
         }
         const user = userLookup.user;
         user.fullName = user.fullName.firstName + ' ' + user.fullName.lastName;
-        
+        user.description = nl2br(user.description, false);
         res.status(userLookup.statusCode).render('profile', {
             title: `${user.fullName}'s Profile`,
             user,

@@ -1,4 +1,5 @@
 const express = require('express');
+const nl2br = require('nl2br');
 const { getClassById } = require('../../data/classes');
 const { getPostComments } = require('../../data/comments');
 const { getPostById } = require('../../data/posts');
@@ -45,6 +46,7 @@ Router.get('/:id', async (req, res) => {
             loggedIn: req.session.token ? true : false,
         });
     }
+    postLookup.post.content = nl2br(postLookup.post.content, false);
     return res.render('post', {
         isAuthor: postLookup.post.author === user.user._id.toString(),
         title: postLookup.post.title,

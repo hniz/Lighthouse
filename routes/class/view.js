@@ -3,6 +3,8 @@ const { getClassById, getClassPosts } = require('../../data/classes');
 const { getPostComments } = require('../../data/comments');
 const { getUserByToken } = require('../../data/users');
 const Router = express.Router();
+const nl2br = require('nl2br');
+
 
 Router.get('/:id', async (req, res) => {
     const userLookup = await getUserByToken(req.session.token);
@@ -65,7 +67,7 @@ Router.get('/:id', async (req, res) => {
     return res.render('class', {
         title: course.name,
         courseName: course.name,
-        courseDesc: course.description,
+        courseDesc: nl2br(course.description, false),
         tags: course.tags,
         postsExist: postData.length > 0,
         data: postData,

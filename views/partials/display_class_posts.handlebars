@@ -68,6 +68,7 @@
                         </ul>
                 </div>
                 <form class="comment-form" action="/api/comment" method="POST" id="commentform-{{{ids}}}">
+                        <label for="comment-content-{{{ids}}}">Type a comment:</label>
                         <input type="text" name="comment-content" id="comment-content-{{{ids}}}">
                         <input type="hidden" name="parent-id" id="parent-id-{{{ids}}}" value="{{{ids}}}">
                         <button type="submit">Post</button>
