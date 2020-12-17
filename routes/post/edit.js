@@ -21,7 +21,7 @@ Router.get('/:id', async (req, res) => {
             error: postLookup.error,
             loggedIn: req.session.token ? true : false,
         });
-    } else if (postLookup.post.author !== userLookup.user._id.toString()) {
+    } else if (postLookup.post.author !== userLookup.user._id.toString() && userLookup.user.type !== 'instructor') {
         res.status(401).render('error', {
             title: 'Error',
             error:
@@ -48,6 +48,7 @@ Router.get('/:id', async (req, res) => {
             loggedIn: req.session.token ? true : false,
             availableTags: availableTags,
             currTags: postTags,
+            isInstructor: userLookup.user.type === 'instructor' ? true : false,
         });
     }
 });
