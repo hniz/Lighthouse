@@ -12,6 +12,7 @@ Router.get('/', async (req, res) => {
     return res.render('edit_profile', {
         title: 'Edit Profile',
         user: userLookup.user,
+        loggedIn: req.session.token ? true : false,
     });
 });
 
