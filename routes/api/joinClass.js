@@ -16,10 +16,13 @@ Router.post('/', async (req, res) => {
         return;
     }
     if (userLookup.user.type === 'instructor') {
-        res.status(401).json({ error: 'Instructors cannot join classes.' });
+        return res.status(401).json({ error: 'Instructors cannot join classes.' });
     }
     const password = xss(req.body['class-password']);
     if (classLookup.class.password === password) {
+        if(classLookup.class.students.includes(userLookup.user._id.toString())){
+            return res.status(400).json({ error: 'Already in this class.' });
+        }
         const result = await addStudentToClass({
             studentToken: req.session.token,
             classCode: code,
