@@ -43,20 +43,24 @@ Router.get('/', async (req, res) => {
         let postData = [];
         for (const { post } of filteredPosts) {
             let { comments } = await getPostComments(post._id.toString());
-            comments = comments.map((comment)=>{
-                comment.upvoted = comment.votes && comment.votes[userLookup.user._id.toString()] === 1;
-                return comment;
-            });
-            postData.push({
-                title: post.title,
-                body: post.content,
-                endorse: post.endorse,
-                score: post.score,
-                ids: post._id.toString(),
-                upvoted: post.votes && post.votes[userLookup.user._id.toString()] === 1,
-                comments,
-            });
-        }
+            if(comments !== null){
+                comments = comments.map((comment)=>{
+                    if(comment !== null){
+                        comment.upvoted = comment.votes && comment.votes[userLookup.user._id.toString()] === 1;
+                        return comment;
+                    }
+               });
+                postData.push({
+                    title: post.title,
+                    body: post.content,
+                    endorse: post.endorse,
+                    score: post.score,
+                    ids: post._id.toString(),
+                    upvoted: post.votes && post.votes[userLookup.user._id.toString()] === 1,
+                    comments,
+                });
+            }
+       }
         res.render('partials/display_class_posts', {
             postsExist: true,
             filteredPostsExist: filteredPosts.length > 0,
