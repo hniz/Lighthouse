@@ -3,6 +3,7 @@ const classes = require('../../data/classes');
 const { getUserByToken } = require('../../data/users');
 const { getPostComments } = require('../../data/comments');
 const Router = e.Router();
+const nl2br = require('nl2br');
 
 Router.get('/', async (req, res) => {
     const userLookup = await getUserByToken(req.session.token);
@@ -52,7 +53,7 @@ Router.get('/', async (req, res) => {
                });
                 postData.push({
                     title: post.title,
-                    body: post.content,
+                    body: nl2br(post.content, false),
                     endorse: post.endorse,
                     score: post.score,
                     ids: post._id.toString(),

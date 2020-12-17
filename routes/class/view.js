@@ -55,7 +55,7 @@ Router.get('/:id', async (req, res) => {
         postData.push({
             title: post.title,
             endorse: post.endorse,
-            body: post.content,
+            body: nl2br(post.content, false),
             tags: post.tags,
             ids: post._id.toString(),
             score: post.score,
