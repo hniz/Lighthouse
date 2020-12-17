@@ -7,6 +7,7 @@ Router.post('/', async (req, res) => {
     const classLookup = await getClassByCode(code);
     if (classLookup.error) {
         res.status(classLookup.statusCode).json({ error: classLookup.error });
+        return;
     }
     const password = req.body['class-password'];
     if (classLookup.class.password === password) {
