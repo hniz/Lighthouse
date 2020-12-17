@@ -16,6 +16,36 @@
     text-decoration: none;
 }
 
+.post_list {
+    padding: 20px;
+}
+
+.desc {
+    height: 40px;
+    width: 100%;
+    margin: auto;
+    margin-top: 5px;
+    text-align: center;
+    padding: 10px;
+
+    font-family: 'coolvetica';
+    font-size: 16pt;
+    color: #459dd8;
+    text-decoration: none;
+}
+
+.View2 {
+    background-color: white;
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+    padding: 10px;
+    text-decoration: none;
+}
+
 .scroll {
     overflow-y: scroll;
 }
@@ -25,10 +55,22 @@
     height: 40px;
 }
 
+.feedback {
+    margin: auto;
+    margin-top: 5px;
+}
+
 .like_button {
     width: 20px;
 }
 
-.vote-button img{
-    width: 20px;
+.vote-button {
+    width: 30px;
+    height: 30px;
+
+    margin: auto;
+}
+
+.comment-form {
+    margin-bottom: 100px;
 }

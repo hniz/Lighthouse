@@ -1,110 +1,98 @@
 <link rel="stylesheet" href="/public/styles/class.css">
 
 <div class="container cornsilk scroll">
-    {{#if error}}
-    <h1>{{error}}</h1>
-    {{else}}
-    <h1>{{courseName}}</h1>
-    <p>{{{courseDesc}}}</p>
-    <a href="/post/new/{{classId}}" class="View">Create a post</a>
-    {{#if instructor}}
-    <a href="/class/edit/{{classId}}" class="View">Edit this class</a>
-    {{else}}
-    <a href="/class/leave/{{classId}}" class="View">Leave this class</a>
-    {{/if}}
-    <div id="class-content">
-        {{#if postsExist }}
-        {{#if tags}}
-        <div id="class-tags">
-            <h2>Tags</h2>
-            <ul>
-                {{#each tags}}
-                <li class="class-tag"><a href="/class/{{{../classId}}}?tag={{{this}}}">{{{this}}}</a></li>
+    <h1>You are viewing the class page for: {{courseName}}</h1>
+    <div class="View2">
+        {{#if error}}
+        <h1>{{error}}</h1>
+        {{else}}
+        <h1>{{courseName}}</h1>
+        <div class="desc">{{{courseDesc}}}</div>
+        <a href="/post/new/{{classId}}" class="View">Create a post</a>
+        {{#if instructor}}
+        <a href="/class/edit/{{classId}}" class="View">Edit this class</a>
+        {{else}}
+        <a href="/class/leave/{{classId}}" class="View">Leave this class</a>
+        {{/if}}
+        <div id="class-content">
+            {{#if postsExist }}
+            {{#if tags}}
+            <div id="class-tags">
+                <h2>Tags</h2>
+                <ul>
+                    {{#each tags}}
+                    <li class="class-tag "><a class="desc" style=" text-decoration: none;"
+                            href="/class/{{{../classId}}}?tag={{{this}}}">{{{this}}}</a></li>
+                    {{/each}}
+                </ul>
+                <button id="reset-filter" hidden>Reset Filter</button>
+            </div>
+            {{else}}
+            <p>There are no tags for this class.</p><!-- Feel free to change this -->
+            {{/if}}
+            <h2>Posts</h2>
+
+            <ul id="post-list" class="post_list">
+                {{#each data}}
+                {{#if endorse}}
+                <li class="post-endorse">
+                    {{else}}
+                <li class="post">
+                    {{/if}}
+                    <a href="/post/{{ids}}" class="desc">{{title}}</a>
+                    <div class="post-body">
+                        {{body}}
+                    </div>
+                    <ul class="tags">
+                        {{#each tags}}
+                        <ul id="{{{this}}}">{{{this}}}</ul>
+                        {{/each}}
+                    </ul>
+                    <ul class="comments">
+                        {{#each comments}}
+                        {{#if endorse}}
+                        <li class="comment-endorse" id="comment-{{{_id}}}">
+                            {{else}}
+                        <li id="comment-{{{_id}}}">
+                            {{/if}}
+                            {{content}} by {{author}} on {{time_submitted}}
+                            <span class="score" id="comment-score-{{{_id}}}">{{score}}</span>
+
+                            {{#if ../../instructor}}
+                            {{#if endorse}}
+                            <button class='endorse-comment-button' id="unendorse-{{{_id}}}">Un-endorse</button>
+                            {{else}}
+                            <button class='endorse-comment-button' id="endorse-{{{_id}}}">Endorse</button>
+                            {{/if}}
+                            {{else}}
+                            {{#if upvoted}}
+                            <button class="vote-comment-button" id="unupvote-{{{_id}}}"><img
+                                    src="/public/img/full_like.svg" class="like_button"
+                                    alt="Remove Upvote Button"></button>
+                            {{else}}
+                            <button class="vote-comment-button" id="upvote-{{{_id}}}"><img
+                                    src="/public/img/empty_like.svg" alt="Upvote Button"></button>
+                            {{/if}}
+                            {{/if}}
+                        </li>
+                        {{/each}}
+                    </ul>
+                    <form class="comment-form" action="/api/comment" method="POST" id="commentform-{{{ids}}}">
+                        <label for="comment-content-{{{ids}}}">Type a comment:</label>
+                        <input type="text" name="comment-content" id="comment-content-{{{ids}}}">
+                        <input type="hidden" name="parent-id" id="parent-id-{{{ids}}}" value="{{{ids}}}">
+                        <button type="submit">Post</button>
+                    </form>
+
+                </li>
                 {{/each}}
             </ul>
-            <button id="reset-filter" hidden>Reset Filter</button>
+            {{else}}
+            <p>Sorry, there are no posts currently available for this class. Make the first one!</p>
+            {{/if}}
         </div>
-        {{else}}
-        <p>There are no tags for this class.</p><!-- Feel free to change this -->
-        {{/if}}
-        <h2>Posts</h2>
-
-        <ul id="post-list">
-            {{#each data}}
-            {{#if endorse}}
-            <li class="post-endorse">
-                {{else}}
-            <li>
-                {{/if}}
-                <a href="/post/{{ids}}">{{title}}</a>
-                <div class="post-body">
-                    {{body}}
-                </div>
-                <ul class="tags">
-                    {{#each tags}}
-                    <ul id="{{{this}}}">{{{this}}}</ul>
-                    {{/each}}
-                </ul>
-                <ul class="comments">
-                    {{#each comments}}
-                    {{#if endorse}}
-                    <li class="comment-endorse" id="comment-{{{_id}}}">
-                        {{else}}
-                    <li id="comment-{{{_id}}}">
-                        {{/if}}
-                        {{content}} by {{author}} on {{time_submitted}}
-                        <span class="score" id="comment-score-{{{_id}}}">{{score}}</span>
-
-                        {{#if ../../instructor}}
-                        {{#if endorse}}
-                        <button class='endorse-comment-button' id="unendorse-{{{_id}}}">Un-endorse</button>
-                        {{else}}
-                        <button class='endorse-comment-button' id="endorse-{{{_id}}}">Endorse</button>
-                        {{/if}}
-                        {{else}}
-                        {{#if upvoted}}
-                        <button class="vote-comment-button" id="unupvote-{{{_id}}}"><img src="/public/img/full_like.svg"
-                                class="like_button" alt="Remove Upvote Button"></button>
-                        {{else}}
-                        <button class="vote-comment-button" id="upvote-{{{_id}}}"><img src="/public/img/empty_like.svg"
-                                alt="Upvote Button"></button>
-                        {{/if}}
-                        {{/if}}
-                    </li>
-                    {{/each}}
-                </ul>
-                <form class="comment-form" action="/api/comment" method="POST" id="commentform-{{{ids}}}">
-                    <label for="comment-content-{{{ids}}}">Type a comment:</label>
-                    <input type="text" name="comment-content" id="comment-content-{{{ids}}}">
-                    <input type="hidden" name="parent-id" id="parent-id-{{{ids}}}" value="{{{ids}}}">
-                    <button type="submit">Post</button>
-                </form>
-                <div class="feedback" id="feedback-{{{ids}}}">
-                    <span class="score" id="post-score-{{{ids}}}">{{{score}}}</span>
-                    {{#if ../instructor}}
-                    {{#if endorse}}
-                    <button class='endorse-button' id="unendorse-{{{ids}}}">Un-endorse Post</button>
-                    {{else}}
-                    <button class='endorse-button' id="endorse-{{{ids}}}">Endorse Post</button>
-                    {{/if}}
-                    {{else}}
-                    {{#if upvoted}}
-                    <button class="vote-button" id="unupvote-{{{ids}}}"><img src="/public/img/full_like.svg"
-                            alt="Remove Upvote Button"></button>
-                    {{else}}
-                    <button class="vote-button" id="upvote-{{{ids}}}"><img src="/public/img/empty_like.svg"
-                            alt="Upvote Button"></button>
-                    {{/if}}
-                    {{/if}}
-                </div>
-            </li>
-            {{/each}}
-        </ul>
-        {{else}}
-        <p>Sorry, there are no posts currently available for this class. Make the first one!</p>
         {{/if}}
     </div>
-    {{/if}}
 </div>
 
 <script src="/public/js/view_class.js"></script>
