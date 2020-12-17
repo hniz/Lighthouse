@@ -4,7 +4,7 @@
         commentevent.preventDefault();
         const id = commentevent.target.id.split('-')[1];
         const children = commentevent.target.children;
-        const comment = children.namedItem(`comment-content-${id}`).value;
+        const comment = children.namedItem(`comment-content-${id}`).value.trim();
         const parentid = children.namedItem(`parent-id-${id}`).value;
 
         const parentPostLI = commentevent.target.parentElement;

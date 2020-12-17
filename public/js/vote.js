@@ -8,7 +8,6 @@
                 if (target.tagName === 'BUTTON') {
                     target = target.firstChild;
                 }
-                console.log(target);
 
                 let postID = target.parentElement.parentElement.id.split(
                     '-'
@@ -53,7 +52,6 @@
                 if (target.tagName === 'BUTTON') {
                     target = target.firstChild;
                 }
-                console.log(target);
 
                 let commentId = target.parentElement.parentElement.id.split(
                     '-'
@@ -72,7 +70,6 @@
                     .done(({ vote, score }) => {
                         scoreLabel.text(score);
 
-                        console.log(target);
                         target.parentElement.id = vote
                             ? `unupvote-${commentId}`
                             : `upvote-${commentId}`;

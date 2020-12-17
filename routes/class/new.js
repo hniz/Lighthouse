@@ -2,11 +2,12 @@ const e = require('express');
 const { create } = require('../../data/classes');
 const nl2br = require('nl2br');
 const Router = e.Router();
+const xss = require('xss');
 
 Router.post('/', async (req, res) => {
     const token = req.session.token;
-    const name = req.body['class-name'];
-    const description = req.body['class-description'];
+    const name = xss(req.body['class-name']);
+    const description = xss(req.body['class-description']);
     const result = await create({
         name,
         description: nl2br(description, false),

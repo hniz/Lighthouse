@@ -25,7 +25,8 @@
     "handlebars": "^4.7.6",
     "mongodb": "^3.6.3",
     "nl2br": "0.0.3",
-    "string-similarity": "^4.0.3"
+    "string-similarity": "^4.0.3",
+    "xss": "^1.0.8"
   },
   "devDependencies": {
     "eslint": "^7.14.0",

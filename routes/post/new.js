@@ -4,6 +4,7 @@ const { create } = require('../../data/posts');
 const { getUserByToken } = require('../../data/users');
 const nl2br = require('nl2br');
 const Router = e.Router();
+const xss = require('xss');
 
 Router.get('/:id', async (req, res) => {
     const id = req.params.id;
@@ -38,10 +39,10 @@ Router.get('/:id', async (req, res) => {
 });
 
 Router.post('/', async (req, res) => {
-    const id = req.body['post-class'];
-    const description = req.body['post-description'];
-    const title = req.body['post-name'];
-    const tags = req.body['post-tags'];
+    const id = xss(req.body['post-class']);
+    const description = xss(req.body['post-description']);
+    const title = xss(req.body['post-name']);
+    const tags = xss(req.body['post-tags']);
     const classLookup = await getClassById(id);
    
     if(classLookup.error){

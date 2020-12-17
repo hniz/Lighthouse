@@ -4,6 +4,7 @@ const { getClassById, getClassPosts } = require('../../data/classes');
 const Router = express.Router();
 const { getUserByToken } = require('../../data/users');
 const { validateString } = require('../../helpers/check_user_info');
+const xss = require('xss');
 
 Router.post('/:classId', async (req, res) => {
     const userLookup = await getUserByToken(req.session.token);
@@ -25,7 +26,7 @@ Router.post('/:classId', async (req, res) => {
             .status(401)
             .json({ error: 'You are not authorized post in this class!' });
     }
-    const body = req.body['post-description'];
+    const body = xss(req.body['post-description']);
     if (!validateString(body)) {
         return res.status(400).json({
             error: 'Missing or invalid "post-description" key in body',

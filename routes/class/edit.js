@@ -6,6 +6,7 @@ const {
 } = require('../../data/classes');
 const { getUserByToken } = require('../../data/users');
 const Router = e.Router();
+const xss = require('xss');
 
 Router.get('/:id', async (req, res) => {
     const id = req.params.id;
@@ -41,7 +42,7 @@ Router.get('/:id', async (req, res) => {
 });
 
 Router.post('/', async (req, res) => {
-    const id = req.body['class-id'];
+    const id = xss(req.body['class-id']);
     const userLookup = await getUserByToken(req.session.token);
     const classLookup = await getClassById(id);
     if (userLookup.error) {
@@ -63,11 +64,11 @@ Router.post('/', async (req, res) => {
         });
     } else {
         const fields = {
-            name: req.body['class-name'],
-            description: req.body['class-description'],
-            code: req.body['class-code'],
-            password: req.body['class-password'],
-            id: req.body['class-id'],
+            name: xss(req.body['class-name']),
+            description: xss(req.body['class-description']),
+            code: xss(req.body['class-code']),
+            password: xss(req.body['class-password']),
+            id: xss(req.body['class-id']),
         };
         const result = await modifyClass(fields);
         if (result.error) {
@@ -82,8 +83,8 @@ Router.post('/', async (req, res) => {
 });
 
 Router.post('/tags', async (req, res) => {
-    const tag = req.body['tag-name'];
-    const id = req.body['class-id'];
+    const tag = xss(req.body['tag-name']);
+    const id = xss(req.body['class-id']);
     const userLookup = await getUserByToken(req.session.token);
     const classLookup = await getClassById(id);
     if (userLookup.error) {
