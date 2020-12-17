@@ -31,6 +31,11 @@
                 {{/if}}
             </div>
             {{#if isAuthor}}
+            <a href="/post/edit/{{postId}}">Edit this post</a>
+            {{else if instructor}}
+           <a href="/post/edit/{{postId}}">Edit this post</a> 
+           {{else}}
+           <p>Take the time to comment or upvote!</p>
             <button>
                 <a href="/post/edit/{{postId}}" style="text-decoration: none; color: white;">Edit this post</a>
             </button>

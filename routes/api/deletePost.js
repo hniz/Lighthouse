@@ -13,8 +13,7 @@ Router.post('/', async(req, res) => {
         res.status(getUser.statusCode).json({error: getUser.error});
     }
 
-    const userId = getUser.user._id.toString();
-    const result = await deletePost(post_id, userId);
+    const result = await deletePost(post_id);
 
     if(result.error){
         res.status(result.statusCode).json({error: result.error});

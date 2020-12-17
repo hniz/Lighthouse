@@ -300,7 +300,7 @@ const getPostById = async (id) => {
     }
 };
 
-const deletePost = async (id, userToDelete) => {
+const deletePost = async (id) => {
     const posts = await collections.posts();
 
     if (!checkValidId(id)) {
@@ -328,6 +328,8 @@ const deletePost = async (id, userToDelete) => {
         comments.deletePostComments(comment, posts._id);
     });
 
+    let author = postLookup.author;
+
     const users = await collections.users();
     const deleteInfo = await posts.deleteOne({ _id: convertedid });
     if (deleteInfo.deletedCount === 0) {
@@ -337,7 +339,7 @@ const deletePost = async (id, userToDelete) => {
         };
     }
     users.updateOne(
-        { _id: ObjectId(userToDelete).valueOf() },
+        { _id: ObjectId(author) },
         { $pull: { posts: id } }
     );
     return {
