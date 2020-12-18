@@ -54,10 +54,11 @@ Also in the database are classes with posts and comments. These are the codes an
 │ CS-115  │ pythoniscool                                │ ilovecode │
 │ HST-415 │ 1319                                        │ 3062359   │
 │ CS-546  │ CS546- Web Programming I WS-7125            │ 4827026   │
-│ CS-347  │ CS-347                                      │  1234567  │
+│ CS-347  │ CS-347                                      │ 1234567   │
 │ CS-135  │ CS-135                                      │ 54321     │
 └─────────┴─────────────────────────────────────────────┴───────────┘
 ```
+As you can see from CS-115 onwards, some of the class codes and class passwords don't follow the pattern set up by their predecessors. This is not due to the code generation of codes and passwords being any different, rather it was manual intervention by developers who changed it temporarily to make it easier to remember their class codes and passwords and never bothered to fix it.
 
 # Authors
 Max Shi, Hamzah Nizami, Daniel Kimball, Eric Altenburg
