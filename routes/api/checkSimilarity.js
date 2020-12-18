@@ -41,13 +41,16 @@ Router.post('/:classId', async (req, res) => {
     const postBodies = classPosts.classPosts
         .filter((lookup) => {
             return !lookup.error;
-        }).map(({post})=>{
+        })
+        .map(({ post }) => {
             return post.content;
-        });
+        })
+        .filter((content) => typeof content === 'string');
     if (postBodies.length > 0) {
         const similarities = stringSimilarity.findBestMatch(body, postBodies);
         if (similarities.bestMatch.rating > 0.5) {
-            const similarPost = classPosts.classPosts[similarities.bestMatchIndex];
+            const similarPost =
+                classPosts.classPosts[similarities.bestMatchIndex];
             return res.status(200).json({
                 similar: similarPost.post,
                 rating: similarities.bestMatch.rating,
@@ -55,8 +58,6 @@ Router.post('/:classId', async (req, res) => {
         }
     }
     return res.status(200).json({});
-    
-    
 });
 
 module.exports = Router;
