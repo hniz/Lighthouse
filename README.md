@@ -17,7 +17,7 @@ The server will then be on http://localhost:3000
 
 Note: Our submission already reflects these changes to the .env file so you should not have to modify it with the Mongo URI. Only run `npm i` and `npm start`.
 
-# Class Credentials 
+# User Credentials 
 The database comes populated with several student and instructor accounts. If you'd like to access a specific account, here are the account credentials that we used: 
 
 ```
@@ -36,6 +36,27 @@ The database comes populated with several student and instructor accounts. If yo
 │ Prof. Peyrovian   │ reza@stevens.edu        │ iteachatstevens │
 │ Prof. Bhatt       │ bhatt@stevens.edu       │ pumpinglemma    │
 └───────────────────┴─────────────────────────┴─────────────────┘
+```
+
+# Class Credentials
+Also in the database are classes with posts and comments. These are the codes and passwords needed to join a class if you are a student.
+```
+┌─────────┬─────────────────────────────────────────────┬───────────┐
+│  Class  │                    Code                     │ Password  │
+├─────────┼─────────────────────────────────────────────┼───────────┤
+│ CS-115  │ CS115-Introduction To Computer Science-5581 │ 9016739   │
+│ CS-284  │ CS284- Data Structures-5486                 │ 5184662   │
+│ CS-496  │ CS496- Programming Languages-6491           │ 6304324   │
+│ CS-511  │ CS511- Concurrent Programming-5929          │ 9589284   │
+│ CS-546  │ CS546- Web Programming I-8727               │ 5726663   │
+│ CS-554  │ CS554- Web Programming II-9849              │ 8564529   │
+│ CS-385  │ CS385- Algorithms-699                       │ 111963    │
+│ CS-115  │ pythoniscool                                │ ilovecode │
+│ HST-415 │ 1319                                        │ 3062359   │
+│ CS-546  │ CS546- Web Programming I WS-7125            │ 4827026   │
+│ CS-347  │ CS-347                                      │  1234567  │
+│ CS-135  │ CS-135                                      │ 54321     │
+└─────────┴─────────────────────────────────────────────┴───────────┘
 ```
 
 # Authors
