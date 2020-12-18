@@ -119,3 +119,6 @@ dist
 
 #environment variables
 .env
+
+#zip files
+*.zip
