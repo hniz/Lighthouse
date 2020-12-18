@@ -15,6 +15,8 @@ in the project root directory.
 
 The server will then be on http://localhost:3000 
 
+Note: Our submission already reflects these changes to the .env file so you should not have to modify it with the Mongo URI. Only run `npm i` and `npm start`.
+
 # Class Credentials 
 The database comes populated with several student and instructor accounts. If you'd like to access a specific account, here are the account credentials that we used: 
 
