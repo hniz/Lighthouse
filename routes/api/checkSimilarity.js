@@ -43,7 +43,7 @@ Router.post('/:classId', async (req, res) => {
             return !lookup.error;
         })
         .map(({ post }) => {
-            return post.content;
+            return post && post.content;
         })
         .filter((content) => typeof content === 'string');
     if (postBodies.length > 0) {
