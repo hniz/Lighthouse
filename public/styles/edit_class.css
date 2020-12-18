@@ -1,3 +1,7 @@
 #edit-class-form textarea {
     white-space: pre-wrap;
 }
+
+.edit-class {
+    overflow: auto;
+}

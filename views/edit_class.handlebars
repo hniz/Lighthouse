@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/public/styles/edit_class.css">
 
 
-<div class="container cornsilk">
+<div class="container cornsilk edit-class">
     <form id='edit-class-form' action="/class/edit" method="POST">
         <label for="class-name">Class Name</label>
         <input type="text" name="class-name" id="class-name" value="{{{class.name}}}">
@@ -21,7 +21,7 @@
     </div>
 
     <form id="edit-class-tag-form" action="/class/edit/tags" method="POST">
-        <label for="tag-input">Tags: Use commas to add multiple tags</label>
+        <label for="tag-input">Tags: Use commas to add multiple tags. No underscores.</label>
         <p>Tags: {{#if tags}}{{tags}}{{else}}None{{/if}}</p>
         <input name="tag-name" id="tag-input" type="text">
         <input type="hidden" name="class-id-tag" id="class-id-tag" value="{{{class._id}}}">
