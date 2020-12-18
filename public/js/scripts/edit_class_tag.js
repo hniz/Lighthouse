@@ -16,6 +16,7 @@ jQuery(function ($) {
             }
 
             let tagInput = inputTagInput.value.trim();
+            tagInput = tagInput.replace(/_/g, ' ');
             let classTagID = inputClassTagID.value;
 
             let hasErrors = false;
