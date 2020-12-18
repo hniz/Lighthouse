@@ -19,25 +19,21 @@ The server will then be on http://localhost:3000
 The database comes populated with several student and instructor accounts. If you'd like to access a specific account, here are the account credentials that we used: 
 
 ```
-
-+-------------------+-------------------------+-----------------+
-|      Account      |          Email          |    Password     |
-+-------------------+-------------------------+-----------------+
-| Max               | max@gmail.com           | ilikemacs       |
-| Eric              | eric@gmail.com          | ericiscool123   |
-| Prof. Bonelli     | ebonelli@stevens.edu    | bonbon          |
-| Prof. Hill        | phill@stevens.edu       | graffixnyc      |
-| Hamzah            | hamzah@gmail.com        | hniz1234        |
-| Danny             | danny@gmail.com         | dantheman       |
-| Prof. Naumann     | dnaumann@stevens.edu    | naumann         |
-| Prof. Borowski    | borowski@stevens.edu    | codecode        |
-| Prof. Wellerstein | wellerstein@stevens.edu | nukemap         |
-| Prof. Peyrovian   | reza@stevens.edu        | iteachatstevens |
-| Prof. Bhatt       | bhatt@stevens.edu       | pumpinglemma    |
-+-------------------+-------------------------+-----------------+
-
-
-
+┌───────────────────┬─────────────────────────┬─────────────────┐
+│      Account      │          Email          │    Password     │
+├───────────────────┼─────────────────────────┼─────────────────┤
+│ Max               │ max@gmail.com           │ ilikemacs       │
+│ Eric              │ eric@gmail.com          │ ericiscool123   │
+│ Prof. Bonelli     │ ebonelli@stevens.edu    │ bonbon          │
+│ Prof. Hill        │ phill@stevens.edu       │ graffixnyc      │
+│ Hamzah            │ hamzah@gmail.com        │ hniz1234        │
+│ Danny             │ danny@gmail.com         │ dantheman       │
+│ Prof. Naumann     │ dnaumann@stevens.edu    │ naumann         │
+│ Prof. Borowski    │ borowski@stevens.edu    │ codecode        │
+│ Prof. Wellerstein │ wellerstein@stevens.edu │ nukemap         │
+│ Prof. Peyrovian   │ reza@stevens.edu        │ iteachatstevens │
+│ Prof. Bhatt       │ bhatt@stevens.edu       │ pumpinglemma    │
+└───────────────────┴─────────────────────────┴─────────────────┘
 ```
 
 # Authors
