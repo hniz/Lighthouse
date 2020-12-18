@@ -4,18 +4,29 @@
     const tagLinks = $('#class-tags li');
     const resetFilterButton = $('#reset-filter');
     if (params.has('tag')) {
+        const tag = params.get('tag');
         const postList = $('#post-list');
-        const entries = $(origPosts).find('>li');
+        postList.hide();
+        const entries = postList.find('>li');
         const filteredPosts = entries.filter((ind, elem) => {
-            return elem.children.namedItem(tag) !== null;
+            const id = elem.id;
+            const tagItem = postList.find(
+                `#${id}-${tag.replace(/ /g, '_')}`
+            );
+            if (tagItem.length === 0) {
+                elem.hidden = true;
+            }else{
+                elem.hidden = false;
+            }
+            return tagItem.length !== 0;
         });
         if (filteredPosts.length === 0) {
-            postList.html(
-                '<p>There are no posts matching the selected filter.</p>'
-            );
-        } else {
-            postList.html(filteredPosts);
+            $('#no-posts-filter').show();
+        }else{
+            $('#no-posts-filter').hide();
         }
+        postList.show();
+
         resetFilterButton.show();
     }
     tagLinks.on('click', (event) => {
@@ -27,14 +38,20 @@
         const entries = postList.find('>li');
         const filteredPosts = entries.filter((ind, elem) => {
             const id = elem.id;
-            const tagItem = postList.find(`#${id}-${tag}`);
+            const tagItem = postList.find(
+                `#${id}-${tag.replace(/ /g, '_')}`
+            );
             if (tagItem.length === 0) {
                 elem.hidden = true;
+            }else{
+                elem.hidden = false;
             }
             return tagItem.length !== 0;
         });
         if (filteredPosts.length === 0) {
             $('#no-posts-filter').show();
+        }else{
+            $('#no-posts-filter').hide();
         }
         postList.show();
 
@@ -49,6 +66,5 @@
             elem.hidden = false;
         });
         $('#no-posts-filter').hide();
-
     });
 })(window.jQuery);

@@ -57,6 +57,9 @@ Router.get('/:id', async (req, res) => {
             endorse: post.endorse,
             body: nl2br(post.content, false),
             tags: post.tags,
+            escapedTags: post.tags.map((postTag) =>
+                postTag.replace(/ /g, '_')
+            ),
             ids: post._id.toString(),
             score: post.score,
             upvoted:

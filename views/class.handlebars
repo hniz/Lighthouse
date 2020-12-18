@@ -42,8 +42,8 @@
                     <a href="/post/{{ids}}" class="desc">{{title}}</a>
                     {{#if tags}}
                     <ul class="tags">
-                        {{#each tags}}
-                        <li class="tag" id="{{../ids}}-{{{this}}}">{{{this}}}</li>
+                        {{#each escapedTags}}
+                        <li class="tag" id="{{../ids}}-{{{this}}}">{{lookup ../tags @index}}</li>
                         {{/each}}
                     </ul>
                     {{/if}}
