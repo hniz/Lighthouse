@@ -324,9 +324,9 @@ const deletePost = async (id) => {
     }
 
     let commentsArray = postLookup.comments;
-    commentsArray.forEach((comment) => {
-        comments.deletePostComments(comment, posts._id);
-    });
+    for(const comment of commentsArray){
+       await comments.deletePostComments(comment, posts._id);
+    }
 
     let author = postLookup.author;
 
@@ -338,14 +338,14 @@ const deletePost = async (id) => {
             statusCode: 404,
         };
     }
-    users.updateOne(
+    await users.updateOne(
         { _id: ObjectId(author) },
         { $pull: { posts: id } }
     );
 
     const classes = await collections.classes();
     const postClass = await classes.findOne({
-        _id: ObjectId(classes.author),
+        _id: ObjectId(postLookup.class),
     });
 
     if(!postClass){
@@ -355,8 +355,8 @@ const deletePost = async (id) => {
         };
     }
 
-    postClass.updateOne(
-        {_id: ObjectId(classes.author)},
+    await classes.updateOne(
+        {_id: ObjectId(postLookup.class)},
         { $pull: { posts: id} }
     );
 
